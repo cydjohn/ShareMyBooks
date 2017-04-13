@@ -168,8 +168,4 @@ let exportedMethods = {
 //     console.log(user);
 // });
 
-exportedMethods.getAllUsers().then((list) => {
-    console.log(list);
-});
-
 module.exports = exportedMethods;
