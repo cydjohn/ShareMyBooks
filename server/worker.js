@@ -38,7 +38,7 @@ redisConnection.on('resizeBook:request:*', (message, channel) => {
 
     let bookUploadedImage = message.data.image;
     
-    let successEvent = `${eventName}:success:${requestId}`;
+    let successEvent = `${eventName}:success:${requestId}`;  
 
     let result = module.exports.convertBookImageToPageImage(bookUploadedImage);
 
