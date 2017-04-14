@@ -1,3 +1,8 @@
+const user = require("./user");
+const book = require("./book")
+
 module.exports = {
-    books: require("./books")
+    user: user,
+    book: book
+
 };

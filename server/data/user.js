@@ -113,21 +113,41 @@ let exportedMethods = {
     },
 
     //This method is used in the passport authentication strategy. cb - callback
-    getUserByEmailPassport(email, cb) {
+    // getUserByEmailPassport(email, cb) {
+    //     return users().then((usersCollection) => {
+    //         return usersCollection.findOne({ email: email }).then((user) => {
+    //             if (!user) return cb(null, null);;
+    //             return cb(null, user);;
+    //         });
+    //     });
+    // },
+    getUserByID(id) {
         return users().then((usersCollection) => {
-            return usersCollection.findOne({ email: email }).then((user) => {
-                if (!user) return cb(null, null);;
-                return cb(null, user);;
+            return usersCollection.findOne({ _id: id }).then((user) => {
+                if (!user) {
+                    console.log('User ' + id + ' does not exist');
+                }
+                return user;
             });
         });
     },
 
     //This method is used in the passport authentication deserializing. cb - callback
-    getUserByIDPassport(id, cb) {
+    // getUserByIDPassport(id, cb) {
+    //     return users().then((usersCollection) => {
+    //         return usersCollection.findOne({ _id: id }).then((user) => {
+    //             if (!user) cb(new Error('User ' + id + ' does not exist'));
+    //             return cb(null, user);
+    //         });
+    //     });
+    // },
+    getUserById(id) {
         return users().then((usersCollection) => {
             return usersCollection.findOne({ _id: id }).then((user) => {
-                if (!user) cb(new Error('User ' + id + ' does not exist'));
-                return cb(null, user);
+                if (!user) {
+                    console.log('User ' + id + ' does not exist');
+                }
+                return user;
             });
         });
     },
@@ -136,12 +156,11 @@ let exportedMethods = {
     updateUser(password, email) {
         return users().then((usersCollection) => {
             let updateUser = {
-                password : bcrypt.hashSync(password)
+                password: bcrypt.hashSync(password)
             }
             let updateCommand = {
                 $set: updateUser
             };
-
             return usersCollection.updateOne({ email: email }, updateCommand).then(() => {
                 return this.getUserByEmail(email);
             });
@@ -162,9 +181,5 @@ let exportedMethods = {
         });
     }
 }
-
-// exportedMethods.addUser(userList[1]).then((user) => {
-//     console.log(user);
-// });
 
 module.exports = exportedMethods;
