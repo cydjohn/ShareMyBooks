@@ -1,4 +1,4 @@
-const mongoCollections = require("../config/mongoCollection");
+const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
 
@@ -80,7 +80,6 @@ let exportedMethods = {
         });
     },
     addUser(user) {
-
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
@@ -133,6 +132,7 @@ let exportedMethods = {
         });
     },
 
+
     updateUser(password, email) {
         return users().then((usersCollection) => {
             let updateUser = {
@@ -161,7 +161,6 @@ let exportedMethods = {
             });
         });
     }
-
 }
 
 // exportedMethods.addUser(userList[1]).then((user) => {
