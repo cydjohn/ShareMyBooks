@@ -1,3 +1,8 @@
+const mongoCollections = require("../config/mongoCollections");
+const books = mongoCollections.books;
+const uuid = require('node-uuid');
+const time = require('time');
+
 var bookList = [
     //books for user jdoe
     {
@@ -480,32 +485,81 @@ var bookList = [
     }];
 
 let exportedMethods = {
+
     getAllBooks() {
-        return Promise.resolve(bookList);
+        return books().then((booksCollection) => {
+            return booksCollection.find({}).toArray();
+        });
     },
     addBook(book) {
-        for (let i = 0; i < bookList.length; i++) {
-            if (bookList[i].title == book.title) {
-                let duplicateTitle = { duplicate: true }
-                return Promise.resolve(duplicateTitle);
-            }
-        }
-        let newBook = bookList.push(book);
-        newBook.id = bookList.length;
-        return Promise.resolve(newBook);
+        return books().then((booksCollection) => {
+            let newBook = {
+                _id: uuid.v4(),
+
+                //Must Be user ID!!!
+                uploadedBy: booksCollection.uploadedBy,
+
+                Title: booksCollection.Title,
+                Author: booksCollection.Author,
+                bookPhotoID1: booksCollection.bookPhotoID1,
+                bookPhotoID2: booksCollection.bookPhotoID2,
+                bookPhotoID3: booksCollection.bookPhotoID3,
+                Year: booksCollection.Year,
+                Category: booksCollection.Category,
+                Condition: booksCollection.Condition,
+                Location: booksCollection.Location,
+                Description: booksCollection.Description,
+                bookPointsValue: booksCollection.bookPointsValue,
+                timestampOfUpload: new time.Date(),
+                numberOfRequests: 0,
+                visibleBoolean: booksCollection.visibleBoolean
+            };
+            return booksCollection.insertOne(newBook).then((newBookInfo) => {
+                return newBookInfo.insertedId;
+            }).then((newId) => {
+                return this.getBookById(newId);
+            });
+        }).catch((e) => {
+            console.log("Error while adding book:", e);
+        });
     },
     getBookById(id) {
-        if (id === undefined) return Promise.reject("No id provided");
-
-        let book = bookList.filter(x => x.id == id).shift();
-        return new Promise((resolve, reject) => {
-            if (!book) {
-                reject("No product found")
-            } else {
-                resolve(book)
-            }
+       return books().then((booksCollection) => {
+            return booksCollection.findOne({ _id: id }).then((book) => {
+                if (!book) throw "Book not found";
+                return book;
+            });
         });
-
+    },
+    deleteBookById(id){
+        return books().then((booksCollection) => {
+            return booksCollection.removeOne({_id:id}).then((deletionInfo) =>{
+                if (deletionInfo.deletedCount === 0) {
+                    return (`Could not delete product with id of ${id}`)
+                }
+                else {
+                    return "success"
+                }
+            }).catch((e) => {
+                console.log("Error while removing book:", e);
+            });
+        });
+    },
+    addNumberOfRequestsOfId(id) {
+        return books().then((booksCollection) => {
+            return booksCollection.findOne({ _id: id }).then((book) => {
+                if (!book) throw "Book not found";
+                let updateData = {
+                    numberOfRequests : book.numberOfRequests+1,
+                }
+                let updateCommand = {
+                    $set: updateData
+                }
+                return booksCollection.updateOne({_id:id},updateCommand).then(() =>{
+                    return this.getBookById(id);
+                });
+            });
+        });
     }
 }
 

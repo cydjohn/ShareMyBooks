@@ -20,7 +20,7 @@ let getCollectionFn = (collection) => {
 module.exports = {
     books: getCollectionFn("books"),
     messageBoard : getCollectionFn("messageBoard"),
-    provateMessage : getCollectionFn("provateMessage"),
+    provateMessage : getCollectionFn("privateMessage"),
     users : getCollectionFn("users"),
     userRequests : getCollectionFn("userRequests")
 };
