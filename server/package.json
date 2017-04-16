@@ -24,6 +24,7 @@
     "tether": "^1.4.0"
   },
   "dependencies": {
+    "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
@@ -42,5 +43,6 @@
     "xss": "^0.2.13",
     "concurrently": "^3.2.0",
     "bcrypt-nodejs" : "latest"
+
   }
 }
