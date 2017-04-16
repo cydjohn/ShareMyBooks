@@ -81,12 +81,13 @@ let exportedMethods = {
         });
     },
     addUser(user) {
+        console.log(user);
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
                 firstName: user.firstName,
                 lastName: user.lastName,
-                username: user.username,
+                userID: user.userName,
                 passwordHash: bcrypt.hashSync(user.password),
                 address: user.address,
                 email: user.email,
