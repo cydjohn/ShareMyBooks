@@ -26,7 +26,7 @@ dbConnection().then(db => {
     }).then((John) => {
         requestBody = {
             _id: uuid.v4(),
-            uploadedBy: John["_id"],
+            uploadedBy: John["userID"],
             Title: "The Hobbit: or There and Back Again",
             Author: "J.R.R. Tolkien",
             bookPhotoID1: "2",
@@ -143,7 +143,7 @@ dbConnection().then(db => {
     }).then((slin) => {
         requestBody = {
             _id: uuid.v4(),
-            uploadedBy: slin["_id"],
+            uploadedBy: slin["userID"],
             Title: "The Algorithm Design Manual",
             Author: "Steven S Skiena",
             bookPhotoID1: "6",
