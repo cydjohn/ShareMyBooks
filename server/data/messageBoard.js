@@ -10,11 +10,10 @@ let exportedMethods = {
         return messageBoard().then((messageBoardCollection) => {
             let newMessage = {
                 _id: uuid.v4(),
-                fromUserId: message.fromUserId,
-                toUserId: message.toUserId,
-                messageText: message.messageText,
-                messageTag: message.messageTag,
-                time: new time.Date()
+                messageText: message.userMessage,
+                postingUser: message.userName,
+                room: message.room,
+                timestamp: new time.Date()
             }
             return messageBoardCollection.insertOne(newMessage).then((newMessageInfo) => {
                 return newMessageInfo.insertedId;
@@ -27,13 +26,18 @@ let exportedMethods = {
     },
     getMessageBoardById(id) {
         return messageBoard().then((messageBoardCollection) => {
-            return messageBoardCollection.findOne({ _id, id }).then((message) => {
+            return messageBoardCollection.findOne({ _id: id }).then((message) => {
                 if (!message) {
                     throw "message not found";
                 }
-                return message
+                return message;
             });
         });
+    },
+    getMessagesByRoom(room) {
+        return messageBoard().then((messageBoardCollection) => {
+            return messageBoardCollection.find({room:room}).sort({timestamp: 1}).toArray();
+            });
     },
     getMessageBoardByFromUserId(id) {
         return messageBoard().then((messageBoardCollection) => {
