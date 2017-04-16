@@ -4,11 +4,34 @@ fetch.Promise = require('bluebird');
 const fs = require('fs');
 const im = require('imagemagick');
 const path = require("path");
+const data = require("./data");
+const mbData = data.messageBoard;
 
 const desPath = "../testImageMagick/";
 
 console.log("Worker started. Ready to retreive messages");
 
+redisConnection.on('addMessageToMessageBoardCollections:request:*', (message, channel) => {
+    //must have event name and request id
+    let eventName = message.eventName;
+    let requestId = message.requestId;
+    let successEvent = `${eventName}:success:${requestId}`;
+    let userName = message.data.userName;
+	let userMessage = message.data.userMessage;
+    let room =  message.data.room;    
+    
+    let result = module.exports.addMessageToMessageBoardCollections(userName, userMessage, room);
+
+    redisConnection.emit(successEvent, {
+        requestId: requestId,
+        data: {
+            message: result,
+        },
+        eventName: eventName
+    });
+
+    
+});
 redisConnection.on('userImage:request:*', (message, channel) => {
     //must have event name and request id
     let eventName = message.eventName;
@@ -55,6 +78,18 @@ redisConnection.on('resizeBook:request:*', (message, channel) => {
 
 
 module.exports = {
+addMessageToMessageBoardCollections(userName, userMessage, room){
+    let message = {
+        userName: userName, 
+        userMessage: userMessage, 
+        room: room};
+    mbData.addMessage(message)
+        .then((result) => {
+            return result;
+        }).catch((e) => {
+            return e.message;
+        });
+},
 convertUserImageToThumbnail(userImage){
      var optionsObj = {
 		srcPath: userImage,

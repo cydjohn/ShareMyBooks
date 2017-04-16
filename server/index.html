@@ -1,0 +1,145 @@
+<!doctype html>
+<html>
+
+<head>
+	<title>Socket.IO chat</title>
+	<style>
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+		}
+		
+		body {
+			font: 13px Helvetica, Arial;
+		}
+		
+		form {
+			background: #000;
+			padding: 3px;
+			position: fixed;
+			bottom: 0;
+			width: 100%;
+		}
+		
+		form select {
+			width: 25%;
+			margin-right: 2.0%;
+		}
+		
+		form input {
+			border: 0;
+			padding: 10px;
+			width: 60%;
+			margin-right: 2.0%;
+		}
+		
+		form button {
+			width: 10%;
+			background: rgb(130, 224, 255);
+			border: none;
+			padding: 10px;
+		}
+		
+		#messages {
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		
+		#messages li {
+			padding: 5px 10px;
+		}
+		
+		#messages li:nth-child(odd) {
+			background: #eee;
+		}
+	</style>
+</head>
+
+<body>
+	<ul id="messages"></ul>
+	<form action="">
+		<select id="room-selector">
+			<option value="supportRequest">Support Request</option>
+			<option value="general">General</option>
+			<option value="trains">Other</option>
+		</select>
+        <label for="userName">User Name:</label>
+        <input id="userName" type="text" name="userName"/>
+        <label for="m">Message:</label>
+        <input id="m" type="text" name="m" autocomplete="off" />
+        <button>Send</button>
+	</form>
+	<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+	<script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+	<script>
+		const nickname = "Phil the Great";
+		const socket = io('http://localhost:3002/messageBoard');
+		const messages = $("#messages");
+		const messageInput = $("#m");
+        const userNameInput = $("#userName");
+		const theForm = $("form");
+		const roomSelector = $("#room-selector");
+		let currentRoomId = "";
+		console.log("room-selector value: " + roomSelector.val());
+		
+		socket.on("joined-room", (changes) => {
+			currentRoomId = changes.newRoom;
+			roomSelector.val(changes.newRoom);
+			console.log("messages from db:");
+			console.log(changes.dbMessages);
+            if(changes.dbMessages.length > 0){
+			changes.dbMessages.forEach(function(messageSet) {
+				let info = "User " + messageSet.postingUser + " sent the message " + messageSet.messageText;
+			messages.append($('<li>').text(info));
+				
+        	});
+			}
+		})
+
+		socket.on('request-credentials', () => {
+			socket.emit('setup', { nickname: nickname });
+		});
+
+		socket.on('receive-message', function (userName, userMessage) {
+            console.log("message received to index.html:");
+			let info = "User " + userName + " sent the message " + userMessage;
+			console.log(info);
+			messages.append($('<li>').text(info));
+		});
+
+		theForm.submit(function () {
+			let message = {
+                userName: userNameInput.val(),
+				userMessage: messageInput.val(),
+				room: currentRoomId
+			};
+            //sending a 'send message' event to the server/routes/messageBoard.js with info
+			socket.emit('send-message', message);
+			messageInput.val('');
+			return false;
+		});
+
+		roomSelector.on("change", () => {
+			let newRoom = roomSelector.val();
+
+			if (newRoom === currentRoomId) {
+				return;
+			}
+
+			messages.empty();
+			socket.emit("join-room", {
+				newRoom: newRoom,
+				previousRoom: currentRoomId
+			});
+		})
+
+		socket.emit("join-room", {
+			newRoom: "general",
+			previousRoom: currentRoomId
+		});
+	</script>
+</body>
+
+</html>

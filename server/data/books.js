@@ -4,9 +4,9 @@ const path = require("path");
 let users;
 
 
-    let fileData = fs.readFileSync("book.json");
+    let fileData = fs.readFileSync(__dirname + "/book.json");
     users = JSON.parse(fileData);
-    console.log("Read JSON data.")
+    console.log("Message from server/data/books.js: Read JSON data.")
 
 
 

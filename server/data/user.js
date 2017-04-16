@@ -1,6 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
+const bcrypt = require("bcrypt-nodejs");
 
 var userList = [  //user 1
     {
@@ -80,12 +81,13 @@ let exportedMethods = {
         });
     },
     addUser(user) {
+        console.log(user);
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
                 firstName: user.firstName,
                 lastName: user.lastName,
-                username: user.username,
+                userID: user.userName,
                 passwordHash: bcrypt.hashSync(user.password),
                 address: user.address,
                 email: user.email,
