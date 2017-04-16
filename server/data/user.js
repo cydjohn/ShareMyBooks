@@ -1,6 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
+const bcrypt = require("bcrypt-nodejs");
 
 var userList = [  //user 1
     {
