@@ -5,7 +5,6 @@ const time = require('time');
    
 
 let exportedMethods = {
-
     getAllBooks() {
         return books().then((booksCollection) => {
             return booksCollection.find({}).toArray();
@@ -15,10 +14,7 @@ let exportedMethods = {
         return books().then((booksCollection) => {
             let newBook = {
                 _id: uuid.v4(),
-
-                //Must Be user ID!!!
                 uploadedBy: book.uploadedBy,
-
                 Title: book.Title,
                 Author: book.Author,
                 bookPhotoID1: book.bookPhotoID1,
