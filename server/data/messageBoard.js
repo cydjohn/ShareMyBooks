@@ -39,31 +39,11 @@ let exportedMethods = {
             return messageBoardCollection.find({room:room}).sort({timestamp: 1}).toArray();
             });
     },
-    getMessageBoardByFromUserId(id) {
-        return messageBoard().then((messageBoardCollection) => {
-            return messageBoardCollection.findOne({ fromUserId, id }).then((message) => {
-                if (!message) {
-                    throw "message not found";
-                }
-                return message.toArray();
-            });
-        });
-    },
-    getMessageBoardByToUserId(id) {
-        return messageBoard().then((messageBoardCollection) => {
-            return messageBoardCollection.findOne({ toUserId, id }).then((message) => {
-                if (!message) {
-                    throw "message not found";
-                }
-                return message.toArray();
-            });
-        });
-    },
     deleteMessageById(id) {
         return messageBoard().then((messageBoardCollection) => {
             return messageBoardCollection.removeOne({_id:id}).then((deleteInfo) => {
                 if (deletionInfo.deletedCount === 0) {
-                    console.log(`Could not delete product with id of ${id}`);
+                    console.log(`Could not delete messageBoard with id of ${id}`);
                 }
                 else {
                     return "success";

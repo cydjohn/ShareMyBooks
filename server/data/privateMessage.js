@@ -33,7 +33,41 @@ let exportedMethods = {
         }).catch((e) => {
             console.log("Error while adding message:", e)
         });
-    }
+    },
+    getPrivateMessageByFromUserId(id) {
+        return privateMessage().then((privateMessageCollection) => {
+            return privateMessageCollection.findOne({fromUserId:id}).then((privateMessage) => {
+                if(!privateMessage) {
+                    throw "Private message not found";
+                }
+                return privateMessage.toArray();
+            });
+        });
+    },
+    getPrivateMessageByToUserId(id) {
+        return privateMessage().then((privateMessageCollection) => {
+            return privateMessageCollection.findOne({toUserId:id}).then((privateMessage) => {
+                if(!privateMessage) {
+                    throw "Private message not found";
+                }
+                return privateMessage.toArray();
+            });
+        });
+    },
+    deletePrivateMessageById(id) {
+        return privateMessage().then((privateMessageCollection) => {
+            return privateMessageCollection.removeOne({_id:id}).then((deleteInfo) => {
+                if (deletionInfo.deletedCount === 0) {
+                    console.log(`Could not delete private message with id of ${id}`);
+                }
+                else {
+                    return "success";
+                }
+            }).catch((err) => {
+                console.log("Error while removing private message:", err);
+            });
+        });
+    },
 }
 
 module.exports = exportedMethods;

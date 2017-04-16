@@ -17,9 +17,9 @@ redisConnection.on('addMessageToMessageBoardCollections:request:*', (message, ch
     let requestId = message.requestId;
     let successEvent = `${eventName}:success:${requestId}`;
     let userName = message.data.userName;
-	let userMessage = message.data.userMessage;
-    let room =  message.data.room;    
-    
+    let userMessage = message.data.userMessage;
+    let room = message.data.room;
+
     let result = module.exports.addMessageToMessageBoardCollections(userName, userMessage, room);
 
     redisConnection.emit(successEvent, {
@@ -30,7 +30,7 @@ redisConnection.on('addMessageToMessageBoardCollections:request:*', (message, ch
         eventName: eventName
     });
 
-    
+
 });
 redisConnection.on('userImage:request:*', (message, channel) => {
     //must have event name and request id
@@ -38,10 +38,10 @@ redisConnection.on('userImage:request:*', (message, channel) => {
     let requestId = message.requestId;
 
     let uploadedImage = message.data.image;
-    
+
     let successEvent = `${eventName}:success:${requestId}`;
 
-      let  result = module.exports.convertUserImageToPageImage(uploadedImage);
+    let result = module.exports.convertUserImageToPageImage(uploadedImage);
 
     redisConnection.emit(successEvent, {
         requestId: requestId,
@@ -51,7 +51,7 @@ redisConnection.on('userImage:request:*', (message, channel) => {
         eventName: eventName
     });
 
-    
+
 });
 
 redisConnection.on('resizeBook:request:*', (message, channel) => {
@@ -60,8 +60,8 @@ redisConnection.on('resizeBook:request:*', (message, channel) => {
     let requestId = message.requestId;
 
     let bookUploadedImage = message.data.image;
-    
-    let successEvent = `${eventName}:success:${requestId}`;  
+
+    let successEvent = `${eventName}:success:${requestId}`;
 
     let result = module.exports.convertBookImageToPageImage(bookUploadedImage);
 
@@ -73,87 +73,88 @@ redisConnection.on('resizeBook:request:*', (message, channel) => {
         eventName: eventName
     });
 
-    
+
 });
 
 
 module.exports = {
-addMessageToMessageBoardCollections(userName, userMessage, room){
-    let message = {
-        userName: userName, 
-        userMessage: userMessage, 
-        room: room};
-    mbData.addMessage(message)
-        .then((result) => {
-            return result;
-        }).catch((e) => {
-            return e.message;
-        });
-},
-convertUserImageToThumbnail(userImage){
-     var optionsObj = {
-		srcPath: userImage,
-		dstPath: desPath+"test_userthumbnail.png",
-		quality: 0.6,
-		width: "50",
-        height: "50",
-        format: 'png',
-        customArgs: [
-            '-gravity', 'center',
-            "-bordercolor","blue", 
-            "-border","10x10", 
-        ]
-        
-	};
-	im.resize(optionsObj, function(err, stdout){
-		if (err) return "Could not convert user image file";
-		return "image successfully converted and stored at " + desPath;
-	});
-            
-},
+    addMessageToMessageBoardCollections(userName, userMessage, room) {
+        let message = {
+            userName: userName,
+            userMessage: userMessage,
+            room: room
+        };
+        mbData.addMessage(message)
+            .then((result) => {
+                return result;
+            }).catch((e) => {
+                return e.message;
+            });
+    },
+    convertUserImageToThumbnail(userImage) {
+        var optionsObj = {
+            srcPath: userImage,
+            dstPath: desPath + "test_userthumbnail.png",
+            quality: 0.6,
+            width: "50",
+            height: "50",
+            format: 'png',
+            customArgs: [
+                '-gravity', 'center',
+                "-bordercolor", "blue",
+                "-border", "10x10",
+            ]
 
-convertUserImageToPageImage(userImage){
-     var optionsObj = {
-		srcPath: userImage,
-		dstPath: desPath+"test_userPageImage.png",
-		quality: 0.6,
-		width: "250",
-        height: "250",
-        format: 'png',
-        customArgs: [
-            '-gravity', 'center',
-            "-bordercolor","black", 
-            "-border","5x5", 
-        ]
-        
-	};
-	im.resize(optionsObj, function(err, stdout){
-		if (err) return "Could not convert user image file";
-		return "image successfully converted and stored at " + desPath;
-	});
-            
-},
-convertBookImageToPageImage(bookImage){
-     var optionsObj = {
-		srcPath: bookImage,
-		dstPath: desPath+"test_bookPageImage.png",
-		quality: 0.6,
-		width: "350",
-        height: "350",
-        format: 'png',
-        customArgs: [
-            '-gravity', 'center',
-            "-bordercolor","green", 
-            "-border","5x5", 
-        ]
-        
-	};
-	im.resize(optionsObj, function(err, stdout){
-		if (err) return "Could not convert user image file";
-		return "image successfully converted and stored at " + desPath;
-	});
-            
-}
+        };
+        im.resize(optionsObj, function (err, stdout) {
+            if (err) return "Could not convert user image file";
+            return "image successfully converted and stored at " + desPath;
+        });
+
+    },
+
+    convertUserImageToPageImage(userImage) {
+        var optionsObj = {
+            srcPath: userImage,
+            dstPath: desPath + "test_userPageImage.png",
+            quality: 0.6,
+            width: "250",
+            height: "250",
+            format: 'png',
+            customArgs: [
+                '-gravity', 'center',
+                "-bordercolor", "black",
+                "-border", "5x5",
+            ]
+
+        };
+        im.resize(optionsObj, function (err, stdout) {
+            if (err) return "Could not convert user image file";
+            return "image successfully converted and stored at " + desPath;
+        });
+
+    },
+    convertBookImageToPageImage(bookImage) {
+        var optionsObj = {
+            srcPath: bookImage,
+            dstPath: desPath + "test_bookPageImage.png",
+            quality: 0.6,
+            width: "350",
+            height: "350",
+            format: 'png',
+            customArgs: [
+                '-gravity', 'center',
+                "-bordercolor", "green",
+                "-border", "5x5",
+            ]
+
+        };
+        im.resize(optionsObj, function (err, stdout) {
+            if (err) return "Could not convert user image file";
+            return "image successfully converted and stored at " + desPath;
+        });
+
+    }
 
 
 }

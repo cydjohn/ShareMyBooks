@@ -1,5 +1,5 @@
 const data = require("../data");
-const bookData = data.books;
+const bookData = data.book;
 const userRoutes = require("./user");
 const bookRoutes = require("./book");
 //const messageBoardRoutes = require("./messageBoard");
