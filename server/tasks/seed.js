@@ -8,7 +8,6 @@ const uuid = require('node-uuid');
 dbConnection().then(db => {
     return db.dropDatabase().then(() => {
         return dbConnection;
-
     }).then((db) => {
         requestBody = {
             _id: uuid.v4(),
@@ -254,6 +253,348 @@ dbConnection().then(db => {
             Condition: "good",
             Location: "San Fransisco, CA",
             Description: "If you have an aptitude for mathematics and some programming skills, author Joel Grus will help you get comfortable with the math and statistics at the core of data science, and with hacking skills you need to get started as a data scientist. Today’s messy glut of data holds answers to questions no one’s even thought to ask. This book provides you with the know-how to dig those answers out.",
+            bookPointsValue: "2",
+            timestampOfUpload: "2016-11-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((db) => {
+        requestBody = {
+            _id: uuid.v4(),
+            firstName: "Sam",
+            lastName: "Thompson",
+            userID: "sthompson",
+            passwordHash: "24680",//not hashed yet obviously
+            address: "45 Washington Street Hoboken, NJ 10028",//made up the address
+            email: "sthompson@gmail.com",
+            phoneNumber: "9175675478",
+            userPhotoID: "3",
+            userTotalPoints: 22
+        }
+        return users.addUser(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["userID"],
+            Title: "Understanding Criminal Law",
+            Author: "Joshua Dressler",
+            bookPhotoID1: "11",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2015",
+            Category: "Law",
+            Condition: "good",
+            Location: "Hoboken, NJ",
+            Description: "This comprehensive and clearly written Understanding treatise is frequently cited by scholars and courts in their analysis of substantive criminal law. Understanding Criminal Law is designed to be taught in conjunction with any casebook. The topics covered are those most often raised in criminal law casebooks, and coverage of these subjects is meant to complement professors' classroom discussions. The text focuses on the basic elements of, and defenses to, specific crimes such as homicide, rape, and theft, group criminality, and inchoate liability. Understanding Criminal Law also covers theories of punishment, sources of the criminal law, and overarching principles such as legality and proportionality. The common law is emphasized with extensive comparisons to the Model Penal Code and thoughtful examination of the underpinnings of the utilitarian philosophies of substantive criminal law. The text of Understanding Criminal Law encourages students to consider the approach these philosophies would take to a particular matter under discussion, thus providing an excellent learning tool for gaining a firm understanding of how our criminal justice system works.",
+            bookPointsValue: "3",
+            timestampOfUpload: "2016-06-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Examples & Explanations: Criminal Law",
+            Author: "Richard G. Singer",
+            bookPhotoID1: "12",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2013",
+            Category: "Law",
+            Condition: "good",
+            Location: "Hoboken, NJ",
+            Description: "A favorite among successful students, and often recommended by professors, the unique Examples & Explanations series gives you extremely clear introductions to concepts followed by realistic examples that mirror those presented in the classroom throughout the semester. Use at the beginning and midway through the semester to deepen your understanding through clear explanations, corresponding hypothetical fact patterns, and analysis. Then use to study for finals by reviewing the hypotheticals as well as the structure and reasoning behind the accompanying analysis. Designed to complement your casebook, the trusted Examples & Explanations titles get right to the point in a conversational, often humorous style that helps you learn the material each step of the way and prepare for the exam at the end of the course.",
+            bookPointsValue: "3",
+            timestampOfUpload: "2015-02-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Are Prisons Obsolete?",
+            Author: "Angela Y. Davis",
+            bookPhotoID1: "13",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2003",
+            Category: "Law",
+            Condition: "good",
+            Location: "Hoboken, NJ",
+            Description: "With her characteristic brilliance, grace and radical audacity, Angela Y. Davis has put the case for the latest abolition movement in American life: the abolition of the prison. As she quite correctly notes, American life is replete with abolition movements, and when they were engaged in these struggles, their chances of success seemed almost unthinkable. For generations of Americans, the abolition of slavery was sheerest illusion. Similarly,the entrenched system of racial segregation seemed to last forever, and generations lived in the midst of the practice, with few predicting its passage from custom. The brutal, exploitative (dare one say lucrative?) convict-lease system that succeeded formal slavery reaped millions to southern jurisdictions (and untold miseries for tens of thousands of men, and women). Few predicted its passing from the American penal landscape. Davis expertly argues how social movements transformed these social, political and cultural institutions, and made such practices untenable. In Are Prisons Obsolete?, Professor Davis seeks to illustrate that the time for the prison is approaching an end. She argues forthrightly for 'decarceration', and argues for the transformation of the society as a whole.",
+            bookPointsValue: "4",
+            timestampOfUpload: "2015-03-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "The Legal Environment of Business",
+            Author: "Roger E. Meiners",
+            bookPhotoID1: "14",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2014",
+            Category: "Law",
+            Condition: "good",
+            Location: "Hoboken, NJ",
+            Description: "THE LEGAL ENVIRONMENT OF BUSINESS provides a practical introduction to the structure and function of the legal system from the perspective of the professional nonlawyer. While noting our legal heritage, there is a strong emphasis on the nuts and bolts of basic legal rules that most impact business today. This popular text effectively adapts a traditional case focus for the unique needs of business students. Incorporating clear and concise coverage of a wide range of up-to-date topics, the twelfth edition of this trusted text introduces key points of law through business-specific examples and realistic scenarios that students can appreciate. The authors' readable style complements their extensive knowledge of domestic and international business to make the text a favorite among instructors and students alike.",
+            bookPointsValue: "4",
+            timestampOfUpload: "2016-03-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Law, Business and Society",
+            Author: "Tony McAdams",
+            bookPhotoID1: "15",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2014",
+            Category: "Law",
+            Condition: "good",
+            Location: "Hoboken, NJ",
+            Description: "Law, Business and Society, 11e fits both upper-division undergraduate and masters levels courses in the legal environment of business, government and business, and business and society. Law, Business and Society, takes an interdisciplinary approach, using elements of law, political economy, international business, ethics, social responsibility, and management. Students will find an interesting, provocative reading experience filled with contemporary legal and ethical conflicts emerging from today’s news, as well as scholarly results, surveys, polls, data, anecdotes, and other specific details that lend credibility, immediacy, and interest to the reading experience.",
+            bookPointsValue: "8",
+            timestampOfUpload: "2016-11-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((db) => {
+        requestBody = {
+            _id: uuid.v4(),
+            firstName: "Sarah",
+            lastName: "Lin",
+            userID: "slin",
+            passwordHash: "67890",//not hashed yet obviously
+            address: "23 Madison Road San Fransisco, CA 09867",//made up the address
+            email: "slin@gmail.com",
+            phoneNumber: "9173247653",
+            userPhotoID: "2",
+            userTotalPoints: 16
+        }
+        return users.addUser(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["userID"],
+            Title: "First Aid for the USMLE",
+            Author: "Tao Le",
+            bookPhotoID1: "16",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2017",
+            Category: "Medicine & Health Sciences",
+            Condition: "good",
+            Location: "Ithaca, NY",
+            Description: "This annually updated review delivers a comprehensive collection of high-yield facts and mnemonics that pinpoint exactly what you need to know to pass the exam. Co-authored by medical students who recently took the boards, it provides a complete framework to help you prepare for the most stressful exam of your career.",
+            bookPointsValue: "3",
+            timestampOfUpload: "2017-01-20T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Growing Physician Leaders: Empowering Doctors to Improve Our Healthcare",
+            Author: "Mark Hertling",
+            bookPhotoID1: "17",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2016",
+            Category: "Medicine & Health Sciences",
+            Condition: "good",
+            Location: "Ithaca, NY",
+            Description: "In Growing Physician Leaders, retired Army Lieutenant General Mark Hertling applies his four decades of military leadership to the world of healthcare, resulting in a profoundly constructive and practical book with the power to reshape and reenergize any healthcare organization in America today. Designed to help physicians master the art of leading people, it takes them, step-by-step, through a proven process that can help anyone become a more effective leader.",
+            bookPointsValue: "3",
+            timestampOfUpload: "2017-02-10T10:40:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Psychoanalytic Psychotherapy: A Practitioner's Guide",
+            Author: "Nancy McWilliams",
+            bookPhotoID1: "18",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2004",
+            Category: "Medicine & Health Sciences",
+            Condition: "good",
+            Location: "Ithaca, NY",
+            Description: "Addressing the art and science of psychodynamic treatment, Nancy McWilliams distills the essential principles of clinical practice, including effective listening and talking; transference and countertransference; emotional safety; and an empathic, attuned attitude toward the patient. The book describes the values, assumptions, and clinical and research findings that guide the psychoanalytic enterprise, and shows how to integrate elements of other theoretical perspectives. It discusses the phases of treatment and covers such neglected topics as educating the client about the therapeutic process, handling complex challenges to boundaries, and attending to self-care. Presenting complex information in personal, nontechnical language enriched by in-depth clinical vignettes, this is an essential psychoanalytic work and training text for therapists.",
+            bookPointsValue: "4",
+            timestampOfUpload: "2015-03-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Advanced Myofascial Techniques: Neck, Head, Spine and Ribs",
+            Author: "Til Luchau",
+            bookPhotoID1: "19",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2016",
+            Category: "Medicine & Health Sciences",
+            Condition: "good",
+            Location: "Ithaca, NY",
+            Description: "A beautiful visual and narrative guide to a selection of unique hands-on myofascial techniques. Techniques are chosen for inclusion based on their relevance to the most common client complaints. Each chapter presents key considerations, anatomy overview, therapeutic goals, and cautions relevant to hands-on work.",
+            bookPointsValue: "4",
+            timestampOfUpload: "2016-03-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Textbook of Neonatal Resuscitation",
+            Author: "American Academy of Pediatrics ",
+            bookPhotoID1: "20",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2016",
+            Category: "Medicine & Health Sciences",
+            Condition: "good",
+            Location: "Ithaca, NY",
+            Description: "The Neonatal Resuscitation Program (NRP) is an educational program jointly sponsored by the American Academy of Pediatrics (AAP) and the American Heart Association (AHA). The course is designed to teach an evidence-based approach to resuscitation of the newborn to hospital staff who care for newborns at the time of delivery.",
+            bookPointsValue: "2",
+            timestampOfUpload: "2016-11-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then(() => {
+        requestBody = {
+            _id: uuid.v4(),
+            firstName: "Sarah",
+            lastName: "Lin",
+            userID: "slin",
+            passwordHash: "67890",//not hashed yet obviously
+            address: "23 Madison Road San Fransisco, CA 09867",//made up the address
+            email: "slin@gmail.com",
+            phoneNumber: "9173247653",
+            userPhotoID: "2",
+            userTotalPoints: 16
+        }
+        return users.addUser(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "The Healthy Chocoholic: Over 60 healthy chocolate recipes free of gluten & dairy",
+            Author: "Dawn Parker",
+            bookPhotoID1: "21",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2015",
+            Category: "Cookbooks",
+            Condition: "good",
+            Location: "Houston,TX",
+            Description: "The Healthy Chocoholic is a cookbook for chocolate lovers that emphasizes healthy ingredients and simple, easy-to-follow recipes. Since food intolerances are on the rise, top allergens like gluten, dairy, soy, corn and peanuts are excluded and many of the recipes are perfect for those following a paleo or vegan eating style. In this book, you’ll learn how to make over 60 delicious and healthy chocolate treats. Discover new and unique recipes for: smoothies, no-bake treats, candy, cookies brownies & bars, pies & cakes, hot chocolate, and more All of the recipes in this book contain healthy ingredients and are lower in sugar than typical sweet treat recipes. ALL of the recipes are free of gluten, dairy, soy, corn and legumes, including peanuts. They are also free of refined white sugar. MOST of the recipes are VEGAN (eggs are used in a few recipes) and PALEO (all recipes are gluten-free, but brown rice cereal and gluten-free oats are used in a few recipes).",
+            bookPointsValue: "3",
+            timestampOfUpload: "2016-02-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Vegan for Everybody: Foolproof Plant-Based Recipes for Breakfast, Lunch, Dinner, and In-Between",
+            Author: "America's Test Kitchen",
+            bookPhotoID1: "22",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2017",
+            Category: "Cookbooks",
+            Condition: "good",
+            Location: "Houston,TX",
+            Description: "Veganism is going mainstream. The benefits of consuming fewer animal products appear frequently in the news, and public figures and celebrities have openly embraced the tenets of a vegan diet, bringing it further into the food consciences of baby boomers, millennials, and postmillennials alike. Whether exploring a vegan diet for health, environmental, or political reasons, more and more people are looking to get hearty, plant-based meals onto their table. But eating vegan can seem overwhelming: Will it be flavorful? Satisfying? Easy to make? And it's easy to rely on processed foods. America's Test Kitchen addresses head-on what intimidates people: finding great-tasting and filling vegan protein options, cooking without dairy, preparing different whole grains and vegetables, and even baking. With more than 200 vibrant, foolproof recipes including proper day-starters, \"cheesy\" pizza you'll actually want to eat, filling vegetable-and-grain bowls, new dinner favorites, appetizers, DIY staples, and the ultimate birthday cake, this cookbook has something satisfying for everyone--the committed vegan or simply those looking to freshen up their cooking.",
+            bookPointsValue: "3",
+            timestampOfUpload: "2017-04-09T10:50:41.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Superfood Smoothies: 100 Delicious, Energizing & Nutrient-dense Recipes",
+            Author: "Julie Morris",
+            bookPhotoID1: "23",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2013",
+            Category: "Cookbooks",
+            Condition: "good",
+            Location: "Houston,TX",
+            Description: "Everyone loves smoothies—and this is the ultimate smoothie book, written by Julie Morris, author of Superfood Kitchen and a superfood expert! Morris whips up 100 nutrient-rich recipes using the world's most antioxidant-, vitamin- and mineral-packed foods, and offers innovative culinary methods for making your smoothies incredibly nutritious and delicious.",
+            bookPointsValue: "4",
+            timestampOfUpload: "2015-03-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "The Fully Raw Diet: 21 Days to Better Health, with Meal and Exercise Plans, Tips, and 75 Recipes",
+            Author: "Kristina Carrillo-Bucaram",
+            bookPhotoID1: "24",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2016",
+            Category: "Medicine & Health Sciences",
+            Condition: "good",
+            Location: "Houston,TX",
+            Description: "The Fully Raw Diet offers a 21-day plan to help people enjoy a clean, plant-based, healthful approach to eating. Kristina Carrillo-Bucaram transformed her own health by eating vegetables, fruits, nuts, and seeds—100% fresh, raw, and ripe—and she is now the vivacious, uber-healthy founder of the FullyRaw brand. Her ten-year success with this lifestyle inspires thousands via social media, and her 21-day FullyRaw Video Challenge on YouTube in 2014 dramatically grew her fan base. This book shares her advice and will correspond to a new video challenge, with meal and exercise tips, recipes, and vivid photos. Fans will love the smoothies, salads, main dishes, and desserts, such as Lemon-Ginger Blast, Spicy Mango Basil Salad, Yellow Squash Fettuccine Alfredo, Melon Pops, and Caramel-Apple Cups.",
+            bookPointsValue: "4",
+            timestampOfUpload: "2016-03-10T10:50:42.389Z",
+            numberOfRequests: 0,
+            visibleBoolean: true
+        }
+        return book.addBook(requestBody);
+    }).then((b) => {
+        requestBody = {
+            _id: uuid.v4(),
+            uploadedBy: b["uploadedBy"],
+            Title: "Unlucky 13 (Women's Murder Club)",
+            Author: "James Patterson",
+            bookPhotoID1: "25",
+            bookPhotoID2: null,
+            bookPhotoID3: null,
+            Year: "2014",
+            Category: "Mystery,Thriller, & Suspense",
+            Condition: "good",
+            Location: "Houston,TX",
+            Description: "San Francisco Detective Lindsay Boxer is loving her life as a new mother. With an attentive husband, a job she loves, plus best friends who can talk about anything from sex to murder, things couldn't be better. Then the FBI sends Lindsay a photo of a killer from her past, and her happy world is shattered. The picture captures a beautiful woman at a stoplight. But all Lindsay sees is the psychopath behind those seductive eyes: Mackie Morales, the most deranged and dangerous mind the Women's Murder Club has ever encountered. In this pulse-racing, emotionally charged novel by James Patterson, the Women's Murder Club must find a killer--before she finds them first.",
             bookPointsValue: "2",
             timestampOfUpload: "2016-11-10T10:50:42.389Z",
             numberOfRequests: 0,
