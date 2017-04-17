@@ -4,6 +4,18 @@ const dbConnection = require("../config/mongoConnection");
 const book = data.book;
 const users = data.user;
 const uuid = require('node-uuid');
+const client = require("../config/elasticsearch");
+
+client.indices.delete({
+    index: '_all'
+}, function(err, res) {
+
+    if (err) {
+        console.error(err.message);
+    } else {
+        console.log('Indexes have been deleted!');
+    }
+});
 
 dbConnection().then(db => {
     return db.dropDatabase().then(() => {

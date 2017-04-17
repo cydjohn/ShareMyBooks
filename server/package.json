@@ -24,9 +24,12 @@
     "tether": "^1.4.0"
   },
   "dependencies": {
-    "bcrypt-nodejs": "^0.0.3",
+    "bcrypt-nodejs": "latest",
+    "bindings": "^1.2.1",
     "bluebird": "^3.4.6",
     "body-parser": "^1.15.2",
+    "concurrently": "^3.2.0",
+    "elasticsearch": "^13.0.0-rc2",
     "express": "^4.14.0",
     "express-handlebars": "^3.0.0",
     "flat": "^2.0.1",
@@ -40,11 +43,6 @@
     "redis": "^2.6.5",
     "socket.io": "1.2.0",
     "time": "^0.12.0",
-
-    "xss": "^0.2.13",
-    "concurrently": "^3.2.0",
-    "bcrypt-nodejs" : "latest"
-
-
+    "xss": "^0.2.13"
   }
 }

@@ -1,7 +1,6 @@
 const user = require("./user");
 const book = require("./book");
 
-const books = require("./books")
 const messageBoard = require("./messageBoard");
 const privateMessage = require("./privateMessage");
 const userRequests = require("./userRequests");

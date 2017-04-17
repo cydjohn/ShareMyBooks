@@ -1,4 +1,6 @@
 const mongoCollections = require("../config/mongoCollections");
+const es = require("../elastic");
+const elasticsearch = es.book;
 const books = mongoCollections.books;
 const uuid = require('node-uuid');
 const time = require('time');
@@ -30,9 +32,14 @@ let exportedMethods = {
                 numberOfRequests: 0,
                 visibleBoolean: book.visibleBoolean
             };
+
+            
             return booksCollection.insertOne(newBook).then((newBookInfo) => {
                 return newBookInfo.insertedId;
             }).then((newId) => {
+                book = this.getBookById(newId);
+                // delete book[_id];
+                elasticsearch.addBook(book);
                 return this.getBookById(newId);
             });
         }).catch((e) => {
