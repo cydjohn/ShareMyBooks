@@ -11,14 +11,14 @@ let exportedMethods = {
         });
     },
     addUser(user) {
-        console.log(user);
+       
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
                 firstName: user.firstName,
                 lastName: user.lastName,
                 userID: user.userID,
-                passwordHash: bcrypt.hashSync(user.password),
+                passwordHash: bcrypt.hashSync(user.passwordHash),
                 address: user.address,
                 email: user.email,
                 phoneNumber: user.phoneNumber,
@@ -29,6 +29,10 @@ let exportedMethods = {
                 return result.insertedId;
                 // return result;
             }).then((newId) => {
+                 this.getUserById(newId).then((user)=>{
+                     console.log(user);
+                 });
+                
                 return this.getUserById(newId);
             });
         });
@@ -43,14 +47,16 @@ let exportedMethods = {
         });
 
     },
-    // getUserByEmail(email) {
-    //     return users().then((userCollection) => {
-    //         return userCollection.findOne({ email: email }).then((user) => {
-    //             if (!user) return "User not found";
-    //             return user;
-    //         });
-    //     });
-    // },
+        //This method is used in the passport authentication deserializing. cb - callback
+    getUserByIDPassport(id, cb) {
+        return users().then((usersCollection) => {
+            return usersCollection.findOne({ _id: id }).then((user) => {
+                if (!user) cb(new Error('User ' + id + ' does not exist'));
+                return cb(null, user);
+            });
+        });
+    },
+
 
     // This method is used in the passport authentication strategy. cb - callback
     getUserByEmailPassport(email, cb) {
@@ -61,6 +67,7 @@ let exportedMethods = {
             });
         });
     },
+
     getUserById(id) {
         return users().then((usersCollection) => {
             return usersCollection.findOne({ _id: id }).then((user) => {

@@ -13,6 +13,7 @@ const path = require("path");
 const data = require("../data");
 const bcrypt = require("bcrypt-nodejs");
 const passport = require("passport");
+
 const userData = data.user;
 
 var srcUserImage = "../userImages/test.jpeg";
@@ -171,13 +172,21 @@ router.put("/:id", async (req, res) => {
     }
 });
 
+
+// router.post('/login', passport.authenticate('login', {
+//     successRedirect: '/myprofile',
+//     failureRedirect: '/login',
+//     failureFlash : true
+// }));
+
+
 router.post('/login', (req, res, next) => {
     // successRedirect: '/user',
     // failureRedirect: '/login',
     // failureFlash : true
 
-    return passport.authenticate('login', (err) => {
-        if (err) {
+    return passport.authenticate('login', (err, token, userData) => {
+        if (!token) {
             return res.status(400).json({
                 success: false,
                 message: 'Could not process the form.'

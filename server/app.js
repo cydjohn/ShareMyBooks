@@ -14,6 +14,7 @@ const passport = require("passport");
 const session = require('express-session');
 const Strategy = require("passport-local").Strategy;
 const flash = require('connect-flash');
+const bcrypt = require("bcrypt-nodejs");
 const userData = appdata.user;
 
 
@@ -25,10 +26,16 @@ app.use((req, res, next) => {
 app.use(flash());
 app.use(bodyParser.json());
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false}));
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Before asking Passport to authenticate a request, the strategy used by an application must be configured.
 // Strategies, and their configuration, are supplied via the use() function.
 passport.use('login', new Strategy({
+    usernameField: 'email',    // define the parameter in req.body that passport can use as username and password
+    passwordField: 'password',
     passReqToCallback : true
     },
     function(req, email, password, done) {
@@ -55,10 +62,28 @@ passport.use('login', new Strategy({
                 req.session.user = user;
                 // User and password both match, return user from
                 // done method which will be treated like success
-                return done(null, user);
+                return done(null,true ,user);
             }
         );
     }));
+
+/*
+ In order to support login sessions, Passport will serialize and deserialize
+ user instances to and from the session.
+ */
+passport.serializeUser(function(user, done) {
+    done(null, user._id);
+});
+passport.deserializeUser(function(id, done) {
+    userData.getUserByIDPassport(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+var isPasswordValid = function(user, password){
+    return password === user.passwordHash;
+    // return bcrypt.compareSync(password, user.passwordHash);
+}
 
 app.get('/messages', (req, res) => {
         res.sendFile(__dirname + '/index.html');//sending static file
