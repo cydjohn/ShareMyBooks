@@ -37,9 +37,11 @@ let exportedMethods = {
             return booksCollection.insertOne(newBook).then((newBookInfo) => {
                 return newBookInfo.insertedId;
             }).then((newId) => {
-                book = this.getBookById(newId);
+                this.getBookById(newId).then((book) => {
+                    // elasticsearch.addBook(book);
+                });
                 // delete book[_id];
-                elasticsearch.addBook(book);
+                
                 return this.getBookById(newId);
             });
         }).catch((e) => {
