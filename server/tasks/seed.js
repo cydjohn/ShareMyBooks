@@ -8,7 +8,7 @@ const client = require("../config/elasticsearch");
 
 client.indices.delete({
     index: '_all'
-}, function(err, res) {
+}, function (err, res) {
 
     if (err) {
         console.error(err.message);
@@ -388,14 +388,14 @@ dbConnection().then(db => {
     }).then((db) => {
         requestBody = {
             _id: uuid.v4(),
-            firstName: "Sarah",
-            lastName: "Lin",
-            userID: "slin",
-            passwordHash: "67890",//not hashed yet obviously
-            address: "23 Madison Road San Fransisco, CA 09867",//made up the address
-            email: "slin@gmail.com",
-            phoneNumber: "9173247653",
-            userPhotoID: "2",
+            firstName: "Lisa",
+            lastName: "Johnson",
+            userID: "ljohnson",
+            passwordHash: "13579",//not hashed yet obviously
+            address: "32 Pine Tree Road Ithaca, NY 14850",//made up the address
+            email: "ljohnson@gmail.com",
+            phoneNumber: "9172134543",
+            userPhotoID: "4",
             userTotalPoints: 16
         }
         return users.addUser(requestBody);
@@ -502,21 +502,21 @@ dbConnection().then(db => {
     }).then(() => {
         requestBody = {
             _id: uuid.v4(),
-            firstName: "Sarah",
-            lastName: "Lin",
-            userID: "slin",
-            passwordHash: "67890",//not hashed yet obviously
-            address: "23 Madison Road San Fransisco, CA 09867",//made up the address
-            email: "slin@gmail.com",
-            phoneNumber: "9173247653",
-            userPhotoID: "2",
+            firstName: "Jane",
+            lastName: "Anderson",
+            userID: "janderson",
+            passwordHash: "abcde",//not hashed yet obviously
+            address: "123 Cactus Lane Houston,TX 23415",//made up the address
+            email: "janderson@gmail.com",
+            phoneNumber: "9178736475",
+            userPhotoID: "5",
             userTotalPoints: 16
         }
         return users.addUser(requestBody);
     }).then((b) => {
         requestBody = {
             _id: uuid.v4(),
-            uploadedBy: b["uploadedBy"],
+            uploadedBy: b["userID"],
             Title: "The Healthy Chocoholic: Over 60 healthy chocolate recipes free of gluten & dairy",
             Author: "Dawn Parker",
             bookPhotoID1: "21",

@@ -87,7 +87,7 @@ let exportedMethods = {
                 _id: uuid.v4(),
                 firstName: user.firstName,
                 lastName: user.lastName,
-                userID: user.userName,
+                userID: user.userID,
                 passwordHash: bcrypt.hashSync(user.password),
                 address: user.address,
                 email: user.email,
@@ -100,7 +100,7 @@ let exportedMethods = {
                 // return result;
             }).then((newId) => {
                 return this.getUserById(newId);
-            });;
+            });
         });
 
     },
