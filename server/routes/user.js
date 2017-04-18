@@ -195,11 +195,27 @@ router.post('/login', (req, res, next) => {
         else {
             return res.status(200).json({
                 success: true,
-                message: 'You have successfully signed up! Now you should be able to log in.'
+                message: 'login succeed!'
             });
         }
     })(req, res, next);
 });
 
+router.post("/signup", function (request, res) {
+    var requestData = request.body;
+    userData.addUser(request.body)
+        .then((newUser) => {
+            return res.status(200).json({
+                success: true,
+                message: 'You have successfully signed up! Now you should be able to log in.'
+            });
+        }).catch((e) => {
+            console.log(e);
+            return res.status(200).json({
+                success: false,
+                message: e
+            });
+        });
+});
 
 module.exports = router;

@@ -11,7 +11,7 @@ let exportedMethods = {
         });
     },
     addUser(user) {
-       
+
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
@@ -25,15 +25,20 @@ let exportedMethods = {
                 userPhotoID: user.userPhotoID,
                 userTotalPoints: user.userTotalPoints
             };
-            return usersCollection.insertOne(newUser).then((result) => {
-                return result.insertedId;
-                // return result;
-            }).then((newId) => {
-                 this.getUserById(newId).then((user)=>{
-                     console.log(user);
-                 });
-                
-                return this.getUserById(newId);
+            return usersCollection.findOne({ email: user.email }).then((user) => {
+                if (user) throw "Email already exists.";
+                else {
+                    return usersCollection.insertOne(newUser).then((result) => {
+                        return result.insertedId;
+                        // return result;
+                    }).then((newId) => {
+                        this.getUserById(newId).then((user) => {
+                            console.log(user);
+                        });
+
+                        return this.getUserById(newId);
+                    });
+                }
             });
         });
 
@@ -47,7 +52,7 @@ let exportedMethods = {
         });
 
     },
-        //This method is used in the passport authentication deserializing. cb - callback
+    //This method is used in the passport authentication deserializing. cb - callback
     getUserByIDPassport(id, cb) {
         return users().then((usersCollection) => {
             return usersCollection.findOne({ _id: id }).then((user) => {
