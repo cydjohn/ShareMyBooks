@@ -21,7 +21,7 @@ bluebird.promisifyAll(redis.Multi.prototype);
 //get all books
 router.get("/", (req, res) => {
         bookData.getAllBooks().then((bookList) => {
-            res.json(bookList);
+            res.status(200).json(bookList);
         }, () => {
             // Something went wrong with the server!
             res.sendStatus(500);
@@ -32,7 +32,7 @@ router.get("/", (req, res) => {
 router.get("/:bookid", (req, res) => {
     let bookid = req.params.bookid;
         bookData.getBookById(bookid).then((bookResult) => {
-            res.json(bookResult);
+            res.status(200).json(bookResult);
         }, () => {
             // Something went wrong with the server!
             res.sendStatus(500);
