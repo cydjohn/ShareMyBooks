@@ -1,5 +1,4 @@
-const data = require("../data");
-const bookData = data.book;
+
 const userRoutes = require("./user");
 const bookRoutes = require("./book");
 //const messageBoardRoutes = require("./messageBoard");
@@ -13,12 +12,7 @@ const constructorMethod = (app) => {
 
     
    app.get("/", (req, res) => {
-        bookData.getAllBooks().then((bookList) => {
-            res.json(bookList);
-        }, () => {
-            // Something went wrong with the server!
-            res.sendStatus(500);
-        });
+        //needs to be a redirect to the home page route
     });
     
     
