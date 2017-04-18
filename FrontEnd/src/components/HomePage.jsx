@@ -2,6 +2,8 @@ import React from 'react';
 // import { Card, CardTitle } from 'material-ui/Card';
 import CreateListOfBooks from "./CreateListOfBooks.jsx";
 import Search from "./Search.jsx";
+import { getBooks } from "../data/books";
+const baseUrl = "http://localhost:3002";
 
 
 export default class HomePage extends React.Component {
@@ -13,21 +15,18 @@ export default class HomePage extends React.Component {
         };
     }
 
-    componentDidMount() {
-        let self = this;
-
-        fetch('http://localhost:3002')
-            .then(function (response) {
-                return response.json();
-            })
-            .then(function (BooksList) {
-                //console.log(userLists)
-                self.setState({ Books: BooksList })
-
-            })
-            .catch(function (error) {
-                console.log('Request failed', error)
-            });
+    async componentDidMount() {
+          let self = this;
+           fetch(`${baseUrl}/books`)
+        .then(function (response) {
+            return response.json();
+        })
+        .then((BookList)=>{
+            self.setState({Books: BookList})
+        })
+        .catch(function (error) {
+            return error;
+        });
     }
 
     render() {

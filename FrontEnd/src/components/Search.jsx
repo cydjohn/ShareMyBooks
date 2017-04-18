@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
-import './Search.css';
+import '../styles/Search.css';
 /**
  * The input is used to create the `dataSource`, so the input always matches three entries.
  */

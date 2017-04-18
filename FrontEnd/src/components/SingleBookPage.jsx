@@ -13,7 +13,7 @@ export default class SinlgeBookPage extends React.Component {
     componentDidMount() {
 
         let self = this;
-
+        console.log(this.props.params.id)
         fetch('http://localhost:3002/books/' + this.props.params.id)
             .then(function (response) {
                 return response.json();
@@ -32,7 +32,7 @@ export default class SinlgeBookPage extends React.Component {
     render() {
 
         if (this.state.book.length === 0) return <div>Loading...</div>;
-        return <SingleBook book={this.state.book[0]} />
+        return <SingleBook book={this.state.book} />
 
     }
 }
