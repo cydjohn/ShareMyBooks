@@ -10,11 +10,34 @@ const nrpSender = require("./nrp-sender-shim");
 const fs = require('fs');
 const im = require('imagemagick');
 const path = require("path");
+const data = require("../data");
+const bookData = data.book;
 
 var srcBookImage = "../bookImages/1.jpg";
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
+
+//get all books
+router.get("/", (req, res) => {
+        bookData.getAllBooks().then((bookList) => {
+            res.status(200).json(bookList);
+        }, () => {
+            // Something went wrong with the server!
+            res.sendStatus(500);
+        });
+    });
+
+//get 1 book
+router.get("/:bookid", (req, res) => {
+    let bookid = req.params.bookid;
+        bookData.getBookById(bookid).then((bookResult) => {
+            res.status(200).json(bookResult);
+        }, () => {
+            // Something went wrong with the server!
+            res.sendStatus(500);
+        });
+    });
 
 //creating thumbnail
 router.get('/image/resize', function(req, res) {

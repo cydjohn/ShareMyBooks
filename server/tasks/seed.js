@@ -3,6 +3,7 @@ const data = require("../data");
 const dbConnection = require("../config/mongoConnection");
 const book = data.book;
 const users = data.user;
+const mbData = data.messageBoard;
 const uuid = require('node-uuid');
 const client = require("../config/elasticsearch");
 
@@ -30,7 +31,7 @@ dbConnection().then(db => {
             address: "45 Elm Street New York, NY 10028",//made up the address
             email: "jdoe@gmail.com",
             phoneNumber: "2123456789",
-            userPhotoID: "1",
+            userPhotoID: "jdoe",
             userTotalPoints: 16
         }
         return users.addUser(requestBody);
@@ -147,7 +148,7 @@ dbConnection().then(db => {
             address: "23 Madison Road San Fransisco, CA 09867",//made up the address
             email: "slin@gmail.com",
             phoneNumber: "9173247653",
-            userPhotoID: "2",
+            userPhotoID: "slin",
             userTotalPoints: 16
         }
         return users.addUser(requestBody);
@@ -281,7 +282,7 @@ dbConnection().then(db => {
             address: "45 Washington Street Hoboken, NJ 10028",//made up the address
             email: "sthompson@gmail.com",
             phoneNumber: "9175675478",
-            userPhotoID: "3",
+            userPhotoID: "sthompson",
             userTotalPoints: 22
         }
         return users.addUser(requestBody);
@@ -395,7 +396,7 @@ dbConnection().then(db => {
             address: "32 Pine Tree Road Ithaca, NY 14850",//made up the address
             email: "ljohnson@gmail.com",
             phoneNumber: "9172134543",
-            userPhotoID: "4",
+            userPhotoID: "ljohnson",
             userTotalPoints: 16
         }
         return users.addUser(requestBody);
@@ -509,7 +510,7 @@ dbConnection().then(db => {
             address: "123 Cactus Lane Houston,TX 23415",//made up the address
             email: "janderson@gmail.com",
             phoneNumber: "9178736475",
-            userPhotoID: "5",
+            userPhotoID: "janderson",
             userTotalPoints: 16
         }
         return users.addUser(requestBody);
@@ -613,6 +614,27 @@ dbConnection().then(db => {
             visibleBoolean: true
         }
         return book.addBook(requestBody);
+    }).then((b) => {
+        let message = {
+            userName: "jdoe",
+            userMessage: "I love this site!",
+            room: "general"
+        }
+        return mbData.addMessage(message);
+    }).then((b) => {
+        let message = {
+            userName: "jdoe",
+            userMessage: "How do I add a book?",
+            room: "supportRequest"
+        }
+        return mbData.addMessage(message);
+    }).then((b) => {
+        let message = {
+            userName: "ljohnson",
+            userMessage: "I love books!",
+            room: "other"
+        }
+        return mbData.addMessage(message);
     }).then(() => {
         console.log("Done seeding database");
         db.close();

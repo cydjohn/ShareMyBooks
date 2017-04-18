@@ -19,7 +19,7 @@ export default class Footer extends React.Component {
           <p>Made with Love (♥) in New York City by</p> <a href="http://www.linkedin.com/in/jitendra-purohit-bb3389107/">@Jitendra</a> 
           / <a href="">@Jhansi</a> 
           / <a href="">@Qurika</a> 
-          / <a href="">@Janina</a> 
+          / <a href="https://www.linkedin.com/in/janina-grayson-95695064/">@Janina</a> 
           / <a href="">@Yudong</a> <br />
           <p>2017 © ShareMyBooks || All rights Reserved.</p>
         </div>

@@ -22,6 +22,29 @@ var srcUserImage = "../userImages/test.jpeg";
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
+//getOneUser
+router.get("/:id", (req, res) => {
+   userData.getUserById(req.params.id).then((Userdesc) => {
+        res.status(200).json(Userdesc);
+    }).catch((error) => {
+        // Not found!
+        res.sendStatus(404);
+    });
+});
+
+//getAllUsers
+router.get("/", (req, res) => {
+    userData.getAllUsers().then((UserList) => {
+        res.status(200).json(UserList);
+    }).catch((error)=>{
+        console.log(error);
+        if(error === "404")
+            res.sendStatus(404);
+        else
+            res.sendStatus(500);
+    });
+});
+
 router.get('/getimage/information', function (req, res) {
     console.log("It's located in " + __dirname);
     im.identify(srcUserImage, function (err, features) {
@@ -30,35 +53,6 @@ router.get('/getimage/information', function (req, res) {
     });
 });
 
-/**
-	resize operations
-	=================
-	options that you can pass while resize image from one to another
-	options : 
-	{
-		srcPath: undefined,
-		srcData: null,
-		srcFormat: null,
-		dstPath: undefined,
-		quality: 0.8,
-		format: 'jpg',
-		progressive: false,
-		width: 0,
-		height: 0,
-		strip: true,
-		filter: 'Lagrange',
-		sharpening: 0.2,
-		customArgs: []
-	}
-    const args = [
-        "-",                     // use stdin
-        "-gravity", "center",    // sets the offset to the center
-        "-extent", "500x500",    // crop
-        "-background", "white",  // set a white background for the centered image
-        "+repage",               // reset the virtual canvas meta-data from the images.
-        "png:-"                  // output to stdout as a png
-    ];
-**/
 
 //creating thumbnail
 router.get('/image/resize', function (req, res) {
@@ -67,15 +61,12 @@ router.get('/image/resize', function (req, res) {
         srcPath: imagePath,
         dstPath: desPath + "test_changed.png",
         quality: 0.6,
-        width: "50",
-        height: "50",
+        width: "25",
+        height: "25",
         format: 'png',
         customArgs: [
-            '-gravity', 'center',
-            "-bordercolor", "blue",
-            "-border", "10x10",
+            '-gravity', 'center'
         ]
-
     };
     im.resize(optionsObj, function (err, stdout) {
         if (err) throw err;
@@ -84,12 +75,14 @@ router.get('/image/resize', function (req, res) {
         });
     });
 });
+/*
 //to test imageMagick using a worker
 router.get("/image/resizeWorker", async (req, res) => {
+    let userImagePath = req.file.path;
     try {
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
-            eventName: "userImage",
+            eventName: "convertUserImageToThumbnail",
             data: {
                 image: srcUserImage
             }
@@ -100,7 +93,7 @@ router.get("/image/resizeWorker", async (req, res) => {
         res.json({ error: e.message });
     }
 });
-
+*/
 //to upload user's profile data using a worker
 router.post("/", async (req, res) => {
     let userData = req.body;
@@ -202,9 +195,26 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post("/signup", function (request, res) {
+    let userImagePath = req.file.path;
     var requestData = request.body;
+    let userName = requestData.userid;
     userData.addUser(request.body)
         .then((newUser) => {
+            //send user image to worker to become a thumbnail
+            try {
+                let response = await nrpSender.sendMessage({
+                    redis: redisConnection,
+                    eventName: "convertUserImageToThumbnail",
+                    data: {
+                        image: userImagePath,
+                        userName: userName
+                    }
+                });
+                return response;
+            } catch (e) {
+                res.json({ error: e.message });
+            }
+        }).then((response) => {
             return res.status(200).json({
                 success: true,
                 message: 'You have successfully signed up! Now you should be able to log in.'

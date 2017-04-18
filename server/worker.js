@@ -7,7 +7,7 @@ const path = require("path");
 const data = require("./data");
 const mbData = data.messageBoard;
 
-const desPath = "../testImageMagick/";
+const desPath = "../userThumbnailImages/";
 
 console.log("Worker started. Ready to retreive messages");
 
@@ -32,16 +32,40 @@ redisConnection.on('addMessageToMessageBoardCollections:request:*', (message, ch
 
 
 });
-redisConnection.on('userImage:request:*', (message, channel) => {
+redisConnection.on('userPageImage:request:*', (message, channel) => {
     //must have event name and request id
     let eventName = message.eventName;
     let requestId = message.requestId;
 
     let uploadedImage = message.data.image;
+    let userName = message.data.userName;
 
     let successEvent = `${eventName}:success:${requestId}`;
 
-    let result = module.exports.convertUserImageToPageImage(uploadedImage);
+    let result = module.exports.convertUserImageToPageImage(uploadedImage,userName);
+
+    redisConnection.emit(successEvent, {
+        requestId: requestId,
+        data: {
+            message: result,
+        },
+        eventName: eventName
+    });
+
+
+});
+
+redisConnection.on('convertUserImageToThumbnail:request:*', (message, channel) => {
+    //must have event name and request id
+    let eventName = message.eventName;
+    let requestId = message.requestId;
+
+    let uploadedImage = message.data.image;
+    let userName = message.data.userName;
+
+    let successEvent = `${eventName}:success:${requestId}`;
+
+    let result = module.exports.convertUserImageToThumbnail(uploadedImage,userName);
 
     redisConnection.emit(successEvent, {
         requestId: requestId,
@@ -91,18 +115,19 @@ module.exports = {
                 return e.message;
             });
     },
-    convertUserImageToThumbnail(userImage) {
+    convertUserImageToThumbnail(userImage,userName) {
+        const desPath = "../userThumbnailImages/";
         var optionsObj = {
             srcPath: userImage,
-            dstPath: desPath + "test_userthumbnail.png",
+            dstPath: desPath + userName + ".png",
             quality: 0.6,
-            width: "50",
-            height: "50",
+            width: "25",
+            height: "25",
             format: 'png',
             customArgs: [
                 '-gravity', 'center',
-                "-bordercolor", "blue",
-                "-border", "10x10",
+                "-bordercolor", "white",
+                "-border", "2x2",
             ]
 
         };
@@ -113,10 +138,11 @@ module.exports = {
 
     },
 
-    convertUserImageToPageImage(userImage) {
+    convertUserImageToPageImage(userImage,userName) {
+        const desPath = "../userPageImages/";
         var optionsObj = {
             srcPath: userImage,
-            dstPath: desPath + "test_userPageImage.png",
+            dstPath: desPath + userName + ".png",
             quality: 0.6,
             width: "250",
             height: "250",
