@@ -3,6 +3,7 @@ const data = require("../data");
 const dbConnection = require("../config/mongoConnection");
 const book = data.book;
 const users = data.user;
+const mbData = data.messageBoard;
 const uuid = require('node-uuid');
 const client = require("../config/elasticsearch");
 
@@ -613,6 +614,27 @@ dbConnection().then(db => {
             visibleBoolean: true
         }
         return book.addBook(requestBody);
+    }).then((b) => {
+        let message = {
+            userName: "jdoe",
+            userMessage: "I love this site!",
+            room: "general"
+        }
+        return mbData.addMessage(message);
+    }).then((b) => {
+        let message = {
+            userName: "jdoe",
+            userMessage: "How do I add a book?",
+            room: "supportRequest"
+        }
+        return mbData.addMessage(message);
+    }).then((b) => {
+        let message = {
+            userName: "ljohnson",
+            userMessage: "I love books!",
+            room: "other"
+        }
+        return mbData.addMessage(message);
     }).then(() => {
         console.log("Done seeding database");
         db.close();
