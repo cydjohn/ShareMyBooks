@@ -10,14 +10,80 @@ const appdata = require("./data");
 const mbData = appdata.messageBoard;
 
 const configRoutes = require("./routes");
+const passport = require("passport");
+const session = require('express-session');
+const Strategy = require("passport-local").Strategy;
+const flash = require('connect-flash');
+const bcrypt = require("bcrypt-nodejs");
+const userData = appdata.user;
+
 
 app.use((req, res, next) => {
     res.set('Access-Control-Allow-Origin', '*');
     res.set('Access-Control-Allow-Headers', req.get('Access-Control-Request-Headers'));
     next();
 });
-
+app.use(flash());
 app.use(bodyParser.json());
+app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: false}));
+// Initialize Passport and restore authentication state, if any, from the
+// session.
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Before asking Passport to authenticate a request, the strategy used by an application must be configured.
+// Strategies, and their configuration, are supplied via the use() function.
+passport.use('login', new Strategy({
+    usernameField: 'email',    // define the parameter in req.body that passport can use as username and password
+    passwordField: 'password',
+    passReqToCallback : true
+    },
+    function(req, email, password, done) {
+        // check in mongo if a user with username exists or not
+        userData.getUserByEmailPassport(email,
+            function(err, user) {
+                // In case of any error, return using the done method
+                if (err){
+                    console.log("ERROR in passport use.");
+                    return done(err);
+                }
+                // Username does not exist, log error & redirect back
+                if (!user){
+                    console.log('User Not Found with username '+email);
+                    return done(null, false,
+                        req.flash('message', 'User Not found.'));
+                }
+                // User exists but wrong password, log the error
+                if (!isPasswordValid(user, password)){
+                    console.log('Invalid Password');
+                    return done(null, false,
+                        req.flash('message', 'Invalid Password'));
+                }
+                req.session.user = user;
+                // User and password both match, return user from
+                // done method which will be treated like success
+                return done(null,true ,user);
+            }
+        );
+    }));
+
+/*
+ In order to support login sessions, Passport will serialize and deserialize
+ user instances to and from the session.
+ */
+passport.serializeUser(function(user, done) {
+    done(null, user._id);
+});
+passport.deserializeUser(function(id, done) {
+    userData.getUserByIDPassport(id, function(err, user) {
+        done(err, user);
+    });
+});
+
+var isPasswordValid = function(user, password){
+    return password === user.passwordHash;
+    // return bcrypt.compareSync(password, user.passwordHash);
+}
 
 app.get('/messages', (req, res) => {
         res.sendFile(__dirname + '/index.html');//sending static file
