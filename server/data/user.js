@@ -11,21 +11,21 @@ let exportedMethods = {
         });
     },
     addUser(user) {
-
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
                 firstName: user.firstName,
                 lastName: user.lastName,
                 userID: user.userID,
-                passwordHash: bcrypt.hashSync(user.passwordHash),
+                passwordHash: bcrypt.hashSync(user.password),
                 address: user.address,
-                email: user.email,
+                email: decodeURIComponent(user.email),
                 phoneNumber: user.phoneNumber,
                 userPhotoID: user.userPhotoID,
                 userTotalPoints: user.userTotalPoints
             };
             return usersCollection.findOne({ email: user.email }).then((user) => {
+                         console.log(user)
                 if (user) throw "Email already exists.";
                 else {
                     return usersCollection.insertOne(newUser).then((result) => {

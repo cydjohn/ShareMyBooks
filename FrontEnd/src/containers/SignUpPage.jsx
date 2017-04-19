@@ -39,7 +39,7 @@ class SignUpPage extends React.Component {
     const name = encodeURIComponent(this.state.user.name);
     const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
-    const formData = `name=${name}&email=${email}&password=${password}`;
+    // const formData = `name=${name}&email=${email}&password=${password}`;
     console.log(name);
     console.log(this.state.user.email);
     fetch('http://localhost:3002/users/signup', {
@@ -67,10 +67,6 @@ class SignUpPage extends React.Component {
       })
 
   }
-
-  
-   
-    
 
   /**
    * Change the user object.

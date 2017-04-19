@@ -184,6 +184,7 @@ router.post('/login', (req, res, next) => {
     // successRedirect: '/user',
     // failureRedirect: '/login',
     // failureFlash : true
+console.log(req.body)
 
     return passport.authenticate('login', (err, token, userData) => {
         if (!token) {
@@ -203,6 +204,7 @@ router.post('/login', (req, res, next) => {
 
 router.post("/signup", function (request, res) {
     var requestData = request.body;
+    console.log(requestData)
     userData.addUser(request.body)
         .then((newUser) => {
             return res.status(200).json({

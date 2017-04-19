@@ -37,9 +37,11 @@ passport.use('login', new Strategy({
     usernameField: 'email',    // define the parameter in req.body that passport can use as username and password
     passwordField: 'password',
     passReqToCallback : true
-    },
+},
     function(req, email, password, done) {
-        // check in mongo if a user with username exists or not
+        // check in mongo if a user with username exists or not 
+          email = decodeURIComponent(email)
+     
         userData.getUserByEmailPassport(email,
             function(err, user) {
                 // In case of any error, return using the done method
@@ -81,8 +83,8 @@ passport.deserializeUser(function(id, done) {
 });
 
 var isPasswordValid = function(user, password){
-    return password === user.passwordHash;
-    // return bcrypt.compareSync(password, user.passwordHash);
+    // return password === user.passwordHash;
+    return bcrypt.compareSync(password, user.passwordHash);
 }
 
 app.get('/messages', (req, res) => {
