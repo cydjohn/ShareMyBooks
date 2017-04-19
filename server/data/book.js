@@ -3,7 +3,7 @@ const es = require("../elastic");
 const elasticsearch = es.book;
 const books = mongoCollections.books;
 const uuid = require('node-uuid');
-const time = require('time');
+// const time = require('time');
    
 
 let exportedMethods = {
@@ -28,7 +28,7 @@ let exportedMethods = {
                 Location: book.Location,
                 Description: book.Description,
                 bookPointsValue: book.bookPointsValue,
-                timestampOfUpload: new time.Date(),
+                // timestampOfUpload: new time.Date(),
                 numberOfRequests: 0,
                 visibleBoolean: book.visibleBoolean
             };
