@@ -187,6 +187,7 @@ router.post('/login', (req, res, next) => {
 console.log(req.body)
 
     return passport.authenticate('login', (err, token, userData) => {
+   //     console.log("token");
         if (!token) {
             return res.status(400).json({
                 success: false,
@@ -196,10 +197,15 @@ console.log(req.body)
         else {
             return res.status(200).json({
                 success: true,
-                message: 'login succeed!'
+                message: 'login succeed!',
+                      user: userData
+
             });
         }
     })(req, res, next);
+        console.log(res);
+
+
 });
 
 router.post("/signup", function (request, res) {

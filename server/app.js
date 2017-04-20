@@ -64,6 +64,7 @@ passport.use('login', new Strategy({
                 req.session.user = user;
                 // User and password both match, return user from
                 // done method which will be treated like success
+                console.log
                 return done(null,true ,user);
             }
         );
