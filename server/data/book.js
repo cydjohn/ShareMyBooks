@@ -68,7 +68,7 @@ let exportedMethods = {
         return books().then((booksCollection) => {
             return booksCollection.removeOne({ _id: id }).then((deletionInfo) => {
                 if (deletionInfo.deletedCount === 0) {
-                    throw `Could not delete product with id of ${id}`
+                    throw `Could not delete book with id of ${id}`
                 }
                 else {
                     return id;
@@ -98,8 +98,8 @@ let exportedMethods = {
         if (!id || !updateBook || id == undefined || updateBook == undefined) {
             return Promise.reject("Please valid input for your book.\n");
         }
-        
-        return products().then((productsCollection) => {
+
+        return books().then((booksCollection) => {
             let updatedBookData = {};
 
             if(updateBook.Title){
@@ -146,8 +146,11 @@ let exportedMethods = {
                 updatedBookData.bookPointsValue = updateBook.bookPointsValue;
             }
 
-            if(updateBook.visibleBoolean) {
-                updatedBookData.visibleBoolean = updateBook.visibleBoolean;
+            if(updateBook.visibleBoolean === false) {
+                updatedBookData.visibleBoolean = false;
+            }
+            else if(updateBook.visibleBoolean === true) {
+                updatedBookData.visibleBoolean = true;
             }
 
             let updateCommand = {
