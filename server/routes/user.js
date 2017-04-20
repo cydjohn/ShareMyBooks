@@ -199,7 +199,7 @@ router.post("/signup", function (request, res) {
     var requestData = request.body;
     let userName = requestData.userid;
     userData.addUser(request.body)
-        .then((newUser) => {
+        .then(async (newUser) => {
             //send user image to worker to become a thumbnail
             try {
                 let response = await nrpSender.sendMessage({
