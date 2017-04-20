@@ -4,7 +4,7 @@ const elasticsearch = es.book;
 const books = mongoCollections.books;
 const uuid = require('node-uuid');
 // const time = require('time');
-   
+
 
 let exportedMethods = {
     getAllBooks() {
@@ -33,32 +33,39 @@ let exportedMethods = {
                 visibleBoolean: book.visibleBoolean
             };
 
-            
-            return booksCollection.insertOne(newBook).then((newBookInfo) => {
-                return newBookInfo.insertedId;
-            }).then((newId) => {
-                this.getBookById(newId).then((book) => {
-                    // elasticsearch.addBook(book);
-                });
-                // delete book[_id];
-                
-                return this.getBookById(newId);
+            return booksCollection.findOne({ Title: book.Title }).then((book) => {
+                if (book) {
+                    throw "Book already exists.";
+                }
+                else {
+                    return booksCollection.insertOne(newBook).then((newBookInfo) => {
+                        return newBookInfo.insertedId;
+                    }).then((newId) => {
+                        this.getBookById(newId).then((book) => {
+                            // elasticsearch.addBook(book);
+                        });
+                        // delete book[_id];
+
+                        return this.getBookById(newId);
+                    });
+                }
             });
+
         }).catch((e) => {
             console.log("Error while adding book:", e);
         });
     },
     getBookById(id) {
-       return books().then((booksCollection) => {
+        return books().then((booksCollection) => {
             return booksCollection.findOne({ _id: id }).then((book) => {
                 if (!book) throw "Book not found";
                 return book;
             });
         });
     },
-    deleteBookById(id){
+    deleteBookById(id) {
         return books().then((booksCollection) => {
-            return booksCollection.removeOne({_id:id}).then((deletionInfo) =>{
+            return booksCollection.removeOne({ _id: id }).then((deletionInfo) => {
                 if (deletionInfo.deletedCount === 0) {
                     return (`Could not delete product with id of ${id}`)
                 }
@@ -75,12 +82,12 @@ let exportedMethods = {
             return booksCollection.findOne({ _id: id }).then((book) => {
                 if (!book) throw "Book not found";
                 let updateData = {
-                    numberOfRequests : book.numberOfRequests+1,
+                    numberOfRequests: book.numberOfRequests + 1,
                 }
                 let updateCommand = {
                     $set: updateData
                 }
-                return booksCollection.updateOne({_id:id},updateCommand).then(() =>{
+                return booksCollection.updateOne({ _id: id }, updateCommand).then(() => {
                     return this.getBookById(id);
                 });
             });

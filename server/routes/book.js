@@ -20,48 +20,48 @@ bluebird.promisifyAll(redis.Multi.prototype);
 
 //get all books
 router.get("/", (req, res) => {
-        bookData.getAllBooks().then((bookList) => {
-            res.status(200).json(bookList);
-        }, () => {
-            // Something went wrong with the server!
-            res.sendStatus(500);
-        });
+    bookData.getAllBooks().then((bookList) => {
+        res.status(200).json(bookList);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
     });
+});
 
 //get 1 book
 router.get("/:bookid", (req, res) => {
     let bookid = req.params.bookid;
-        bookData.getBookById(bookid).then((bookResult) => {
-            res.status(200).json(bookResult);
-        }, () => {
-            // Something went wrong with the server!
-            res.sendStatus(500);
-        });
+    bookData.getBookById(bookid).then((bookResult) => {
+        res.status(200).json(bookResult);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
     });
+});
 
 //creating thumbnail
-router.get('/image/resize', function(req, res) {
+router.get('/image/resize', function (req, res) {
     let imagePath = path.resolve(srcUserImage);
-	var optionsObj = {
-		srcPath: imagePath,
-		dstPath: desPath+"test_changed.png",
-		quality: 0.6,
-		width: "50",
+    var optionsObj = {
+        srcPath: imagePath,
+        dstPath: desPath + "test_changed.png",
+        quality: 0.6,
+        width: "50",
         height: "50",
         format: 'png',
         customArgs: [
             '-gravity', 'center',
-            "-bordercolor","blue", 
-            "-border","10x10", 
+            "-bordercolor", "blue",
+            "-border", "10x10",
         ]
-        
-	};
-	im.resize(optionsObj, function(err, stdout){
-		if (err) throw err;
-		res.json({
-			"message": "Resized Image successfully"
-		});
-	});
+
+    };
+    im.resize(optionsObj, function (err, stdout) {
+        if (err) throw err;
+        res.json({
+            "message": "Resized Image successfully"
+        });
+    });
 });
 
 //to test imageMagick using a worker
@@ -81,73 +81,28 @@ router.get("/image/resizeWorker", async (req, res) => {
     }
 });
 
-//to upload book data using a worker
-router.post("/", async(req, res) => {
-    let bookInfo = req.body;
-    //to access an uploaded file: req.file.path
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "post",
-            data: {
-                book: bookInfo
-            }
-        });
 
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
+router.post("/", (req, res) => {
+    bookData.addBook(req.body).then((book) => {
+        if (!book) {
+            return res.status(200).json({
+                success: false,
+                message: "Error while add a book!"
+            });
+        }
+        else {
+            res.status(200).json({
+                success: true,
+                message: book
+            });
+        }
+    });
 });
 
+router.delete("/:id", (req, res) => {
+    bookData.deleteBookById(req.params.id).then(()=>{
 
-router.get("/:id", async (req, res) => {
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "get",
-            data: {
-                id: req.params.id
-            }
-        });
-
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
-});
-
-router.post("/", async(req, res) => {
-    let personData = req.body;
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "post",
-            data: {
-                message: personData
-            }
-        });
-
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
-});
-
-router.delete("/:id", async (req, res) => {
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "delete",
-            data: {
-                id: req.params.id
-            }
-        });
-
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
+    });
 });
 
 router.put("/:id", async (req, res) => {

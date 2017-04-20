@@ -166,17 +166,7 @@ router.put("/:id", async (req, res) => {
 });
 
 
-// router.post('/login', passport.authenticate('login', {
-//     successRedirect: '/myprofile',
-//     failureRedirect: '/login',
-//     failureFlash : true
-// }));
-
-
 router.post('/login', (req, res, next) => {
-    // successRedirect: '/user',
-    // failureRedirect: '/login',
-    // failureFlash : true
 
     return passport.authenticate('login', (err, token, userData) => {
         if (!token) {
