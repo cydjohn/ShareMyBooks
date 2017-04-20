@@ -116,22 +116,9 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.put("/:id", async (req, res) => {
-    let personData = req.body;
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "put",
-            data: {
-                id: req.params.id,
-                message: personData
-            }
-        });
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
-});
+// router.put("/:id",(req, res) => {
+    
+// });
 
 
 module.exports = router;

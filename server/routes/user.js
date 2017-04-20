@@ -168,7 +168,7 @@ router.put("/:id", async (req, res) => {
 
 router.post('/login', (req, res, next) => {
 
-    return passport.authenticate('login', (err, token, userData) => {
+    return passport.authenticate('login', (err, token, user) => {
         if (!token) {
             return res.status(400).json({
                 success: false,
@@ -178,7 +178,8 @@ router.post('/login', (req, res, next) => {
         else {
             return res.status(200).json({
                 success: true,
-                message: 'login succeed!'
+                message: 'login succeed!',
+                userUUID: user._id
             });
         }
     })(req, res, next);

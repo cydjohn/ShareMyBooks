@@ -81,8 +81,8 @@ passport.deserializeUser(function(id, done) {
 });
 
 var isPasswordValid = function(user, password){
-    return password === user.passwordHash;
-    // return bcrypt.compareSync(password, user.passwordHash);
+    // return password === user.passwordHash;
+    return bcrypt.compareSync(password, user.passwordHash);
 }
 
 app.get('/messages', (req, res) => {
