@@ -87,7 +87,7 @@ router.post("/", (req, res) => {
         if (!book) {
             return res.status(200).json({
                 success: false,
-                message: "Error while add a book!"
+                message: "Error while adding a book!"
             });
         }
         else {
@@ -100,8 +100,19 @@ router.post("/", (req, res) => {
 });
 
 router.delete("/:id", (req, res) => {
-    bookData.deleteBookById(req.params.id).then(()=>{
-
+    bookData.deleteBookById(req.params.id).then((bookId) => {
+        if (!bookId) {
+            return res.status(200).json({
+                success: false,
+                message: "Error while deleting a book!"
+            });
+        }
+        else {
+            res.status(200).json({
+                success: true,
+                message: bookId
+            });
+        }
     });
 });
 

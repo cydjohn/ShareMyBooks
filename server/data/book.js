@@ -67,10 +67,10 @@ let exportedMethods = {
         return books().then((booksCollection) => {
             return booksCollection.removeOne({ _id: id }).then((deletionInfo) => {
                 if (deletionInfo.deletedCount === 0) {
-                    return (`Could not delete product with id of ${id}`)
+                    throw `Could not delete product with id of ${id}`
                 }
                 else {
-                    return "success"
+                    return id;
                 }
             }).catch((e) => {
                 console.log("Error while removing book:", e);
