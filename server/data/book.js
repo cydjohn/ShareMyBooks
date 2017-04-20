@@ -98,6 +98,7 @@ let exportedMethods = {
         if (!id || !updateBook || id == undefined || updateBook == undefined) {
             return Promise.reject("Please valid input for your book.\n");
         }
+        
         return products().then((productsCollection) => {
             let updatedBookData = {};
 
