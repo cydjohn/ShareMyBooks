@@ -35,6 +35,7 @@ let exportedMethods = {
 
             return booksCollection.findOne({ Title: book.Title }).then((book) => {
                 if (book) {
+
                     throw "Book already exists.";
                     // return book;
                 }
