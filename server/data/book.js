@@ -12,27 +12,27 @@ let exportedMethods = {
             return booksCollection.find({}).toArray();
         });
     },
-    calculateBooksPointsValue(book){
+    calculateBooksPointsValue(book) {
         let currentPoints = 0;
         var date = new Date();
         var currentYear = date.getFullYear();
         //if 2009 + 5 = 2014 < 2017
-        if(book.Year + 5 < currentYear){
+        if (book.Year + 5 < currentYear) {
             currentPoints = 3;
         }
-        else if(book.Year + 10 < currentYear){
+        else if (book.Year + 10 < currentYear) {
             currentPoints = 2;
         }
-        else{
+        else {
             currentPoints = 1;
         }
-        if(book.Condition == "great"){
+        if (book.Condition == "great") {
             currentPoints += 3;
         }
-        else if(book.Condition == "good"){
+        else if (book.Condition == "good") {
             currentPoints += 2;
         }
-        else{
+        else {
             //condition is poor
             currentPoints += 1;
         }
@@ -71,8 +71,9 @@ let exportedMethods = {
                         return newBookInfo.insertedId;
                     }).then((newId) => {
                         this.getBookById(newId).then((book) => {
-                            // delete book[_id];
-                        // elasticsearch.addBook(book);
+                            book.bookUUID = book["_id"];
+                            delete book["_id"];
+                            elasticsearch.addBook(book);
                         });
                         return this.getBookById(newId);
                     });
@@ -129,61 +130,61 @@ let exportedMethods = {
         return books().then((booksCollection) => {
             let updatedBookData = {};
 
-            if(updateBook.Title){
+            if (updateBook.Title) {
                 updatedBookData.title = updateBook.title;
             }
-            
-            if(updateBook.Author) {
+
+            if (updateBook.Author) {
                 updatedBookData.Author = updateBook.Author
             }
 
-            if(updateBook.bookPhotoID1) {
+            if (updateBook.bookPhotoID1) {
                 updatedBookData.bookPhotoID1 = updateBook.bookPhotoID1;
             }
 
-            if(updateBook.bookPhotoID2) {
+            if (updateBook.bookPhotoID2) {
                 updatedBookData.bookPhotoID2 = updateBook.bookPhotoID2;
             }
 
-            if(updateBook.bookPhotoID3) {
+            if (updateBook.bookPhotoID3) {
                 updatedBookData.bookPhotoID3 = updateBook.bookPhotoID3;
             }
 
-            if(updateBook.Year) {
+            if (updateBook.Year) {
                 updatedBookData.Year = updateBook.Year;
             }
 
-            if(updateBook.Category) {
+            if (updateBook.Category) {
                 updatedBookData.Category = updateBook.Category;
             }
-                
-            if(updateBook.Condition) {
+
+            if (updateBook.Condition) {
                 updatedBookData.Condition = updateBook.Condition;
             }
 
-            if(updateBook.Location) {
+            if (updateBook.Location) {
                 updatedBookData.Location = updateBook.Location;
             }
 
-            if(updateBook.Description) {
+            if (updateBook.Description) {
                 updatedBookData.Description = updateBook.Description;
             }
 
-            if(updateBook.bookPointsValue){
+            if (updateBook.bookPointsValue) {
                 updatedBookData.bookPointsValue = updateBook.bookPointsValue;
             }
 
-            if(updateBook.visibleBoolean === false) {
+            if (updateBook.visibleBoolean === false) {
                 updatedBookData.visibleBoolean = false;
             }
-            else if(updateBook.visibleBoolean === true) {
+            else if (updateBook.visibleBoolean === true) {
                 updatedBookData.visibleBoolean = true;
             }
 
             let updateCommand = {
                 $set: updatedBookData
             };
-            return booksCollection.updateOne({ _id: id},updateCommand).then(() => {
+            return booksCollection.updateOne({ _id: id }, updateCommand).then(() => {
                 return this.getBookById(id);
             }).catch((err) => {
                 console.log("Error while updating book:", err);
@@ -192,7 +193,15 @@ let exportedMethods = {
         });
     },
     searchForBook(searchText) {
-        
+        return elasticsearch.searchForBook(searchText).then((bookList)=>{
+            result = []
+            bookList.forEach(function(book) {
+                book["_source"]._id = book["_source"]["bookUUID"];
+                delete book["_source"]["bookUUID"];
+                result.push(book["_source"]);
+            }, this);
+           return result;
+        });
     }
 }
 

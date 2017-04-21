@@ -7,16 +7,16 @@ const mbData = data.messageBoard;
 const uuid = require('node-uuid');
 const client = require("../config/elasticsearch");
 
-// client.indices.delete({
-//     index: '_all'
-// }, function (err, res) {
+client.indices.delete({
+    index: '_all'
+}, function (err, res) {
 
-//     if (err) {
-//         console.error(err.message);
-//     } else {
-//         console.log('Indexes have been deleted!');
-//     }
-// });
+    if (err) {
+        console.error(err.message);
+    } else {
+        console.log('Indexes have been deleted!');
+    }
+});
 
 dbConnection().then(db => {
     return db.dropDatabase().then(() => {

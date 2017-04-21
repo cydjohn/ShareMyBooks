@@ -21,6 +21,16 @@ let exportedMethods = {
         }, function (err, resp, status) {
             console.log(resp);
         });
+    },
+    searchForBook(keywords){
+        return client.search({
+            q: keywords
+        }).then(function (body) {
+            var hits = body.hits.hits;
+            return hits;
+        }, function (error) {
+            console.trace(error.message);
+        });
     }
 }
 
