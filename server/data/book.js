@@ -14,12 +14,13 @@ let exportedMethods = {
     },
     addBook(book) {
         return books().then((booksCollection) => {
+            let id = uuid.v4();
             let newBook = {
-                _id: uuid.v4(),
+                _id: id,
                 uploadedBy: book.uploadedBy,
                 Title: book.Title,
                 Author: book.Author,
-                bookPhotoID1: book.bookPhotoID1,
+                bookPhotoID1: id,
                 bookPhotoID2: book.bookPhotoID2,
                 bookPhotoID3: book.bookPhotoID3,
                 Year: book.Year,
