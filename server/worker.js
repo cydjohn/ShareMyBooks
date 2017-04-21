@@ -55,7 +55,7 @@ redisConnection.on('userPageImage:request:*', (message, channel) => {
 
 });
 
-redisConnection.on('convertUserImageToThumbnail:request:*', (message, channel) => {
+redisConnection.on('convertUserImageToThumbnailAndPageImg:request:*', (message, channel) => {
     //must have event name and request id
     let eventName = message.eventName;
     let requestId = message.requestId;
@@ -66,11 +66,12 @@ redisConnection.on('convertUserImageToThumbnail:request:*', (message, channel) =
     let successEvent = `${eventName}:success:${requestId}`;
 
     let result = module.exports.convertUserImageToThumbnail(uploadedImage,userName);
-
+    let result2 = module.exports.convertUserImageToPageImage(uploadedImage,userName);
     redisConnection.emit(successEvent, {
         requestId: requestId,
         data: {
-            message: result,
+            message1: result,
+            message2: result2
         },
         eventName: eventName
     });

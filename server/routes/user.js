@@ -16,7 +16,7 @@ const passport = require("passport");
 
 const userData = data.user;
 
-var srcUserImage = "../userImages/test.jpeg";
+//var userImagePath = "../testImageMagick/test_userPageImage.png";
 //var desPath = "../testImageMagick/";
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -75,16 +75,17 @@ router.get('/image/resize', function (req, res) {
         });
     });
 });
-/*
+
 //to test imageMagick using a worker
 router.get("/image/resizeWorker", async (req, res) => {
-    let userImagePath = req.file.path;
+    //let userImagePath = req.file.path;
     try {
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
-            eventName: "convertUserImageToThumbnail",
+            eventName: "convertUserImageToThumbnailAndPageImg",
             data: {
-                image: srcUserImage
+                image: userImagePath,
+                userName: "jgrayson"
             }
         });
 
@@ -93,7 +94,29 @@ router.get("/image/resizeWorker", async (req, res) => {
         res.json({ error: e.message });
     }
 });
+<<<<<<< HEAD
+
+//to upload user's profile data using a worker
+router.post("/", async (req, res) => {
+    let userData = req.body;
+    //to access an uploaded file: req.file.path
+    try {
+        let response = await nrpSender.sendMessage({
+            redis: redisConnection,
+            eventName: "post",
+            data: {
+                message: personData
+            }
+        });
+
+        res.json(response);
+    } catch (e) {
+        res.json({ error: e.message });
+    }
+});
+=======
 */
+>>>>>>> origin/master
 
 
 
@@ -149,7 +172,7 @@ router.post("/signup", function (request, res) {
             try {
                 let response = await nrpSender.sendMessage({
                     redis: redisConnection,
-                    eventName: "convertUserImageToThumbnail",
+                    eventName: "convertUserImageToThumbnailAndPageImg",
                     data: {
                         image: userImagePath,
                         userName: userName
