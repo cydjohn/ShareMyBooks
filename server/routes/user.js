@@ -100,7 +100,20 @@ router.get("/image/resizeWorker", async (req, res) => {
 
 
 router.delete("/:id", async (req, res) => {
-    userData
+    userData.deleteUserById(req.params.id).then((userId)=>{
+         if (!userId) {
+            return res.status(200).json({
+                success: false,
+                message: "Error while deleting a user!"
+            });
+        }
+        else {
+            res.status(200).json({
+                success: true,
+                message: userId
+            });
+        }
+    })
 });
 
 router.put("/:id", async (req, res) => {

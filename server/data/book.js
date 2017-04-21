@@ -71,10 +71,9 @@ let exportedMethods = {
                         return newBookInfo.insertedId;
                     }).then((newId) => {
                         this.getBookById(newId).then((book) => {
-                            // elasticsearch.addBook(book);
+                            // delete book[_id];
+                        // elasticsearch.addBook(book);
                         });
-                        // delete book[_id];
-
                         return this.getBookById(newId);
                     });
                 }
@@ -191,7 +190,9 @@ let exportedMethods = {
             });
 
         });
-
+    },
+    searchForBook(searchText) {
+        
     }
 }
 
