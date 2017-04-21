@@ -83,31 +83,78 @@ let exportedMethods = {
             });
         });
     },
-
-    //This method is used in the passport authentication deserializing. cb - callback
-    // getUserByIDPassport(id, cb) {
-    //     return users().then((usersCollection) => {
-    //         return usersCollection.findOne({ _id: id }).then((user) => {
-    //             if (!user) cb(new Error('User ' + id + ' does not exist'));
-    //             return cb(null, user);
-    //         });
-    //     });
-    // },
-
-
-    updateUser(password, email) {
+    updateUser(id, updateUser) {
+        if (!id || !updateUser || id == undefined || updateUser == undefined) {
+            return Promise.reject("Please valid input for user.\n");
+        }
         return users().then((usersCollection) => {
-            let updateUser = {
-                password: bcrypt.hashSync(password)
+            let updatedUserData = {};
+            if (updateUser.firstName) {
+                updatedUserData.firstName = updateUser.firstName;
             }
+
+            if (updateUser.lastName) {
+                updatedUserData.lastName = updateUser.lastName
+            }
+
+            if (updateUser.userID) {
+                updatedUserData.userID = updateUser.userID;
+            }
+
+            if (updateUser.address) {
+                updatedUserData.address = updateUser.address;
+            }
+
+            if (updateUser.email) {
+                updatedUserData.email = updateUser.email;
+            }
+
+            if (updateUser.phoneNumber) {
+                updatedUserData.phoneNumber = updateUser.phoneNumber;
+            }
+
+            if (updateUser.userPhotoID) {
+                updatedUserData.userPhotoID = updateUser.userPhotoID;
+            }
+
+            if (updateUser.userTotalPoints) {
+                updatedUserData.userTotalPoints = updateUser.userTotalPoints;
+            }
+
+            if (updateUser.passwordHash) {
+                updatedUserData.passwordHash = bcrypt.hashSync(updateUser.passwordHash);
+            }
+
+
+
             let updateCommand = {
-                $set: updateUser
+                $set: updatedUserData
             };
-            return usersCollection.updateOne({ email: email }, updateCommand).then(() => {
-                return this.getUserByEmail(email);
+            return booksCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                return this.getBookById(id);
+            }).catch((err) => {
+                console.log("Error while updating book:", err);
+            });
+
+        });
+
+    },
+    deleteUserById(id){
+        return books().then((booksCollection)=>{
+            return booksCollection.deleteOne({_id:id}).then((deletionInfo)=>{
+                if (deletionInfo.deletedCount === 0) {
+                    throw `Could not delete user with id of ${id}`
+                }
+                else {
+                    return id;
+                }
+            }).catch((e) => {
+                console.log("Error while removing user:", e);
             });
         });
+        
     },
+
 
     updateUserPic(requestBody) {
         return users().then((usersCollection) => {
