@@ -12,9 +12,36 @@ let exportedMethods = {
             return booksCollection.find({}).toArray();
         });
     },
+    calculateBooksPointsValue(book){
+        let currentPoints = 0;
+        var date = new Date();
+        var currentYear = date.getFullYear();
+        //if 2009 + 5 = 2014 < 2017
+        if(book.Year + 5 < currentYear){
+            currentPoints = 3;
+        }
+        else if(book.Year + 10 < currentYear){
+            currentPoints = 2;
+        }
+        else{
+            currentPoints = 1;
+        }
+        if(book.Condition == "great"){
+            currentPoints += 3;
+        }
+        else if(book.Condition == "good"){
+            currentPoints += 2;
+        }
+        else{
+            //condition is poor
+            currentPoints += 1;
+        }
+        return currentPoints;
+    },
     addBook(book) {
         return books().then((booksCollection) => {
             let id = uuid.v4();
+            let bookPointsValueCalculation = this.calculateBooksPointsValue(book);
             let newBook = {
                 _id: id,
                 uploadedBy: book.uploadedBy,
@@ -28,7 +55,7 @@ let exportedMethods = {
                 Condition: book.Condition,
                 Location: book.Location,
                 Description: book.Description,
-                bookPointsValue: book.bookPointsValue,
+                bookPointsValue: bookPointsValueCalculation,
                 timestampOfUpload: new time.Date(),
                 numberOfRequests: 0,
                 visibleBoolean: book.visibleBoolean
