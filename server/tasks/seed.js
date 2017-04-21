@@ -176,26 +176,6 @@ dbConnection().then(db => {
         requestBody = {
             _id: uuid.v4(),
             uploadedBy: b["uploadedBy"],
-            Title: "Goodnight Moon",
-            Author: "Margaret Wise Brown",
-            bookPhotoID1: "5",
-            bookPhotoID2: null,
-            bookPhotoID3: null,
-            Year: "2007",
-            Category: "Self-help",
-            Condition: "good",
-            Location: "New York, NY",
-            Description: "In a great green room, tucked away in bed, is a little bunny. Goodnight room, goodnight moon. And to all the familiar things in the softly lit room—to the picture of the three little bears sitting on chairs, to the clocks and his socks, to the mittens and the kittens, to everything one by one—the little bunny says goodnight. In this classic of children's literature, beloved by generations of readers and listeners, the quiet poetry of the words and the gentle, lulling illustrations combine to make a perfect book for the end of the day.",
-            bookPointsValue: "2",
-            timestampOfUpload: "2016-11-10T10:50:42.389Z",
-            numberOfRequests: 0,
-            visibleBoolean: true
-        }
-        return book.addBook(requestBody);
-    }).then((b) => {
-        requestBody = {
-            _id: uuid.v4(),
-            uploadedBy: b["uploadedBy"],
             Title: "Introduction to Algorithms, 3rd Edition",
             Author: "Thomas H. Cormen",
             bookPhotoID1: "7",

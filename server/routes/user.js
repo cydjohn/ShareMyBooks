@@ -94,6 +94,7 @@ router.get("/image/resizeWorker", async (req, res) => {
         res.json({ error: e.message });
     }
 });
+<<<<<<< HEAD
 
 //to upload user's profile data using a worker
 router.post("/", async (req, res) => {
@@ -113,40 +114,15 @@ router.post("/", async (req, res) => {
         res.json({ error: e.message });
     }
 });
+=======
+*/
+>>>>>>> origin/master
 
 
 
-router.post("/", async (req, res) => {
-    let personData = req.body;
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "post",
-            data: {
-                message: personData
-            }
-        });
-
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
-});
 
 router.delete("/:id", async (req, res) => {
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "delete",
-            data: {
-                id: req.params.id
-            }
-        });
-
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
+    userData
 });
 
 router.put("/:id", async (req, res) => {
@@ -167,19 +143,9 @@ router.put("/:id", async (req, res) => {
 });
 
 
-// router.post('/login', passport.authenticate('login', {
-//     successRedirect: '/myprofile',
-//     failureRedirect: '/login',
-//     failureFlash : true
-// }));
-
-
 router.post('/login', (req, res, next) => {
-    // successRedirect: '/user',
-    // failureRedirect: '/login',
-    // failureFlash : true
 
-    return passport.authenticate('login', (err, token, userData) => {
+    return passport.authenticate('login', (err, token, user) => {
         if (!token) {
             return res.status(400).json({
                 success: false,
@@ -189,7 +155,8 @@ router.post('/login', (req, res, next) => {
         else {
             return res.status(200).json({
                 success: true,
-                message: 'login succeed!'
+                message: 'login succeed!',
+                userUUID: user._id
             });
         }
     })(req, res, next);
