@@ -13,7 +13,7 @@ const path = require("path");
 const data = require("../data");
 const bookData = data.book;
 
-var srcBookImage = "../bookImages/1.jpg";
+var bookImagePath = "../testImageMagick/test_userPageImage.png";
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
@@ -81,9 +81,10 @@ router.get("/image/resizeWorker", async (req, res) => {
     }
 });
 
-
+//upload book to database and add book image to thumnail and book page folders
 router.post("/", (req, res) => {
-    bookData.addBook(req.body).then((book) => {
+    //let bookImagePath = req.file.path;
+    bookData.addBook(req.body).then(async(book) => {
         if (!book) {
             return res.status(200).json({
                 success: false,
@@ -91,9 +92,25 @@ router.post("/", (req, res) => {
             });
         }
         else {
+            //send user image to worker to become a thumbnail
+            let response;
+            try {
+                response = await nrpSender.sendMessage({
+                    redis: redisConnection,
+                    eventName: "convertBookImageToThumbnailAndPageImg",
+                    data: {
+                        image: bookImagePath,
+                        bookid: book._id
+                    }
+                });
+                
+            } catch (e) {
+                res.json({ error: e.message });
+            }
             res.status(200).json({
                 success: true,
-                message: book
+                message: book,
+                message2: response
             });
         }
     });

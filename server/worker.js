@@ -32,28 +32,7 @@ redisConnection.on('addMessageToMessageBoardCollections:request:*', (message, ch
 
 
 });
-redisConnection.on('userPageImage:request:*', (message, channel) => {
-    //must have event name and request id
-    let eventName = message.eventName;
-    let requestId = message.requestId;
 
-    let uploadedImage = message.data.image;
-    let userName = message.data.userName;
-
-    let successEvent = `${eventName}:success:${requestId}`;
-
-    let result = module.exports.convertUserImageToPageImage(uploadedImage,userName);
-
-    redisConnection.emit(successEvent, {
-        requestId: requestId,
-        data: {
-            message: result,
-        },
-        eventName: eventName
-    });
-
-
-});
 
 redisConnection.on('convertUserImageToThumbnailAndPageImg:request:*', (message, channel) => {
     //must have event name and request id
@@ -79,24 +58,27 @@ redisConnection.on('convertUserImageToThumbnailAndPageImg:request:*', (message, 
 
 });
 
-redisConnection.on('resizeBook:request:*', (message, channel) => {
+redisConnection.on('convertBookImageToThumbnailAndPageImg:request:*', (message, channel) => {
     //must have event name and request id
     let eventName = message.eventName;
     let requestId = message.requestId;
 
-    let bookUploadedImage = message.data.image;
+    let uploadedImage = message.data.image;
+    let bookid = message.data.bookid;
 
     let successEvent = `${eventName}:success:${requestId}`;
 
-    let result = module.exports.convertBookImageToPageImage(bookUploadedImage);
-
+    let result = module.exports.convertBookImageToPageImage(uploadedImage,bookid);
+    let result2 = module.exports.convertBookImageToThumbnail(uploadedImage,bookid);
     redisConnection.emit(successEvent, {
         requestId: requestId,
         data: {
-            message: result,
+            message1: result,
+            message2: result2
         },
         eventName: eventName
     });
+
 
 
 });
@@ -139,6 +121,7 @@ module.exports = {
 
     },
 
+
     convertUserImageToPageImage(userImage,userName) {
         const desPath = "../userPageImages/";
         var optionsObj = {
@@ -161,17 +144,40 @@ module.exports = {
         });
 
     },
-    convertBookImageToPageImage(bookImage) {
+    convertBookImageToThumbnail(bookImage,bookid) {
+        const desPath = "../bookThumbnailImages/";
         var optionsObj = {
             srcPath: bookImage,
-            dstPath: desPath + "test_bookPageImage.png",
+            dstPath: desPath + bookid + ".png",
+            quality: 0.6,
+            width: "50",
+            height: "50",
+            format: 'png',
+            customArgs: [
+                '-gravity', 'center',
+                "-bordercolor", "black",
+                "-border", "5x5",
+            ]
+
+        };
+        im.resize(optionsObj, function (err, stdout) {
+            if (err) return "Could not convert user image file";
+            return "image successfully converted and stored at " + desPath;
+        });
+
+    },
+    convertBookImageToPageImage(bookImage,bookid) {
+        const desPath = "../bookPageImages/";
+        var optionsObj = {
+            srcPath: bookImage,
+            dstPath: desPath + bookid + ".png",
             quality: 0.6,
             width: "350",
             height: "350",
             format: 'png',
             customArgs: [
                 '-gravity', 'center',
-                "-bordercolor", "green",
+                "-bordercolor", "black",
                 "-border", "5x5",
             ]
 

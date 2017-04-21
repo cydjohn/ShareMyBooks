@@ -94,29 +94,7 @@ router.get("/image/resizeWorker", async (req, res) => {
         res.json({ error: e.message });
     }
 });
-<<<<<<< HEAD
 
-//to upload user's profile data using a worker
-router.post("/", async (req, res) => {
-    let userData = req.body;
-    //to access an uploaded file: req.file.path
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "post",
-            data: {
-                message: personData
-            }
-        });
-
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
-});
-=======
-*/
->>>>>>> origin/master
 
 
 
