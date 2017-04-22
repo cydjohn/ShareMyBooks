@@ -58,6 +58,8 @@ class LoginPage extends React.Component {
         console.log(message);
         if (message.success == true) {
           localStorage.setItem('successMessage', message.message);
+          localStorage.setItem('userinfo', message.user);
+
           Auth.authenticateUser(message.token);
           
           Router.browserHistory.push('/');

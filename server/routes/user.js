@@ -14,7 +14,7 @@ const data = require("../data");
 const bcrypt = require("bcrypt-nodejs");
 const passport = require("passport");
 const jwt = require('jsonwebtoken');
-const jwtSecret= "a secret phrase!!"
+const jwtSecret = "a secret phrase!!"
 
 const userData = data.user;
 
@@ -181,21 +181,20 @@ router.put("/:id", async (req, res) => {
 //     failureRedirect: '/login',
 //     failureFlash : true
 // }));
-router.post('/authenticate',(req, res, next) => {
-    var token=req.body.token;
-   return jwt.verify(token, jwtSecret, (err, decoded) => {
-    // the 401 code is for unauthorized status
-    if (err) 
-    { 
-         res.status(401).json({message: 'Could not process the form.' })
-    }
+router.post('/authenticate', (req, res, next) => {
+    var token = req.body.token;
+    return jwt.verify(token, jwtSecret, (err, decoded) => {
+        // the 401 code is for unauthorized status
+        if (err) {
+            res.status(401).json({ message: 'Could not process the form.' })
+        }
 
-     res.status(200).json({message: "valid Token" })
-    
+        res.status(200).json({ message: "valid Token" })
 
-    // check if a user exists
-    
-  });
+
+        // check if a user exists
+
+    });
 })
 
 
@@ -203,9 +202,10 @@ router.post('/login', (req, res, next) => {
     // successRedirect: '/user',
     // failureRedirect: '/login',
     // failureFlash : true
-console.log(req.body)
+    console.log(req.body)
 
-    return passport.authenticate('login', (err, success, token) => {
+    return passport.authenticate('login', (err, success, data) => {
+        console.log(data.token, "++++++++++", data.user)
         if (!success) {
             return res.status(400).json({
                 success: false,
@@ -216,7 +216,8 @@ console.log(req.body)
             return res.status(200).json({
                 success: true,
                 message: 'login succeed!',
-                token:token
+                token: data.token,
+                user: data.user
             });
         }
     })(req, res, next);
