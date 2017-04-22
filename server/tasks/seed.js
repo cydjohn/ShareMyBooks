@@ -27,7 +27,7 @@ dbConnection().then(db => {
             firstName: "John",
             lastName: "Doe",
             userID: "jdoe",
-            passwordHash: "12345",//not hashed yet obviously
+            password: "12345",//not hashed yet obviously
             address: "45 Elm Street New York, NY 10028",//made up the address
             email: "jdoe@gmail.com",
             phoneNumber: "2123456789",
@@ -70,7 +70,7 @@ dbConnection().then(db => {
             Location: "New York, NY",
             Description: "I am not a recruiter. I am a software engineer. And as such, I know what it's like to be asked to whip up brilliant algorithms on the spot and then write flawless code on a whiteboard. I've been through this as a candidate and as an interviewer. Cracking the Coding Interview, 6th Edition is here to help you through this process, teaching you what you need to know and enabling you to perform at your very best. I've coached and interviewed hundreds of software engineers. The result is this book.Learn how to uncover the hints and hidden details in a question, discover how to break down a problem into manageable chunks, develop techniques to unstick yourself when stuck, learn (or re-learn) core computer science concepts, and practice on 189 interview questions and solutions.",
             bookPointsValue: "4",
-            timestampOfUpload: "2015-03-10T10:50:42.389Z",
+            // timestampOfUpload: "2015-03-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -91,7 +91,7 @@ dbConnection().then(db => {
             Location: "New York, NY",
             Description: "In A Game of Thrones, the first book of a projected six, George R.R. Martin rewards readers with a vividly real world, well-drawn characters, complex but coherent plotting, and beautifully constructed prose, which Locus called \"well above the norms of the genre.\" Martin's Seven Kingdoms resemble England during the Wars of the Roses, with the Stark and Lannister families standing in for the Yorks and Lancasters. The story of these two families and their struggle to control the Iron Throne dominates the foreground; in the background is a huge, ancient wall marking the northern border, beyond which barbarians, ice vampires, and direwolves menace the south as years-long winter advances. Abroad, a dragon princess lives among horse nomads and dreams of fiery reconquest. There is much bloodshed, cruelty, and death, but A Game of Thrones is nevertheless compelling; it garnered a Nebula nomination and won the 1996 Locus Award for Best Fantasy Novel. So, on to A Clash of Kings!",
             bookPointsValue: "3",
-            timestampOfUpload: "2014-02-10T10:50:42.389Z",
+            // timestampOfUpload: "2014-02-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -112,7 +112,7 @@ dbConnection().then(db => {
             Location: "New York, NY",
             Description: "A succinct, engaging, and practical guide for succeeding in any creative sphere, The War of Art is nothing less than Sun-Tzu for the soul. What keeps so many of us from doing what we long to do? Why is there a naysayer within? How can we avoid the roadblocks of any creative endeavor—be it starting up a dream business venture, writing a novel, or painting a masterpiece? Bestselling novelist Steven Pressfield identifies the enemy that every one of us must face, outlines a battle plan to conquer this internal foe, then pinpoints just how to achieve the greatest success. The War of Art emphasizes the resolve needed to recognize and overcome the obstacles of ambition and then effectively shows how to reach the highest level of creative discipline. Think of it as tough love . . . for yourself. Whether an artist, writer or business person, this simple, personal, and no-nonsense book will inspire you to seize the potential of your life.",
             bookPointsValue: "4",
-            timestampOfUpload: "2016-03-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-03-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -133,7 +133,7 @@ dbConnection().then(db => {
             Location: "New York, NY",
             Description: "In a great green room, tucked away in bed, is a little bunny. Goodnight room, goodnight moon. And to all the familiar things in the softly lit room—to the picture of the three little bears sitting on chairs, to the clocks and his socks, to the mittens and the kittens, to everything one by one—the little bunny says goodnight. In this classic of children's literature, beloved by generations of readers and listeners, the quiet poetry of the words and the gentle, lulling illustrations combine to make a perfect book for the end of the day.",
             bookPointsValue: "2",
-            timestampOfUpload: "2016-11-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-11-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -144,7 +144,7 @@ dbConnection().then(db => {
             firstName: "Sarah",
             lastName: "Lin",
             userID: "slin",
-            passwordHash: "67890",//not hashed yet obviously
+            password: "67890",//not hashed yet obviously
             address: "23 Madison Road San Fransisco, CA 09867",//made up the address
             email: "slin@gmail.com",
             phoneNumber: "9173247653",
@@ -167,7 +167,7 @@ dbConnection().then(db => {
             Location: "San Fransisco, CA",
             Description: "The reader-friendly Algorithm Design Manual provides straightforward access to combinatorial algorithms technology, stressing design over analysis. The first part, Techniques, provides accessible instruction on methods for designing and analyzing computer algorithms. The second part, Resources, is intended for browsing and reference, and comprises the catalog of algorithmic resources, implementations and an extensive bibliography.",
             bookPointsValue: "3",
-            timestampOfUpload: "2014-02-10T10:50:42.389Z",
+            // timestampOfUpload: "2014-02-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -187,7 +187,7 @@ dbConnection().then(db => {
             Location: "San Fransisco, CA",
             Description: "Some books on algorithms are rigorous but incomplete; others cover masses of material but lack rigor. Introduction to Algorithms uniquely combines rigor and comprehensiveness. The book covers a broad range of algorithms in depth, yet makes their design and analysis accessible to all levels of readers. Each chapter is relatively self-contained and can be used as a unit of study. The algorithms are described in English and in a pseudocode designed to be readable by anyone who has done a little programming. The explanations have been kept elementary without sacrificing depth of coverage or mathematical rigor.",
             bookPointsValue: "3",
-            timestampOfUpload: "2015-02-10T10:50:42.389Z",
+            // timestampOfUpload: "2015-02-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -207,7 +207,7 @@ dbConnection().then(db => {
             Location: "San Fransisco, CA",
             Description: "This book describes the important ideas in a variety of fields such as medicine, biology, finance, and marketing in a common conceptual framework. While the approach is statistical, the emphasis is on concepts rather than mathematics. Many examples are given, with a liberal use of colour graphics. It is a valuable resource for statisticians and anyone interested in data mining in science or industry. The book's coverage is broad, from supervised learning (prediction) to unsupervised learning. The many topics include neural networks, support vector machines, classification trees and boosting---the first comprehensive treatment of this topic in any book.",
             bookPointsValue: "4",
-            timestampOfUpload: "2016-07-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-07-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -227,7 +227,7 @@ dbConnection().then(db => {
             Location: "San Fransisco, CA",
             Description: "Expert trainer and popular author Ben Forta teaches you just the parts of SQL you need to know–starting with simple data retrieval and quickly going on to more complex topics including the use of joins, subqueries, stored procedures, cursors, triggers, and table constraints.",
             bookPointsValue: "4",
-            timestampOfUpload: "2016-03-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-03-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -247,7 +247,7 @@ dbConnection().then(db => {
             Location: "San Fransisco, CA",
             Description: "If you have an aptitude for mathematics and some programming skills, author Joel Grus will help you get comfortable with the math and statistics at the core of data science, and with hacking skills you need to get started as a data scientist. Today’s messy glut of data holds answers to questions no one’s even thought to ask. This book provides you with the know-how to dig those answers out.",
             bookPointsValue: "2",
-            timestampOfUpload: "2016-11-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-11-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -258,7 +258,7 @@ dbConnection().then(db => {
             firstName: "Sam",
             lastName: "Thompson",
             userID: "sthompson",
-            passwordHash: "24680",//not hashed yet obviously
+            password: "24680",//not hashed yet obviously
             address: "45 Washington Street Hoboken, NJ 10028",//made up the address
             email: "sthompson@gmail.com",
             phoneNumber: "9175675478",
@@ -281,7 +281,7 @@ dbConnection().then(db => {
             Location: "Hoboken, NJ",
             Description: "This comprehensive and clearly written Understanding treatise is frequently cited by scholars and courts in their analysis of substantive criminal law. Understanding Criminal Law is designed to be taught in conjunction with any casebook. The topics covered are those most often raised in criminal law casebooks, and coverage of these subjects is meant to complement professors' classroom discussions. The text focuses on the basic elements of, and defenses to, specific crimes such as homicide, rape, and theft, group criminality, and inchoate liability. Understanding Criminal Law also covers theories of punishment, sources of the criminal law, and overarching principles such as legality and proportionality. The common law is emphasized with extensive comparisons to the Model Penal Code and thoughtful examination of the underpinnings of the utilitarian philosophies of substantive criminal law. The text of Understanding Criminal Law encourages students to consider the approach these philosophies would take to a particular matter under discussion, thus providing an excellent learning tool for gaining a firm understanding of how our criminal justice system works.",
             bookPointsValue: "3",
-            timestampOfUpload: "2016-06-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-06-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -301,7 +301,7 @@ dbConnection().then(db => {
             Location: "Hoboken, NJ",
             Description: "A favorite among successful students, and often recommended by professors, the unique Examples & Explanations series gives you extremely clear introductions to concepts followed by realistic examples that mirror those presented in the classroom throughout the semester. Use at the beginning and midway through the semester to deepen your understanding through clear explanations, corresponding hypothetical fact patterns, and analysis. Then use to study for finals by reviewing the hypotheticals as well as the structure and reasoning behind the accompanying analysis. Designed to complement your casebook, the trusted Examples & Explanations titles get right to the point in a conversational, often humorous style that helps you learn the material each step of the way and prepare for the exam at the end of the course.",
             bookPointsValue: "3",
-            timestampOfUpload: "2015-02-10T10:50:42.389Z",
+            // timestampOfUpload: "2015-02-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -321,7 +321,7 @@ dbConnection().then(db => {
             Location: "Hoboken, NJ",
             Description: "With her characteristic brilliance, grace and radical audacity, Angela Y. Davis has put the case for the latest abolition movement in American life: the abolition of the prison. As she quite correctly notes, American life is replete with abolition movements, and when they were engaged in these struggles, their chances of success seemed almost unthinkable. For generations of Americans, the abolition of slavery was sheerest illusion. Similarly,the entrenched system of racial segregation seemed to last forever, and generations lived in the midst of the practice, with few predicting its passage from custom. The brutal, exploitative (dare one say lucrative?) convict-lease system that succeeded formal slavery reaped millions to southern jurisdictions (and untold miseries for tens of thousands of men, and women). Few predicted its passing from the American penal landscape. Davis expertly argues how social movements transformed these social, political and cultural institutions, and made such practices untenable. In Are Prisons Obsolete?, Professor Davis seeks to illustrate that the time for the prison is approaching an end. She argues forthrightly for 'decarceration', and argues for the transformation of the society as a whole.",
             bookPointsValue: "4",
-            timestampOfUpload: "2015-03-10T10:50:42.389Z",
+            // timestampOfUpload: "2015-03-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -341,7 +341,7 @@ dbConnection().then(db => {
             Location: "Hoboken, NJ",
             Description: "THE LEGAL ENVIRONMENT OF BUSINESS provides a practical introduction to the structure and function of the legal system from the perspective of the professional nonlawyer. While noting our legal heritage, there is a strong emphasis on the nuts and bolts of basic legal rules that most impact business today. This popular text effectively adapts a traditional case focus for the unique needs of business students. Incorporating clear and concise coverage of a wide range of up-to-date topics, the twelfth edition of this trusted text introduces key points of law through business-specific examples and realistic scenarios that students can appreciate. The authors' readable style complements their extensive knowledge of domestic and international business to make the text a favorite among instructors and students alike.",
             bookPointsValue: "4",
-            timestampOfUpload: "2016-03-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-03-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -361,7 +361,7 @@ dbConnection().then(db => {
             Location: "Hoboken, NJ",
             Description: "Law, Business and Society, 11e fits both upper-division undergraduate and masters levels courses in the legal environment of business, government and business, and business and society. Law, Business and Society, takes an interdisciplinary approach, using elements of law, political economy, international business, ethics, social responsibility, and management. Students will find an interesting, provocative reading experience filled with contemporary legal and ethical conflicts emerging from today’s news, as well as scholarly results, surveys, polls, data, anecdotes, and other specific details that lend credibility, immediacy, and interest to the reading experience.",
             bookPointsValue: "8",
-            timestampOfUpload: "2016-11-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-11-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -372,7 +372,7 @@ dbConnection().then(db => {
             firstName: "Lisa",
             lastName: "Johnson",
             userID: "ljohnson",
-            passwordHash: "13579",//not hashed yet obviously
+            password: "13579",//not hashed yet obviously
             address: "32 Pine Tree Road Ithaca, NY 14850",//made up the address
             email: "ljohnson@gmail.com",
             phoneNumber: "9172134543",
@@ -395,7 +395,7 @@ dbConnection().then(db => {
             Location: "Ithaca, NY",
             Description: "This annually updated review delivers a comprehensive collection of high-yield facts and mnemonics that pinpoint exactly what you need to know to pass the exam. Co-authored by medical students who recently took the boards, it provides a complete framework to help you prepare for the most stressful exam of your career.",
             bookPointsValue: "3",
-            timestampOfUpload: "2017-01-20T10:50:42.389Z",
+            // timestampOfUpload: "2017-01-20T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -415,7 +415,7 @@ dbConnection().then(db => {
             Location: "Ithaca, NY",
             Description: "In Growing Physician Leaders, retired Army Lieutenant General Mark Hertling applies his four decades of military leadership to the world of healthcare, resulting in a profoundly constructive and practical book with the power to reshape and reenergize any healthcare organization in America today. Designed to help physicians master the art of leading people, it takes them, step-by-step, through a proven process that can help anyone become a more effective leader.",
             bookPointsValue: "3",
-            timestampOfUpload: "2017-02-10T10:40:42.389Z",
+            // timestampOfUpload: "2017-02-10T10:40:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -435,7 +435,7 @@ dbConnection().then(db => {
             Location: "Ithaca, NY",
             Description: "Addressing the art and science of psychodynamic treatment, Nancy McWilliams distills the essential principles of clinical practice, including effective listening and talking; transference and countertransference; emotional safety; and an empathic, attuned attitude toward the patient. The book describes the values, assumptions, and clinical and research findings that guide the psychoanalytic enterprise, and shows how to integrate elements of other theoretical perspectives. It discusses the phases of treatment and covers such neglected topics as educating the client about the therapeutic process, handling complex challenges to boundaries, and attending to self-care. Presenting complex information in personal, nontechnical language enriched by in-depth clinical vignettes, this is an essential psychoanalytic work and training text for therapists.",
             bookPointsValue: "4",
-            timestampOfUpload: "2015-03-10T10:50:42.389Z",
+            // timestampOfUpload: "2015-03-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -455,7 +455,7 @@ dbConnection().then(db => {
             Location: "Ithaca, NY",
             Description: "A beautiful visual and narrative guide to a selection of unique hands-on myofascial techniques. Techniques are chosen for inclusion based on their relevance to the most common client complaints. Each chapter presents key considerations, anatomy overview, therapeutic goals, and cautions relevant to hands-on work.",
             bookPointsValue: "4",
-            timestampOfUpload: "2016-03-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-03-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -475,7 +475,7 @@ dbConnection().then(db => {
             Location: "Ithaca, NY",
             Description: "The Neonatal Resuscitation Program (NRP) is an educational program jointly sponsored by the American Academy of Pediatrics (AAP) and the American Heart Association (AHA). The course is designed to teach an evidence-based approach to resuscitation of the newborn to hospital staff who care for newborns at the time of delivery.",
             bookPointsValue: "2",
-            timestampOfUpload: "2016-11-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-11-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -486,7 +486,7 @@ dbConnection().then(db => {
             firstName: "Jane",
             lastName: "Anderson",
             userID: "janderson",
-            passwordHash: "abcde",//not hashed yet obviously
+            password: "abcde",//not hashed yet obviously
             address: "123 Cactus Lane Houston,TX 23415",//made up the address
             email: "janderson@gmail.com",
             phoneNumber: "9178736475",
@@ -509,7 +509,7 @@ dbConnection().then(db => {
             Location: "Houston,TX",
             Description: "The Healthy Chocoholic is a cookbook for chocolate lovers that emphasizes healthy ingredients and simple, easy-to-follow recipes. Since food intolerances are on the rise, top allergens like gluten, dairy, soy, corn and peanuts are excluded and many of the recipes are perfect for those following a paleo or vegan eating style. In this book, you’ll learn how to make over 60 delicious and healthy chocolate treats. Discover new and unique recipes for: smoothies, no-bake treats, candy, cookies brownies & bars, pies & cakes, hot chocolate, and more All of the recipes in this book contain healthy ingredients and are lower in sugar than typical sweet treat recipes. ALL of the recipes are free of gluten, dairy, soy, corn and legumes, including peanuts. They are also free of refined white sugar. MOST of the recipes are VEGAN (eggs are used in a few recipes) and PALEO (all recipes are gluten-free, but brown rice cereal and gluten-free oats are used in a few recipes).",
             bookPointsValue: "3",
-            timestampOfUpload: "2016-02-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-02-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -529,7 +529,7 @@ dbConnection().then(db => {
             Location: "Houston,TX",
             Description: "Veganism is going mainstream. The benefits of consuming fewer animal products appear frequently in the news, and public figures and celebrities have openly embraced the tenets of a vegan diet, bringing it further into the food consciences of baby boomers, millennials, and postmillennials alike. Whether exploring a vegan diet for health, environmental, or political reasons, more and more people are looking to get hearty, plant-based meals onto their table. But eating vegan can seem overwhelming: Will it be flavorful? Satisfying? Easy to make? And it's easy to rely on processed foods. America's Test Kitchen addresses head-on what intimidates people: finding great-tasting and filling vegan protein options, cooking without dairy, preparing different whole grains and vegetables, and even baking. With more than 200 vibrant, foolproof recipes including proper day-starters, \"cheesy\" pizza you'll actually want to eat, filling vegetable-and-grain bowls, new dinner favorites, appetizers, DIY staples, and the ultimate birthday cake, this cookbook has something satisfying for everyone--the committed vegan or simply those looking to freshen up their cooking.",
             bookPointsValue: "3",
-            timestampOfUpload: "2017-04-09T10:50:41.389Z",
+            // timestampOfUpload: "2017-04-09T10:50:41.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -549,7 +549,7 @@ dbConnection().then(db => {
             Location: "Houston,TX",
             Description: "Everyone loves smoothies—and this is the ultimate smoothie book, written by Julie Morris, author of Superfood Kitchen and a superfood expert! Morris whips up 100 nutrient-rich recipes using the world's most antioxidant-, vitamin- and mineral-packed foods, and offers innovative culinary methods for making your smoothies incredibly nutritious and delicious.",
             bookPointsValue: "4",
-            timestampOfUpload: "2015-03-10T10:50:42.389Z",
+            // timestampOfUpload: "2015-03-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -569,7 +569,7 @@ dbConnection().then(db => {
             Location: "Houston,TX",
             Description: "The Fully Raw Diet offers a 21-day plan to help people enjoy a clean, plant-based, healthful approach to eating. Kristina Carrillo-Bucaram transformed her own health by eating vegetables, fruits, nuts, and seeds—100% fresh, raw, and ripe—and she is now the vivacious, uber-healthy founder of the FullyRaw brand. Her ten-year success with this lifestyle inspires thousands via social media, and her 21-day FullyRaw Video Challenge on YouTube in 2014 dramatically grew her fan base. This book shares her advice and will correspond to a new video challenge, with meal and exercise tips, recipes, and vivid photos. Fans will love the smoothies, salads, main dishes, and desserts, such as Lemon-Ginger Blast, Spicy Mango Basil Salad, Yellow Squash Fettuccine Alfredo, Melon Pops, and Caramel-Apple Cups.",
             bookPointsValue: "4",
-            timestampOfUpload: "2016-03-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-03-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
