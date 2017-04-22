@@ -16,6 +16,8 @@ const Strategy = require("passport-local").Strategy;
 const flash = require('connect-flash');
 const bcrypt = require("bcrypt-nodejs");
 const userData = appdata.user;
+const jwt = require('jsonwebtoken');
+const jwtSecret= "a secret phrase!!"
 
 
 app.use((req, res, next) => {
@@ -37,9 +39,11 @@ passport.use('login', new Strategy({
     usernameField: 'email',    // define the parameter in req.body that passport can use as username and password
     passwordField: 'password',
     passReqToCallback : true
-    },
+},
     function(req, email, password, done) {
-        // check in mongo if a user with username exists or not
+        // check in mongo if a user with username exists or not 
+          email = decodeURIComponent(email)
+     
         userData.getUserByEmailPassport(email,
             function(err, user) {
                 // In case of any error, return using the done method
@@ -60,9 +64,10 @@ passport.use('login', new Strategy({
                         req.flash('message', 'Invalid Password'));
                 }
                 req.session.user = user;
+                 const token = jwt.sign(user._id,jwtSecret);
                 // User and password both match, return user from
                 // done method which will be treated like success
-                return done(null,true ,user);
+                return done(null,true ,token);
             }
         );
     }));

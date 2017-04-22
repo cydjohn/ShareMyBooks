@@ -13,37 +13,16 @@ const path = require("path");
 const data = require("../data");
 const bcrypt = require("bcrypt-nodejs");
 const passport = require("passport");
+const jwt = require('jsonwebtoken');
+const jwtSecret= "a secret phrase!!"
 
 const userData = data.user;
 
-//var userImagePath = "../testImageMagick/test_userPageImage.png";
+var srcUserImage = "../userImages/test.jpeg";
 //var desPath = "../testImageMagick/";
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
-
-//getOneUser
-router.get("/:id", (req, res) => {
-   userData.getUserById(req.params.id).then((Userdesc) => {
-        res.status(200).json(Userdesc);
-    }).catch((error) => {
-        // Not found!
-        res.sendStatus(404);
-    });
-});
-
-//getAllUsers
-router.get("/", (req, res) => {
-    userData.getAllUsers().then((UserList) => {
-        res.status(200).json(UserList);
-    }).catch((error)=>{
-        console.log(error);
-        if(error === "404")
-            res.sendStatus(404);
-        else
-            res.sendStatus(500);
-    });
-});
 
 router.get('/getimage/information', function (req, res) {
     console.log("It's located in " + __dirname);
@@ -53,6 +32,35 @@ router.get('/getimage/information', function (req, res) {
     });
 });
 
+/**
+	resize operations
+	=================
+	options that you can pass while resize image from one to another
+	options : 
+	{
+		srcPath: undefined,
+		srcData: null,
+		srcFormat: null,
+		dstPath: undefined,
+		quality: 0.8,
+		format: 'jpg',
+		progressive: false,
+		width: 0,
+		height: 0,
+		strip: true,
+		filter: 'Lagrange',
+		sharpening: 0.2,
+		customArgs: []
+	}
+    const args = [
+        "-",                     // use stdin
+        "-gravity", "center",    // sets the offset to the center
+        "-extent", "500x500",    // crop
+        "-background", "white",  // set a white background for the centered image
+        "+repage",               // reset the virtual canvas meta-data from the images.
+        "png:-"                  // output to stdout as a png
+    ];
+**/
 
 //creating thumbnail
 router.get('/image/resize', function (req, res) {
@@ -61,12 +69,15 @@ router.get('/image/resize', function (req, res) {
         srcPath: imagePath,
         dstPath: desPath + "test_changed.png",
         quality: 0.6,
-        width: "25",
-        height: "25",
+        width: "50",
+        height: "50",
         format: 'png',
         customArgs: [
-            '-gravity', 'center'
+            '-gravity', 'center',
+            "-bordercolor", "blue",
+            "-border", "10x10",
         ]
+
     };
     im.resize(optionsObj, function (err, stdout) {
         if (err) throw err;
@@ -75,17 +86,33 @@ router.get('/image/resize', function (req, res) {
         });
     });
 });
-
 //to test imageMagick using a worker
 router.get("/image/resizeWorker", async (req, res) => {
-    //let userImagePath = req.file.path;
     try {
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
-            eventName: "convertUserImageToThumbnailAndPageImg",
+            eventName: "userImage",
             data: {
-                image: userImagePath,
-                userName: "jgrayson"
+                image: srcUserImage
+            }
+        });
+
+        res.json(response);
+    } catch (e) {
+        res.json({ error: e.message });
+    }
+});
+
+//to upload user's profile data using a worker
+router.post("/", async (req, res) => {
+    let userData = req.body;
+    //to access an uploaded file: req.file.path
+    try {
+        let response = await nrpSender.sendMessage({
+            redis: redisConnection,
+            eventName: "post",
+            data: {
+                message: personData
             }
         });
 
@@ -97,24 +124,39 @@ router.get("/image/resizeWorker", async (req, res) => {
 
 
 
+router.post("/", async (req, res) => {
+    let personData = req.body;
+    try {
+        let response = await nrpSender.sendMessage({
+            redis: redisConnection,
+            eventName: "post",
+            data: {
+                message: personData
+            }
+        });
 
+        res.json(response);
+    } catch (e) {
+        res.json({ error: e.message });
+    }
+});
 
 router.delete("/:id", async (req, res) => {
-    userData.deleteUserById(req.params.id).then((userId)=>{
-         if (!userId) {
-            return res.status(200).json({
-                success: false,
-                message: "Error while deleting a user!"
-            });
-        }
-        else {
-            res.status(200).json({
-                success: true,
-                message: userId
-            });
-        }
-    })
+    try {
+        let response = await nrpSender.sendMessage({
+            redis: redisConnection,
+            eventName: "delete",
+            data: {
+                id: req.params.id
+            }
+        });
+
+        res.json(response);
+    } catch (e) {
+        res.json({ error: e.message });
+    }
 });
+
 
 router.put("/:id", async (req, res) => {
     let personData = req.body;
@@ -134,10 +176,37 @@ router.put("/:id", async (req, res) => {
 });
 
 
-router.post('/login', (req, res, next) => {
+// router.post('/login', passport.authenticate('login', {
+//     successRedirect: '/myprofile',
+//     failureRedirect: '/login',
+//     failureFlash : true
+// }));
+router.post('/authenticate',(req, res, next) => {
+    var token=req.body.token;
+   return jwt.verify(token, jwtSecret, (err, decoded) => {
+    // the 401 code is for unauthorized status
+    if (err) 
+    { 
+         res.status(401).json({message: 'Could not process the form.' })
+    }
 
-    return passport.authenticate('login', (err, token, user) => {
-        if (!token) {
+     res.status(200).json({message: "valid Token" })
+    
+
+    // check if a user exists
+    
+  });
+})
+
+
+router.post('/login', (req, res, next) => {
+    // successRedirect: '/user',
+    // failureRedirect: '/login',
+    // failureFlash : true
+console.log(req.body)
+
+    return passport.authenticate('login', (err, success, token) => {
+        if (!success) {
             return res.status(400).json({
                 success: false,
                 message: 'Could not process the form.'
@@ -147,33 +216,17 @@ router.post('/login', (req, res, next) => {
             return res.status(200).json({
                 success: true,
                 message: 'login succeed!',
-                userUUID: user._id
+                token:token
             });
         }
     })(req, res, next);
 });
 
 router.post("/signup", function (request, res) {
-    let userImagePath = req.file.path;
     var requestData = request.body;
-    let userName = requestData.userid;
+    console.log(requestData)
     userData.addUser(request.body)
-        .then(async (newUser) => {
-            //send user image to worker to become a thumbnail
-            try {
-                let response = await nrpSender.sendMessage({
-                    redis: redisConnection,
-                    eventName: "convertUserImageToThumbnailAndPageImg",
-                    data: {
-                        image: userImagePath,
-                        userName: userName
-                    }
-                });
-                return response;
-            } catch (e) {
-                res.json({ error: e.message });
-            }
-        }).then((response) => {
+        .then((newUser) => {
             return res.status(200).json({
                 success: true,
                 message: 'You have successfully signed up! Now you should be able to log in.'

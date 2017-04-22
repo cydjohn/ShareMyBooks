@@ -19,7 +19,7 @@ export default class CreateListOfBooks extends React.Component {
                             bookPhotoID1={eachBook.bookPhotoID1}
                             Description={eachBook.Description}
                             bookPointsValue={eachBook.bookPointsValue}
-                            bookID={eachBook.bookID}
+                            bookID={eachBook._id}
                         />
                     );
                 })}
