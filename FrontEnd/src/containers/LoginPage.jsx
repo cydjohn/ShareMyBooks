@@ -62,7 +62,7 @@ class LoginPage extends React.Component {
 
           Auth.authenticateUser(message.token);
           
-          Router.browserHistory.push('/');
+          Router.browserHistory.push('/user');
           
         } else {
           self.setState({ errors: message.message });
