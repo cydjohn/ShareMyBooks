@@ -202,6 +202,11 @@ let exportedMethods = {
             }, this);
            return result;
         });
+    },
+    viewBooksByCategory(category) {
+        return books().then((booksCollection) => {
+            return booksCollection.find({Category:category}).toArray();
+        })
     }
 }
 

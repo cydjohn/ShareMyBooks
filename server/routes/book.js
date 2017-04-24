@@ -161,5 +161,11 @@ router.get("/search/:keyword", (req, res) => {
     }
 });
 
+router.get("/category/:category",(req,res) => {
+   bookData.viewBooksByCategory(req.params.category).then((bookList) => {
+       res.status(200).json(bookList);
+   }); 
+});
+
 
 module.exports = router;

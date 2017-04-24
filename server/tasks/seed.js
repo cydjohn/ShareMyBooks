@@ -65,7 +65,7 @@ dbConnection().then(db => {
             bookPhotoID2: null,
             bookPhotoID3: null,
             Year: "2015",
-            Category: "Computers & Technology ",
+            Category: "Computers & Technology",
             Condition: "good",
             Location: "New York, NY",
             Description: "I am not a recruiter. I am a software engineer. And as such, I know what it's like to be asked to whip up brilliant algorithms on the spot and then write flawless code on a whiteboard. I've been through this as a candidate and as an interviewer. Cracking the Coding Interview, 6th Edition is here to help you through this process, teaching you what you need to know and enabling you to perform at your very best. I've coached and interviewed hundreds of software engineers. The result is this book.Learn how to uncover the hints and hidden details in a question, discover how to break down a problem into manageable chunks, develop techniques to unstick yourself when stuck, learn (or re-learn) core computer science concepts, and practice on 189 interview questions and solutions.",
