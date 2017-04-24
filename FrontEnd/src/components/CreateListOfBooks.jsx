@@ -15,7 +15,7 @@ export default class CreateListOfBooks extends React.Component {
 
                     return (
                         <CreateEachBookCard
-                            Title={eachBook.Title.slice(0, 36)}
+                            Title={eachBook.Title.slice(0, 35)}
                             Author={eachBook.Author}
                             bookPhotoID1={eachBook.bookPhotoID1}
                             Description={eachBook.Description.slice(0, 220)}
