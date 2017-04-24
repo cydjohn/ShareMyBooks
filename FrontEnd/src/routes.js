@@ -1,10 +1,9 @@
 import Base from './components/Base.jsx';
-import HomePage from './components/HomePage.jsx';
-// import DashboardPage from './containers/DashboardPage.jsx';
+import HomePage from './containers/HomePage.jsx';
+ import DashboardPage from './containers/DashboardPage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignUpPage from './containers/SignUpPage.jsx';
 import SingleBookPage from './components/SingleBookPage.jsx';
-import MessageBoard from './components/MessageBoard.jsx';
 // import EditUserPage from './components/EditUserPage.jsx';
 // import UploadBookPage from './components/UploadBookPage.jsx';
 import Auth from './modules/Auth';
@@ -52,21 +51,16 @@ const routes = {
       component: SingleBookPage
     },
 
-    {
-      path: '/messageBoard',
-      component: MessageBoard
-    },
-
-    // {
-    //   path: '/user',
-    //   getComponent: (location, callback) => {
-    //     if (Auth.isUserAuthenticated()) {
-    //       callback(null, DashboardPage);
-    //     } else {
-    //       callback(null, LoginPage);
-    //     }
-    //   }
-    // },
+     {
+      path: '/user',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, DashboardPage);
+        } else {
+          callback(null, LoginPage);
+        }
+       }
+     },
 
     // {
     //   path: '/edituser',

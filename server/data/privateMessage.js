@@ -23,7 +23,7 @@ let exportedMethods = {
                 toUserId: message.toUserId,
                 messageText: message.messageText,
                 messageTag: message.messageTag,
-                time: new time.Date()
+                // time: new time.Date()
             };
             return privateMessageCollection.insertOne(newMessage).then((newMessageInfo) => {
                 return newMessageInfo.insertedId;

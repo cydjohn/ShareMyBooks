@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import Auth from '../data/Auth';
+import Auth from '../modules/Auth';
 import LoginForm from '../components/LoginForm.jsx';
+var Router = require('react-router');
 
 
 class LoginPage extends React.Component {
@@ -39,7 +40,35 @@ class LoginPage extends React.Component {
   processForm(event) {
     event.preventDefault();
 
-    
+    const email = encodeURIComponent(this.state.user.email);
+    const password = encodeURIComponent(this.state.user.password);
+    fetch('http://localhost:3002/users/login', {
+      method: 'post',
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      }),
+      body: JSON.stringify({
+        email: email,
+        password: password
+      })
+    })
+      .then((response) => {
+        return (response.json());
+      }).then(function (message) {
+        console.log(message);
+        if (message.success == true) {
+          localStorage.setItem('successMessage', message.message);
+          localStorage.setItem('userinfo', message.user);
+
+          Auth.authenticateUser(message.token);
+          
+          Router.browserHistory.push('/user');
+          
+        } else {
+          self.setState({ errors: message.message });
+        }
+
+      })
 
   }
 

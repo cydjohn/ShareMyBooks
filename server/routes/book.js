@@ -84,7 +84,7 @@ router.get("/image/resizeWorker", async (req, res) => {
 //upload book to database and add book image to thumnail and book page folders
 router.post("/", (req, res) => {
     //let bookImagePath = req.file.path;
-    bookData.addBook(req.body).then(async(book) => {
+    bookData.addBook(req.body).then(async (book) => {
         if (!book) {
             return res.status(200).json({
                 success: false,
@@ -103,7 +103,7 @@ router.post("/", (req, res) => {
                         bookid: book._id
                     }
                 });
-                
+
             } catch (e) {
                 res.json({ error: e.message });
             }
@@ -148,6 +148,17 @@ router.put("/:id", (req, res) => {
             });
         }
     });
+});
+
+router.get("/search/:keyword", (req, res) => {
+    if (req.params.keyword === undefined) {
+        res.status(200).json({message: "must provide a keyword"});
+    }
+    else {
+        bookList = bookData.searchForBook(req.params.keyword).then((bookList) => {
+            res.status(200).json(bookList);
+        });
+    }
 });
 
 

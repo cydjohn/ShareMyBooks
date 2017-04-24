@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
 import '../styles/Search.css';
@@ -12,40 +12,45 @@ const style = {
 const AutoCompleteStyle = {
     width: 600
 };
-export default class Search extends Component {
-    state = {
-        dataSource: [],
-    };
+const colors = [
+    'Red',
+    'Orange',
+    'Yellow',
+    'Green',
+    'Blue',
+    'Purple',
+    'Black',
+    'White',
+];
 
+const Search = ({
+  onSubmit,
+    onUpdateInput,
+}) => (
+        <div className="searchDiv">
+            <center>
+                <form action="/" onSubmit={onSubmit}>
+                    <div className="SearchBar">
+                        <AutoComplete
+                            hintText="Enter your book name here."
+                            dataSource={colors}
+                            onUpdateInput={onUpdateInput}
+                            floatingLabelText="Search box"
+                            fullWidth={true}
+                        />
+                    </div>
+                    <div className="SearchButton">
+                        <RaisedButton label="Search" type="submit" primary={true} fullWidth={true} />
+                    </div>
+                </form>
+            </center>
+        </div>
+    );
 
+Search.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    onUpdateInput: PropTypes.func.isRequired,
 
-    handleUpdateInput = (value) => {
-        this.setState({
-            dataSource: [
-                value,
-                value + value,
-                value + value + value,
-            ],
-        });
-    };
+};
 
-    render() {
-        return (
-          <div className="searchDiv">
-              <center>    <div className="SearchBar">
-                    <AutoComplete
-                        hintText="Enter your book name here."
-                        dataSource={this.state.dataSource}
-                        onUpdateInput={this.handleUpdateInput}
-                        floatingLabelText="Search box"
-                        fullWidth={true}
-                    />
-                </div>
-                <div className="SearchButton">
-                    <RaisedButton label="Search" primary={true} fullWidth={true} />
-                </div>
-                </center>
-            </div>
-        );
-    }
-}
+export default Search;

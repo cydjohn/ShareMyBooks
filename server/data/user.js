@@ -18,9 +18,9 @@ let exportedMethods = {
                 firstName: user.firstName,
                 lastName: user.lastName,
                 userID: user.userID,
-                passwordHash: bcrypt.hashSync(user.passwordHash),
+                passwordHash: bcrypt.hashSync(user.password),
                 address: user.address,
-                email: user.email,
+                email: decodeURIComponent(user.email),
                 phoneNumber: user.phoneNumber,
                 userPhotoID: user.userPhotoID,
                 userTotalPoints: user.userTotalPoints
