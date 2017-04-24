@@ -22,7 +22,7 @@ let exportedMethods = {
                 address: user.address,
                 email: decodeURIComponent(user.email),
                 phoneNumber: user.phoneNumber,
-                userPhotoID: user.userPhotoID,
+                userPhotoID: user.userID,
                 userTotalPoints: user.userTotalPoints
             };
             return usersCollection.findOne({ email: user.email }).then((user) => {

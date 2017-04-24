@@ -24,84 +24,40 @@ var srcUserImage = "../userImages/test.jpeg";
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
-router.get('/getimage/information', function (req, res) {
-    console.log("It's located in " + __dirname);
-    im.identify(srcUserImage, function (err, features) {
-        if (err) throw err;
-        res.json({ "images_data": features });
+//get all users
+router.get("/", (req, res) => {
+    userData.getAllUsers().then((userList) => {
+        res.status(200).json(userList);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
     });
 });
 
-/**
-	resize operations
-	=================
-	options that you can pass while resize image from one to another
-	options : 
-	{
-		srcPath: undefined,
-		srcData: null,
-		srcFormat: null,
-		dstPath: undefined,
-		quality: 0.8,
-		format: 'jpg',
-		progressive: false,
-		width: 0,
-		height: 0,
-		strip: true,
-		filter: 'Lagrange',
-		sharpening: 0.2,
-		customArgs: []
-	}
-    const args = [
-        "-",                     // use stdin
-        "-gravity", "center",    // sets the offset to the center
-        "-extent", "500x500",    // crop
-        "-background", "white",  // set a white background for the centered image
-        "+repage",               // reset the virtual canvas meta-data from the images.
-        "png:-"                  // output to stdout as a png
-    ];
-**/
-
-//creating thumbnail
-router.get('/image/resize', function (req, res) {
-    let imagePath = path.resolve(srcUserImage);
-    var optionsObj = {
-        srcPath: imagePath,
-        dstPath: desPath + "test_changed.png",
-        quality: 0.6,
-        width: "50",
-        height: "50",
-        format: 'png',
-        customArgs: [
-            '-gravity', 'center',
-            "-bordercolor", "blue",
-            "-border", "10x10",
-        ]
-
-    };
-    im.resize(optionsObj, function (err, stdout) {
-        if (err) throw err;
-        res.json({
-            "message": "Resized Image successfully"
-        });
+//get 1 user by _id
+router.get("/:id", (req, res) => {
+    let id = req.params.id;
+    userData.getUserById(id).then((userResult) => {
+        res.status(200).json(userResult);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
     });
 });
-//to test imageMagick using a worker
-router.get("/image/resizeWorker", async (req, res) => {
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "userImage",
-            data: {
-                image: srcUserImage
-            }
-        });
 
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
+//get 1 user by userid
+router.get("/user/:userid", (req, res) => {
+    let userid = req.params.userid;
+    userData.getUserByUserId(userid).then((userResult) => {
+        res.status(200).json(userResult);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
 });
+
+
+
 
 //to upload user's profile data using a worker
 router.post("/", async (req, res) => {
@@ -224,14 +180,40 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post("/signup", function (request, res) {
+    let userImagePath = request.file.path;
     var requestData = request.body;
     console.log(requestData)
     userData.addUser(request.body)
-        .then((newUser) => {
+        .then(async(newUser) => {
+             if (!newUser) {
+            return res.status(200).json({
+                success: false,
+                message: "Error while adding a user!"
+            });
+        }
+        else {
+            //send user image to worker to become a thumbnail
+            let response;
+            try {
+                response = await nrpSender.sendMessage({
+                    redis: redisConnection,
+                    eventName: "convertUserImageToThumbnailAndPageImg",
+                    data: {
+                        image: userImagePath,
+                        userid: newUser.userID
+                    }
+                });
+
+            } catch (e) {
+                res.json({ error: e.message });
+            }
+            
+        
             return res.status(200).json({
                 success: true,
                 message: 'You have successfully signed up! Now you should be able to log in.'
             });
+            }
         }).catch((e) => {
             console.log(e);
             return res.status(200).json({
@@ -239,6 +221,40 @@ router.post("/signup", function (request, res) {
                 message: e
             });
         });
+});
+
+router.post("/", (req, res) => {
+    //let bookImagePath = req.file.path;
+    bookData.addBook(req.body).then(async (book) => {
+        if (!book) {
+            return res.status(200).json({
+                success: false,
+                message: "Error while adding a book!"
+            });
+        }
+        else {
+            //send user image to worker to become a thumbnail
+            let response;
+            try {
+                response = await nrpSender.sendMessage({
+                    redis: redisConnection,
+                    eventName: "convertBookImageToThumbnailAndPageImg",
+                    data: {
+                        image: bookImagePath,
+                        bookid: book._id
+                    }
+                });
+
+            } catch (e) {
+                res.json({ error: e.message });
+            }
+            res.status(200).json({
+                success: true,
+                message: book,
+                message2: response
+            });
+        }
+    });
 });
 
 module.exports = router;
