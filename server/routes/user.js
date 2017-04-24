@@ -18,7 +18,7 @@ const jwtSecret = "a secret phrase!!"
 
 const userData = data.user;
 
-var srcUserImage = "../userImages/test.jpeg";
+var srcUserImage = "../testImageMagick/1.jpeg";
 //var desPath = "../testImageMagick/";
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -180,7 +180,7 @@ router.post('/login', (req, res, next) => {
 });
 
 router.post("/signup", function (request, res) {
-    let userImagePath = request.file.path;
+    //let userImagePath = request.file.path;
     var requestData = request.body;
     console.log(requestData)
     userData.addUser(request.body)
@@ -200,7 +200,7 @@ router.post("/signup", function (request, res) {
                     eventName: "convertUserImageToThumbnailAndPageImg",
                     data: {
                         image: userImagePath,
-                        userid: newUser.userID
+                        userName: newUser.userID
                     }
                 });
 
@@ -223,38 +223,22 @@ router.post("/signup", function (request, res) {
         });
 });
 
-router.post("/", (req, res) => {
-    //let bookImagePath = req.file.path;
-    bookData.addBook(req.body).then(async (book) => {
-        if (!book) {
-            return res.status(200).json({
-                success: false,
-                message: "Error while adding a book!"
-            });
-        }
-        else {
-            //send user image to worker to become a thumbnail
-            let response;
-            try {
-                response = await nrpSender.sendMessage({
-                    redis: redisConnection,
-                    eventName: "convertBookImageToThumbnailAndPageImg",
+
+//to test imageMagick using a worker with a new location of the image folder
+router.get("/image/resizeWorker", async (req, res) => {
+    try {
+        let response = await nrpSender.sendMessage({
+            redis: redisConnection,
+            eventName: "convertUserImageToThumbnailAndPageImg",
                     data: {
-                        image: bookImagePath,
-                        bookid: book._id
+                        image: srcUserImage,
+                        userName: "testCheck2"
                     }
-                });
+        });
 
-            } catch (e) {
-                res.json({ error: e.message });
-            }
-            res.status(200).json({
-                success: true,
-                message: book,
-                message2: response
-            });
-        }
-    });
+        res.json({response});
+    } catch (e) {
+        res.json({ error: e.message });
+    }
 });
-
 module.exports = router;
