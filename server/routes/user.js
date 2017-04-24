@@ -24,6 +24,38 @@ var srcUserImage = "../userImages/test.jpeg";
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
+//get all users
+router.get("/", (req, res) => {
+    userData.getAllUsers().then((userList) => {
+        res.status(200).json(userList);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
+});
+
+//get 1 user by _id
+router.get("/:id", (req, res) => {
+    let id = req.params.id;
+    userData.getUserById(id).then((userResult) => {
+        res.status(200).json(userResult);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
+});
+
+//get 1 user by userid
+router.get("/user/:userid", (req, res) => {
+    let userid = req.params.userid;
+    userData.getUserByUserId(userid).then((userResult) => {
+        res.status(200).json(userResult);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
+});
+
 router.get('/getimage/information', function (req, res) {
     console.log("It's located in " + __dirname);
     im.identify(srcUserImage, function (err, features) {
