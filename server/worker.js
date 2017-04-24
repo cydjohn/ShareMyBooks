@@ -99,7 +99,7 @@ module.exports = {
             });
     },
     convertUserImageToThumbnail(userImage,userName) {
-        const desPath = "../userThumbnailImages/";
+        const desPath = "../FrontEnd/public/userThumbnailImages/";
         var optionsObj = {
             srcPath: userImage,
             dstPath: desPath + userName + ".png",
@@ -123,7 +123,7 @@ module.exports = {
 
 
     convertUserImageToPageImage(userImage,userName) {
-        const desPath = "../userPageImages/";
+        const desPath = "../FrontEnd/public/userPageImages/";
         var optionsObj = {
             srcPath: userImage,
             dstPath: desPath + userName + ".png",
@@ -145,7 +145,7 @@ module.exports = {
 
     },
     convertBookImageToThumbnail(bookImage,bookid) {
-        const desPath = "../bookThumbnailImages/";
+        const desPath = "../FrontEnd/public/bookThumbnailImages/";
         var optionsObj = {
             srcPath: bookImage,
             dstPath: desPath + bookid + ".png",
@@ -167,7 +167,7 @@ module.exports = {
 
     },
     convertBookImageToPageImage(bookImage,bookid) {
-        const desPath = "../bookPageImages/";
+        const desPath = "../FrontEnd/public/bookPageImages/";
         var optionsObj = {
             srcPath: bookImage,
             dstPath: desPath + bookid + ".png",
