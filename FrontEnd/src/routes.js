@@ -4,6 +4,7 @@ import HomePage from './containers/HomePage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignUpPage from './containers/SignUpPage.jsx';
 import SingleBookPage from './components/SingleBookPage.jsx';
+import MessageBoard from './containers/MessageBoard.jsx';
 // import EditUserPage from './components/EditUserPage.jsx';
 // import UploadBookPage from './components/UploadBookPage.jsx';
 import Auth from './modules/Auth';
@@ -61,6 +62,10 @@ const routes = {
         }
        }
      },
+     {
+      path: '/messageboard',
+      component: MessageBoard
+    }
 
     // {
     //   path: '/edituser',
