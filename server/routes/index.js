@@ -1,14 +1,15 @@
 
 const userRoutes = require("./user");
 const bookRoutes = require("./book");
-//const messageBoardRoutes = require("./messageBoard");
+const privateMessageRoutes = require("./privateMessage");
 //const router = express.Router();
 
 const constructorMethod = (app) => {
     app.use("/users", userRoutes);
     
     app.use("/books", bookRoutes);
-    //app.use("/messages", messageBoardRoutes);
+    
+    app.use("/private_messages", privateMessageRoutes);
 
     
    app.get("/", (req, res) => {

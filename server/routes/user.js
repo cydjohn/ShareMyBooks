@@ -57,7 +57,7 @@ router.get("/user/:userid", (req, res) => {
 });
 
 
-
+/*
 
 //to upload user's profile data using a worker
 router.post("/", async (req, res) => {
@@ -130,7 +130,7 @@ router.put("/:id", async (req, res) => {
         res.json({ error: e.message });
     }
 });
-
+*/
 
 // router.post('/login', passport.authenticate('login', {
 //     successRedirect: '/myprofile',
