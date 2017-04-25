@@ -3,6 +3,7 @@ const mongoCollections = require("../config/mongoCollections");
 const privateMessage = mongoCollections.privateMessage;
 const userData = data.users;
 const uuid = require('node-uuid');
+const time = require('time');
 
 let exportedMethods = {
     getPrivateMessageById(id) {
@@ -23,7 +24,7 @@ let exportedMethods = {
                 toUserId: message.toUserId,
                 messageText: message.messageText,
                 messageTag: message.messageTag,
-                // time: new time.Date()
+                time: new time.Date()
             };
             return privateMessageCollection.insertOne(newMessage).then((newMessageInfo) => {
                 return newMessageInfo.insertedId;
