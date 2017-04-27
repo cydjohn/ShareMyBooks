@@ -136,7 +136,7 @@ router.delete("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
     bookData.updateBookInfo(req.params.id, req.body).then((book) => {
         if (!book) {
-            return res.status(200).json({
+            res.status(200).json({
                 success: false,
                 message: "Error while updating a book!"
             });

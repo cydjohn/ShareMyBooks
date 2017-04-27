@@ -114,21 +114,21 @@ router.delete("/:id", async (req, res) => {
 });
 
 
-router.put("/:id", async (req, res) => {
-    let personData = req.body;
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "put",
-            data: {
-                id: req.params.id,
-                message: personData
-            }
-        });
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
+router.put("/:id",(req, res) => {
+    userData.updateUser(req.params.id,req.body).then((user) =>{
+        if(!user) {
+            res.status(200).json({
+                success: false,
+                message: "Error while updating a user info!"
+            });
+        }
+        else {
+            res.status(200).json({
+                success: true,
+                message: user
+            });
+        }
+    });
 });
 */
 

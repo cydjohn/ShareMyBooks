@@ -32,9 +32,6 @@ let exportedMethods = {
                         return result.insertedId;
                         // return result;
                     }).then((newId) => {
-                        this.getUserById(newId).then((user) => {
-                            console.log(user);
-                        });
 
                         return this.getUserById(newId);
                     });
@@ -130,10 +127,10 @@ let exportedMethods = {
             let updateCommand = {
                 $set: updatedUserData
             };
-            return booksCollection.updateOne({ _id: id }, updateCommand).then(() => {
-                return this.getBookById(id);
+            return usersCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                return this.getUserById(id);
             }).catch((err) => {
-                console.log("Error while updating book:", err);
+                console.log("Error while updating user:", err);
             });
 
         });
@@ -165,7 +162,7 @@ let exportedMethods = {
                 $set: updateUser
             };
             return usersCollection.updateOne({ _id: requestBody.userid }, updateCommand).then(() => {
-                return this.getUserByID(requestBody.userid);
+                return this.getUserById(requestBody.userid);
             });
         });
     }
