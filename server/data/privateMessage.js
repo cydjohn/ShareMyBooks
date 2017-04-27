@@ -1,7 +1,6 @@
 const data = require("../data");
 const mongoCollections = require("../config/mongoCollections");
 const privateMessage = mongoCollections.privateMessage;
-const userData = data.users;
 const uuid = require('node-uuid');
 const time = require('time');
 
@@ -10,7 +9,7 @@ let exportedMethods = {
         return privateMessage().then((privateMessageCollection) => {
             return privateMessageCollection.findOne({_id:id}).then((privateMessage) => {
                 if(!privateMessage) {
-                    throw "Private message not found";
+                    throw "Private messages not found";
                 }
                 return privateMessage;
             });
@@ -23,7 +22,7 @@ let exportedMethods = {
                 fromUserId: message.fromUserId,
                 toUserId: message.toUserId,
                 messageText: message.messageText,
-                messageTag: message.messageTag,
+                messageRead: false,
                 time: new time.Date()
             };
             return privateMessageCollection.insertOne(newMessage).then((newMessageInfo) => {
@@ -35,40 +34,106 @@ let exportedMethods = {
             console.log("Error while adding message:", e)
         });
     },
-    getPrivateMessageByFromUserId(id) {
+    getAllPrivateMessageByFromUserId(id) {
         return privateMessage().then((privateMessageCollection) => {
-            return privateMessageCollection.findOne({fromUserId:id}).then((privateMessage) => {
-                if(!privateMessage) {
-                    throw "Private message not found";
-                }
-                return privateMessage.toArray();
-            });
+            return privateMessageCollection.find({fromUserId:id}).toArray().then((messageInfo)=>{
+                if(messageInfo.length == 0){ 
+                        return Promise.reject("There are no messsages from user " + id);
+                    }
+                    else{
+                        return messageInfo;
+                    }
+            });  
+
         });
     },
-    getPrivateMessageByToUserId(id) {
+    getAllPrivateMessageByToUserId(id) {
         return privateMessage().then((privateMessageCollection) => {
-            return privateMessageCollection.findOne({toUserId:id}).then((privateMessage) => {
-                if(!privateMessage) {
-                    throw "Private message not found";
-                }
-                return privateMessage.toArray();
+            return privateMessageCollection.find({toUserId:id}).toArray().then((messageInfo)=>{
+                if(messageInfo.length == 0){ 
+                        return Promise.reject("There are no messsages for user " + id);
+                    }
+                    else{
+                        return messageInfo;
+                    }
+            });  
+
+        });
+    },
+    getNewPrivateMessageByFromUserId(id) {
+        return privateMessage().then((privateMessageCollection) => {
+            return privateMessageCollection.find({$and:[ {fromUserId:id}, {messageRead:false} ]}).toArray().then((messageInfo)=>{
+                if(messageInfo.length == 0){ 
+                        return Promise.reject("There are no new messsages from user " + id);
+                    }
+                    else{
+                        return messageInfo;
+                    }
+                    });  
+
+        });
+    },
+    getNewPrivateMessageByToUserId(id) {
+        return privateMessage().then((privateMessageCollection) => {
+            return privateMessageCollection.find({$and:[ {toUserId:id}, {messageRead:false} ]}).toArray().then((messageInfo)=>{
+                if(messageInfo.length == 0){ 
+                        return Promise.reject("There are no new messsages to user " + id);
+                    }
+                    else{
+                        return messageInfo;
+                    }
             });
         });
     },
     deletePrivateMessageById(id) {
         return privateMessage().then((privateMessageCollection) => {
             return privateMessageCollection.removeOne({_id:id}).then((deleteInfo) => {
-                if (deletionInfo.deletedCount === 0) {
-                    console.log(`Could not delete private message with id of ${id}`);
+                if (deleteInfo.deletedCount === 0) {
+                    return `Could not delete private message with id of ${id}`;
                 }
                 else {
                     return "success";
                 }
             }).catch((err) => {
-                console.log("Error while removing private message:", err);
+                return "Error while removing private message:" + err;
             });
         });
     },
+    updateMessageReadStatus(id, updateMessage) {
+        if (!id || !updateMessage || id == undefined || updateMessage == undefined) {
+            return Promise.reject("Please valid input for your message.\n");
+        }
+
+        return privateMessage().then((privateMessageCollection) => {
+            let updatedMessageData = {};
+
+            if (updateMessage.fromUserId) {
+                updatedMessageData.fromUserId = updateMessage.fromUserId
+            }
+
+            if (updateMessage.toUserId) {
+                updatedMessageData.toUserId = updateMessage.toUserId;
+            }
+
+            if (updateMessage.time) {
+                updatedMessageData.time = updateMessage.time;
+            }
+
+            if (updateMessage.messageRead === false) {
+                updatedMessageData.messageRead = true;
+            }
+
+            let updateCommand = {
+                $set: updatedMessageData
+            };
+            return privateMessageCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                return this.getPrivateMessageById(id);
+            }).catch((err) => {
+                console.log("Error while updating book:", err);
+            });
+
+        });
+    }
 }
 
 module.exports = exportedMethods;
