@@ -69,6 +69,22 @@ let exportedMethods = {
                 return userRequest;
             });
         });
+    },
+    updateUserRequestStatusById(id) {
+        return userRequests().then((userRequestsCollection) => {
+            return userRequestsCollection.findOne({_id:id}).then((userRequest) => {
+                if(!userRequest) throw "request not foound";
+                let updateData = {
+                    status: 1,
+                }
+                let updateCommand = {
+                    $set: updateData
+                }
+                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                    return this.getRequestById(id);
+                });
+            })
+        });
     }
     
 }

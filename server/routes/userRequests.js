@@ -2,6 +2,7 @@ const data = require("../data");
 const express = require('express');
 const router = express.Router();
 const userRequestsData = data.userRequests;
+const userData = data.user;
 
 
 // only for debugging
@@ -11,11 +12,12 @@ router.get("/",(req, res)=>{
     });
 });
 
-router.get("getRequestById/:id",(req, res)=>{
+router.get("/:id",(req, res)=>{
     let requestId = req.params.id;
-    userRequestsData.getRequestById(requestId).then((requestResult) => {
-        
-        res.status(200).json(requestResult);
+    userRequestsData.getRequestById(requestId).then(async (requestResult) => {
+        let fromUserInfo = await userData.getUserById(requestResult.requestFrom);
+        let toUserInfo = await userData.getUserById(requestResult.requestTo);
+        res.status(200).json({requestResult,"fromUserInfo":fromUserInfo,"toUserInfo":toUserInfo});
     }).catch((e) => {
         res.sendStatus(500);
     });
@@ -49,9 +51,15 @@ router.delete("/:id",(req,res)=>{
         else {
             res.status(200).json({
                 success: true,
-                message: bookId
+                message: userRequestId
             });
         }
+    });
+});
+
+router.post("updateRequestStatus/:id",(req,res) => {
+    userRequestsData.updateUserRequestStatusById(req.params.id).then((userRequest)=>{
+        
     });
 });
 
