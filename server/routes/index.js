@@ -9,7 +9,7 @@ const constructorMethod = (app) => {
     app.use("/users", userRoutes);
     
     app.use("/books", bookRoutes);
-    app.user("/userRequests",userRequestsRoutes);
+    app.use("/userRequests",userRequestsRoutes);
     //app.use("/messages", messageBoardRoutes);
     
    app.get("/", (req, res) => {
