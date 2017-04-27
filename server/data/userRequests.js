@@ -56,18 +56,12 @@ let exportedMethods = {
     },
     viewRequestByFromUserId(id) {
         return userRequests().then((userRequestsCollection) => {
-            return userRequestsCollection.findOne({ requestFrom: id }).then((userRequest) => {
-                if (!userRequest) throw "user request not found";
-                return userRequest;
-            });
+            return userRequestsCollection.find({ requestFrom: id }).toArray();
         });
     },
      viewRequestByToUserId(id) {
         return userRequests().then((userRequestsCollection) => {
-            return userRequestsCollection.findOne({ requestTo: id }).then((userRequest) => {
-                if (!userRequest) throw "user request not found";
-                return userRequest;
-            });
+            return userRequestsCollection.find({ requestTo: id }).toArray();
         });
     },
     updateUserRequestStatusById(id) {
