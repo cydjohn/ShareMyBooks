@@ -32,9 +32,6 @@ let exportedMethods = {
                         return result.insertedId;
                         // return result;
                     }).then((newId) => {
-                        this.getUserById(newId).then((user) => {
-                            console.log(user);
-                        });
 
                         return this.getUserById(newId);
                     });
