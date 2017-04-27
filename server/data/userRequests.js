@@ -11,7 +11,7 @@ let exportedMethods = {
                 _id: uuid.v4(),
                 requestFrom: request.requestFrom,
                 requestTo: request.requestTo,
-                status: request.status,
+                status: -1,
                 message: request.message
             };
             return userRequestsCollection.insertOne(newRequest).then((result) => {
@@ -41,8 +41,8 @@ let exportedMethods = {
         });
     },
     deleteRequestById(id) {
-        return userRequests().then((userRequestsCollection)=>{
-            return userRequestsCollection.deleteOne({_id:id}).then((deletionInfo)=>{
+        return userRequests().then((userRequestsCollection) => {
+            return userRequestsCollection.deleteOne({ _id: id }).then((deletionInfo) => {
                 if (deletionInfo.deletedCount === 0) {
                     throw `Could not delete request with id of ${id}`
                 }
@@ -59,15 +59,15 @@ let exportedMethods = {
             return userRequestsCollection.find({ requestFrom: id }).toArray();
         });
     },
-     viewRequestByToUserId(id) {
+    viewRequestByToUserId(id) {
         return userRequests().then((userRequestsCollection) => {
             return userRequestsCollection.find({ requestTo: id }).toArray();
         });
     },
-    updateUserRequestStatusById(id) {
+    acceptUserRequest(id) {
         return userRequests().then((userRequestsCollection) => {
-            return userRequestsCollection.findOne({_id:id}).then((userRequest) => {
-                if(!userRequest) throw "request not foound";
+            return userRequestsCollection.findOne({ _id: id }).then((userRequest) => {
+                if (!userRequest) throw "request not foound";
                 let updateData = {
                     status: 1,
                 }
@@ -79,8 +79,24 @@ let exportedMethods = {
                 });
             })
         });
+    },
+    rejectUserRequest(id) {
+        return userRequests().then((userRequestsCollection) => {
+            return userRequestsCollection.findOne({ _id: id }).then((userRequest) => {
+                if (!userRequest) throw "request not foound";
+                let updateData = {
+                    status: 0,
+                }
+                let updateCommand = {
+                    $set: updateData
+                }
+                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                    return this.getRequestById(id);
+                });
+            })
+        });
     }
-    
+
 }
 
 module.exports = exportedMethods;

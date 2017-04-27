@@ -90,8 +90,11 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-router.put("/updateRequestStatus/:id", (req, res) => {
-    userRequestsData.updateUserRequestStatusById(req.params.id).then((userRequest) => {
+//  accept as status=1, 
+// reject as status=0, 
+// initial status of -1.
+router.put("/acceptUserRequest/:id", (req, res) => {
+    userRequestsData.acceptUserRequest(req.params.id).then((userRequest) => {
         if (!userRequest) {
             res.status(200).json({
                 success: false,
@@ -107,10 +110,22 @@ router.put("/updateRequestStatus/:id", (req, res) => {
     });
 });
 
-
-
-
-
+router.put("/rejectUserRequest/:id", (req, res) => {
+    userRequestsData.rejectUserRequest(req.params.id).then((userRequest) => {
+        if (!userRequest) {
+            res.status(200).json({
+                success: false,
+                message: "Error while updating a user request!"
+            });
+        }
+        else {
+            res.status(200).json({
+                success: true,
+                message: userRequest
+            });
+        }
+    });
+});
 
 
 
