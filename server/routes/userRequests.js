@@ -91,8 +91,8 @@ router.delete("/:id", (req, res) => {
 });
 
 //  accept as status=1, 
-// reject as status=0, 
-// initial status of -1.
+//  reject as status=0, 
+//  initial status of -1.
 router.put("/acceptUserRequest/:id", (req, res) => {
     userRequestsData.acceptUserRequest(req.params.id).then((userRequest) => {
         if (!userRequest) {
