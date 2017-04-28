@@ -3,6 +3,10 @@ const userRequests = mongoCollections.userRequests;
 const uuid = require('node-uuid');
 const time = require('time');
 
+const flat = require("flat");
+const redis = require('redis');
+const client = redis.createClient();
+
 
 let exportedMethods = {
     addUserRequest(request) {
@@ -14,34 +18,43 @@ let exportedMethods = {
                 status: -1,
                 message: request.message
             };
+            // cache
+            client.hmsetAsync(newRequest._id, flat(newRequest));
+
             return userRequestsCollection.insertOne(newRequest).then((result) => {
                 return result.insertedId;
                 // return result;
             }).then((newId) => {
-                this.getRequestById(newId).then((user) => {
-                    console.log(user);
-                });
                 return this.getRequestById(newId);
             });
 
-
         });
     },
+
+    //debug only
     getAllRequests() {
         return userRequests().then((userRequestsCollection) => {
             return userRequestsCollection.find({}).toArray();
         });
     },
-    getRequestById(id) {
-        return userRequests().then((userRequestsCollection) => {
-            return userRequestsCollection.findOne({ _id: id }).then((userRequest) => {
-                if (!userRequest) throw "user request not found";
-                return userRequest;
+    async getRequestById(id) {
+        let peopleResult = await client.existsAsync(id);
+        if (peopleResult) {
+            return client.hgetallAsync(id);
+        }
+        else {
+            return userRequests().then((userRequestsCollection) => {
+                return userRequestsCollection.findOne({ _id: id }).then(async (userRequest) => {
+                    if (!userRequest) throw "user request not found";
+                    let p = await client.hmsetAsync(id, flat(userRequest));
+                    return userRequest;
+                });
             });
-        });
+        }
     },
     deleteRequestById(id) {
-        return userRequests().then((userRequestsCollection) => {
+        return userRequests().then(async (userRequestsCollection) => {
+            let p = await client.delAsync(id);
             return userRequestsCollection.deleteOne({ _id: id }).then((deletionInfo) => {
                 if (deletionInfo.deletedCount === 0) {
                     throw `Could not delete request with id of ${id}`
@@ -67,14 +80,15 @@ let exportedMethods = {
     acceptUserRequest(id) {
         return userRequests().then((userRequestsCollection) => {
             return userRequestsCollection.findOne({ _id: id }).then((userRequest) => {
-                if (!userRequest) throw "request not foound";
+                if (!userRequest) throw "request not found";
                 let updateData = {
-                    status: 1,
+                    status: 1
                 }
                 let updateCommand = {
                     $set: updateData
                 }
-                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(async () => {
+                    let p = await client.delAsync(id);
                     return this.getRequestById(id);
                 });
             })
@@ -83,14 +97,15 @@ let exportedMethods = {
     rejectUserRequest(id) {
         return userRequests().then((userRequestsCollection) => {
             return userRequestsCollection.findOne({ _id: id }).then((userRequest) => {
-                if (!userRequest) throw "request not foound";
+                if (!userRequest) throw "request not found";
                 let updateData = {
-                    status: 0,
+                    status: 0
                 }
                 let updateCommand = {
                     $set: updateData
                 }
-                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(async () => {
+                    let p = await client.delAsync(id);
                     return this.getRequestById(id);
                 });
             })
