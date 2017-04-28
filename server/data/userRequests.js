@@ -9,8 +9,8 @@ const client = redis.createClient();
 
 
 let exportedMethods = {
-     addUserRequest(request) {
-        userRequests().then(async (userRequestsCollection) => {
+    addUserRequest(request) {
+        return userRequests().then((userRequestsCollection) => {
             let newRequest = {
                 _id: uuid.v4(),
                 requestFrom: request.requestFrom,
@@ -19,14 +19,15 @@ let exportedMethods = {
                 message: request.message
             };
             // cache
-            let p = await client.hmsetAsync(newId, flat(user));
-            return p;
-            userRequestsCollection.insertOne(newRequest).then((result) => {
+            client.hmsetAsync(newRequest._id, flat(newRequest));
+
+            return userRequestsCollection.insertOne(newRequest).then((result) => {
                 return result.insertedId;
                 // return result;
             }).then((newId) => {
                 return this.getRequestById(newId);
             });
+
         });
     },
     getAllRequests() {
@@ -50,10 +51,8 @@ let exportedMethods = {
         }
     },
     deleteRequestById(id) {
-        return userRequests().then((userRequestsCollection) => {
-            this.getRequestById(id).then(async (userRequest) => {
-                let p = await client.delAsync(userRequest);
-            });
+        return userRequests().then(async (userRequestsCollection) => {
+            let p = await client.delAsync(id);
             return userRequestsCollection.deleteOne({ _id: id }).then((deletionInfo) => {
                 if (deletionInfo.deletedCount === 0) {
                     throw `Could not delete request with id of ${id}`
