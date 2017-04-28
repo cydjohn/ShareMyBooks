@@ -5,6 +5,8 @@ import LoginPage from './containers/LoginPage.jsx';
 import SignUpPage from './containers/SignUpPage.jsx';
 import SingleBookPage from './components/SingleBookPage.jsx';
 import MessageBoard from './containers/MessageBoard.jsx';
+import PrivateMessage from './containers/PrivateMessagePage.jsx';
+import PrivateMessageToAnyUserPage from './containers/PrivateMessageToAnyUserPage.jsx';
 // import EditUserPage from './components/EditUserPage.jsx';
 // import UploadBookPage from './components/UploadBookPage.jsx';
 import Auth from './modules/Auth';
@@ -64,8 +66,35 @@ const routes = {
      },
      {
       path: '/messageboard',
-      component: MessageBoard
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, MessageBoard);
+        } else {
+          callback(null, LoginPage);
+        }
+       }
+    },
+    {
+      path: '/private_message/:bookUploadedBy',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, PrivateMessage);
+        } else {
+          callback(null, LoginPage);
+        }
+       }
+    },
+    {
+      path: '/private_message_to_any_user',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, PrivateMessageToAnyUserPage);
+        } else {
+          callback(null, LoginPage);
+        }
+       }
     }
+
 
     // {
     //   path: '/edituser',
