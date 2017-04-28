@@ -32,6 +32,9 @@ let exportedMethods = {
             console.trace(error.message);
         });
     }
+    // searchForBookByCategory(keywords, category) {
+
+    // }
 }
 
 module.exports = exportedMethods;
