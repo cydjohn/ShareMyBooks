@@ -52,6 +52,7 @@ router.get("/:id", (req, res) => {
             message: { requestResult, "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo }
         });
     }).catch((e) => {
+        console.log(e);
         res.sendStatus(500);
     });
 });

@@ -3,13 +3,14 @@ const userRequests = mongoCollections.userRequests;
 const uuid = require('node-uuid');
 const time = require('time');
 
+const flat = require("flat");
 const redis = require('redis');
 const client = redis.createClient();
 
 
 let exportedMethods = {
-    addUserRequest(request) {
-        return userRequests().then((userRequestsCollection) => {
+     addUserRequest(request) {
+        userRequests().then(async (userRequestsCollection) => {
             let newRequest = {
                 _id: uuid.v4(),
                 requestFrom: request.requestFrom,
@@ -17,19 +18,15 @@ let exportedMethods = {
                 status: -1,
                 message: request.message
             };
-            return userRequestsCollection.insertOne(newRequest).then((result) => {
+            // cache
+            let p = await client.hmsetAsync(newId, flat(user));
+            return p;
+            userRequestsCollection.insertOne(newRequest).then((result) => {
                 return result.insertedId;
                 // return result;
             }).then((newId) => {
-                this.getRequestById(newId).then(async (user) => {
-                    // cache
-                    let p = await client.hmsetAsync(newId, flat(user));
-                });
-                
                 return this.getRequestById(newId);
             });
-
-
         });
     },
     getAllRequests() {
@@ -38,17 +35,23 @@ let exportedMethods = {
         });
     },
     async getRequestById(id) {
-        let p = await client.hgetallAsync(id);
-        return userRequests().then((userRequestsCollection) => {
-            return userRequestsCollection.findOne({ _id: id }).then((userRequest) => {
-                if (!userRequest) throw "user request not found";
-                return userRequest;
+        let peopleResult = await client.existsAsync(id);
+        if (peopleResult) {
+            return client.hgetallAsync(id);
+        }
+        else {
+            return userRequests().then((userRequestsCollection) => {
+                return userRequestsCollection.findOne({ _id: id }).then(async (userRequest) => {
+                    if (!userRequest) throw "user request not found";
+                    let p = await client.hmsetAsync(id, flat(userRequest));
+                    return userRequest;
+                });
             });
-        });
+        }
     },
     deleteRequestById(id) {
         return userRequests().then((userRequestsCollection) => {
-            this.getRequestById(id).then(async (userRequest)=> {
+            this.getRequestById(id).then(async (userRequest) => {
                 let p = await client.delAsync(userRequest);
             });
             return userRequestsCollection.deleteOne({ _id: id }).then((deletionInfo) => {
