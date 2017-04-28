@@ -30,6 +30,8 @@ let exportedMethods = {
 
         });
     },
+
+    //debug only
     getAllRequests() {
         return userRequests().then((userRequestsCollection) => {
             return userRequestsCollection.find({}).toArray();
@@ -78,14 +80,15 @@ let exportedMethods = {
     acceptUserRequest(id) {
         return userRequests().then((userRequestsCollection) => {
             return userRequestsCollection.findOne({ _id: id }).then((userRequest) => {
-                if (!userRequest) throw "request not foound";
+                if (!userRequest) throw "request not found";
                 let updateData = {
-                    status: 1,
+                    status: 1
                 }
                 let updateCommand = {
                     $set: updateData
                 }
-                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(async () => {
+                    let p = await client.delAsync(id);
                     return this.getRequestById(id);
                 });
             })
@@ -94,14 +97,15 @@ let exportedMethods = {
     rejectUserRequest(id) {
         return userRequests().then((userRequestsCollection) => {
             return userRequestsCollection.findOne({ _id: id }).then((userRequest) => {
-                if (!userRequest) throw "request not foound";
+                if (!userRequest) throw "request not found";
                 let updateData = {
-                    status: 0,
+                    status: 0
                 }
                 let updateCommand = {
                     $set: updateData
                 }
-                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(async () => {
+                    let p = await client.delAsync(id);
                     return this.getRequestById(id);
                 });
             })

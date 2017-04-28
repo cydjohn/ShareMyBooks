@@ -18,7 +18,7 @@ router.get("/viewRequestByFromUserId/:id", (req, res) => {
         for (var ur in userRequest) {
             let fromUserInfo = await userData.getUserById(userRequest[ur].requestFrom);
             let toUserInfo = await userData.getUserById(userRequest[ur].requestTo);
-            result.push({ requestResult:userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo })
+            result.push({ requestResult: userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo })
         } res.status(200).json({
             success: true,
             message: result
@@ -29,11 +29,11 @@ router.get("/viewRequestByFromUserId/:id", (req, res) => {
 
 router.get("/viewRequestByToUserId/:id", (req, res) => {
     userRequestsData.viewRequestByToUserId(req.params.id).then(async (userRequest) => {
-         var result = []
+        var result = []
         for (var ur in userRequest) {
             let fromUserInfo = await userData.getUserById(userRequest[ur].requestFrom);
             let toUserInfo = await userData.getUserById(userRequest[ur].requestTo);
-            result.push({ requestResult:userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo })
+            result.push({ requestResult: userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo })
         } res.status(200).json({
             success: true,
             message: result
@@ -125,6 +125,11 @@ router.put("/rejectUserRequest/:id", (req, res) => {
                 message: userRequest
             });
         }
+    }).catch((e) => {
+        res.status(200).json({
+            success: false,
+            message: "Error while updating a user request!"
+        });
     });
 });
 
