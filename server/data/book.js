@@ -2,8 +2,11 @@ const mongoCollections = require("../config/mongoCollections");
 const es = require("../elastic");
 const elasticsearch = es.book;
 const books = mongoCollections.books;
+const users = mongoCollections.users;
 const uuid = require('node-uuid');
 const time = require('time');
+const data = require("../data");
+const userData = data.user;
 
 
 let exportedMethods = {
@@ -74,9 +77,17 @@ let exportedMethods = {
                             book.bookUUID = book["_id"];
                             delete book["_id"];
                             elasticsearch.addBook(book);
+                        }).catch((e)=>{
+                            throw "Error while adding book to elastic search";
                         });
                         return this.getBookById(newId);
+                    }).then((book)=>{
+                        this.updateUserPoints(book._id,book.uploadedBy,book.bookPointsValue).then((book)=>{
+                            return this.getBookById(book._id);
+                        });
+                        return this.getBookById(book._id);
                     });
+                    
                 }
             });
 
@@ -84,7 +95,35 @@ let exportedMethods = {
             console.log("Error while adding book:", e);
         });
     },
+    updateUserPoints(bookid,userid,points){
+        //return userData.updateUserTotalPoints(userid,points).then((user)=>{
+          //  return user;
+        //})
+        return users().then((usersCollection) => {
+            return usersCollection.findOne({ userID: userid }).then((requestedUser) => {
+                if (!requestedUser) throw "user not foound";
+                let updateData = {
+                    userTotalPoints: requestedUser.userTotalPoints + points
+                }
+                let updateCommand = {
+                    $set: updateData
+                }
+                return usersCollection.updateOne({ userID: userid }, updateCommand).then((updatedUser) => {
+                    return this.getBookById(bookid);
+                });
+            })
+        });
+    
+    },
     getBookById(id) {
+        return books().then((booksCollection) => {
+            return booksCollection.findOne({ _id: id }).then((book) => {
+                if (!book) throw "Book not found";
+                return book;
+            });
+        });
+    },
+    getBookByUserId(userid) {
         return books().then((booksCollection) => {
             return booksCollection.findOne({ _id: id }).then((book) => {
                 if (!book) throw "Book not found";
