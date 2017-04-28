@@ -11,7 +11,8 @@
 
 .success-message {
   padding: 0 16px;
-  color: green;
+  color: blue;
+  font-weight: bold;
 }
 
 .container1 {

@@ -38,10 +38,12 @@ export default class Singlebook extends React.Component {
                                 <h3 className="product-title">{this.props.book.Title}</h3>
                                 <span className="review-no"><strong>Author: </strong>{this.props.book.Author}</span>
                                 <br />
+                                <span className="review-no"><strong>Uploaded By This User: </strong>{this.props.book.uploadedBy}</span>
+                                <br />
                                 <p className="product-description">{this.props.book.Description}</p>
                                 <div className="action">
                                     <RaisedButton className="primary" label="Request This Book" primary />
-                                    <RaisedButton label="Contact the Owner" secondary />
+                                    <RaisedButton label="Contact the Owner" href={`/private_message/${this.props.book.uploadedBy}`} secondary />
                                     {/*<button className="add-to-cart btn btn-default" type="button">Request this book</button>*/}
                                     {/*<button className="like btn btn-default" type="button"><span className="fa fa-heart"></span></button>*/}
                                 </div>
