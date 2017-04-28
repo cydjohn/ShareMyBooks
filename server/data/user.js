@@ -165,6 +165,23 @@ let exportedMethods = {
                 return this.getUserById(requestBody.userid);
             });
         });
+    },
+
+    updateUserTotalPoints(userid, points){
+        return users().then((usersCollection) => {
+            return usersCollection.findOne({ userID: userid }).then((requestedUser) => {
+                if (!requestedUser) throw "user not foound";
+                let updateData = {
+                    userTotalPoints: requestedUser.userTotalPoints + points
+                }
+                let updateCommand = {
+                    $set: updateData
+                }
+                return userRequestsCollection.updateOne({ _id: user_id }, updateCommand).then(() => {
+                    return this.getRequestById(id);
+                });
+            })
+        });
     }
 }
 
