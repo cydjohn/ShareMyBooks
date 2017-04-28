@@ -20,7 +20,7 @@ export default class Footer extends React.Component {
           / <a href="">@Jhansi</a> 
           / <a href="">@Qurika</a> 
           / <a href="https://www.linkedin.com/in/janina-grayson-95695064/">@Janina</a> 
-          / <a href="">@Yudong</a> <br />
+          / <a href="https://www.linkedin.com/in/yudong-cao-0a41a484/">@Yudong</a> <br />
           <p>2017 © ShareMyBooks || All rights Reserved.</p>
         </div>
       </div>
