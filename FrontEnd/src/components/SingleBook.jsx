@@ -7,10 +7,11 @@ import '../styles/Singlebook.css'
 export default class Singlebook extends React.Component {
     constructor(props) {
         super(props);
+        
     }
 
     render() {
-
+console.log("book photo id on book page: " + this.props.Title);
         return (
             <div className="container">
                 <div className="each-card">
@@ -18,20 +19,20 @@ export default class Singlebook extends React.Component {
                         <div className="wrapper row">
                             <div className="preview col-md-4">
 
-                                <div className="preview-pic tab-content">
-                                    <div className="tab-pane active" id="pic-1"><img src={"../bookPageImages/" + 1 + '.jpg'} /></div>
-                                    <div className="tab-pane" id="pic-2"><img src={"../bookPageImages/" + 1 + '.jpg'} /></div>
-                                    <div className="tab-pane" id="pic-3"><img src={"../bookPageImages/" + 1 + '.jpg'} /></div>
-                                    <div className="tab-pane" id="pic-4"><img src={"../bookPageImages/" + 1 + '.jpg'} /></div>
-                                    <div className="tab-pane" id="pic-5"><img src={"../bookPageImages/" + 1 + '.jpg'} /></div>
+                               <div className="preview-pic tab-content">
+                                    <div className="tab-pane active" id="pic-1"><img src={`../bookPageImages/${this.props.book.bookPhotoID1}.png`} /></div>
+                                    <div className="tab-pane" id="pic-2"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                     <div className="tab-pane" id="pic-3"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                    <div className="tab-pane" id="pic-4"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                    <div className="tab-pane" id="pic-5"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
                                 </div>
-                                <ul className="preview-thumbnail nav nav-tabs">
-                                    <li className="active"><a data-target="#pic-1" data-toggle="tab"><img src={"../bookPageImages/" + 1 + '.jpg'} /></a></li>
+                                {/*<ul className="preview-thumbnail nav nav-tabs">
+                                    <li className="active"><a data-target="#pic-1" data-toggle="tab"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></a></li>
                                     <li><a data-target="#pic-2" data-toggle="#pic-2"><img src={"../bookPageImages/" + 2 + '.jpg'} /></a></li>
                                     <li><a data-target="#pic-3" data-toggle="#pic-3"><img src={"../bookPageImages/" + 3 + '.jpg'} /></a></li>
                                     <li><a data-target="#pic-4" data-toggle="#pic-4"><img src={"../bookPageImages/" + 4 + '.jpg'} /></a></li>
                                     <li><a data-target="#pic-5" data-toggle="#pic-5"><img src={"../bookPageImages/" + 5 + '.jpg'} /></a></li>
-                                </ul>
+                                </ul>*/}
 
                             </div>
                             <div className="details col-md-6">
