@@ -242,6 +242,20 @@ let exportedMethods = {
            return result;
         });
     },
+    getAllBookCategories(){
+        let categoryList=[];
+        return books().then((booksCollection) => {
+            return booksCollection.find({}).toArray().then((books)=>{
+                books.forEach(function(book) {
+                if (categoryList.indexOf(book.Category) == -1) {
+                    //Not in the array!
+                    categoryList.push(book.Category);
+                }
+            });
+            return categoryList;
+        });
+    });
+    },
     viewBooksByCategory(category) {
         return books().then((booksCollection) => {
             return booksCollection.find({Category:category}).toArray();

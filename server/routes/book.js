@@ -28,6 +28,16 @@ router.get("/", (req, res) => {
     });
 });
 
+//get all book categories
+router.get("/categories", (req, res) => {
+    bookData.getAllBookCategories().then((categoryList) => {
+        res.status(200).json(categoryList);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
+});
+
 //get 1 book
 router.get("/:bookid", (req, res) => {
     let bookid = req.params.bookid;

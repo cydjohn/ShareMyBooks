@@ -21,7 +21,7 @@ a:hover {
   padding: 10px 15px;
   background-color: #2533AE;
   background-size: cover;
-  height: 150px;
+  height: 100px;
 }
 .top-bar::after {
   content: '';

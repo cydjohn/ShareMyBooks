@@ -1,10 +1,16 @@
 import React, { Component, PropTypes } from 'react';
 import AutoComplete from 'material-ui/AutoComplete';
 import RaisedButton from 'material-ui/RaisedButton';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import '../styles/Search.css';
+const baseUrl = "http://localhost:3002";
+import { getBooks } from "../data/books";
 /**
  * The input is used to create the `dataSource`, so the input always matches three entries.
  */
+
+
 const style = {
     margin: 12,
 };
@@ -27,6 +33,7 @@ const Search = ({
   onSubmit,
     onUpdateInput,
 }) => (
+
         <div className="searchDiv">
             <center>
                 <form action="/" onSubmit={onSubmit}>
@@ -39,6 +46,7 @@ const Search = ({
                             fullWidth={true}
                         />
                     </div>
+
                     <div className="SearchButton">
                         <RaisedButton label="Search" type="submit" primary={true} fullWidth={true} />
                     </div>
