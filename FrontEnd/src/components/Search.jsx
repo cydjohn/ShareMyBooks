@@ -32,9 +32,6 @@ const colors = [
 const Search = ({
   onSubmit,
     onUpdateInput,
-    onChange,
-    category,
-    categoryList
 }) => (
 
         <div className="searchDiv">
