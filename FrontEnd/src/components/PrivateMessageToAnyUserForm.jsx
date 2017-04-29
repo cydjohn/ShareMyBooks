@@ -24,7 +24,8 @@ class PrivateMessageToAnyUserForm extends React.Component {
     // set the initial component state
     this.state = {
      //toUser: 'hi',
-     userList:[]
+     userList:[],
+     submissionError: ''
     };
     
 
@@ -92,6 +93,7 @@ handleToUserChange(event,index,value){
    //event.target.value is room
    console.log("changing user dropdown:");
    console.log(value);
+
     this.props.onToUserChange(value);
     this.setState({ toUser : value });
 }
@@ -100,13 +102,18 @@ handleSubmit(event){
     event.preventDefault();
     console.log("event:");
     console.log(event.target.value);
+    if(this.props.toUser && this.props.fromUser && this.props.message){
+      this.setState({ submissionError : "" });
 		var message = {
 			to : this.props.toUser,
 			from : this.props.fromUser,
             message: this.props.message
 		}
 		this.props.onMessageSubmit(message);
-
+    }
+    else{
+      this.setState({ submissionError : "All fields are required!" });
+    }
 			//this.setState({ messageText : '' });
 }
   
@@ -117,6 +124,7 @@ handleSubmit(event){
          <Card className="container1">
     <form action="/" onSubmit={this.handleSubmit}>
       <h2 className="card-heading">Send A Private Message to a User</h2>
+      {this.state.submissionError && <p className="error-message">{this.state.submissionError}</p>}
 {this.props.errors && <p className="error-message">{this.props.errors}</p>}
 {this.props.sucess && <p className="success-message">{this.props.sucess}</p>}
       <div className="field-line">
@@ -129,8 +137,9 @@ handleSubmit(event){
       </div>
 
       <div className="field-line">
+        
 <SelectField
-          floatingLabelText="To:"
+          floatingLabelText="Select a User To Send Message To:"
           name="toUser"
           value={this.props.toUser}
           onChange={this.handleToUserChange}
@@ -163,16 +172,18 @@ handleSubmit(event){
   }
 
 }
-/*
+
 PrivateMessageToAnyUserForm.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
-  onChange: PropTypes.func.isRequired,
-  errors: PropTypes.object.isRequired,
+
   toUser: PropTypes.object.isRequired,
-  userList: PropTypes.object.isRequired,
+
   fromUser: PropTypes.object.isRequired,
   message: PropTypes.object.isRequired
 };
-*/
+
 export default PrivateMessageToAnyUserForm;
+  //onSubmit: PropTypes.func.isRequired,
+  //onChange: PropTypes.func.isRequired,
+  //errors: PropTypes.object.isRequired,
+    //userList: PropTypes.object.isRequired,
 
