@@ -49,30 +49,6 @@ router.get("/:bookid", (req, res) => {
     });
 });
 
-//creating thumbnail
-router.get('/image/resize', function (req, res) {
-    let imagePath = path.resolve(srcUserImage);
-    var optionsObj = {
-        srcPath: imagePath,
-        dstPath: desPath + "test_changed.png",
-        quality: 0.6,
-        width: "50",
-        height: "50",
-        format: 'png',
-        customArgs: [
-            '-gravity', 'center',
-            "-bordercolor", "blue",
-            "-border", "10x10",
-        ]
-
-    };
-    im.resize(optionsObj, function (err, stdout) {
-        if (err) throw err;
-        res.json({
-            "message": "Resized Image successfully"
-        });
-    });
-});
 
 //to test imageMagick using a worker
 router.get("/image/resizeworker/:id", async (req, res) => {
@@ -96,6 +72,51 @@ router.get("/image/resizeworker/:id", async (req, res) => {
 //upload book to database and add book image to thumnail and book page folders
 router.post("/", (req, res) => {
     //let bookImagePath = req.file.path;
+    var bookInfo = req.body;
+    if (!bookInfo) {
+        res.status(400).json({ error: "You must provide data to upload an book" });
+        return;
+    }
+
+    if (!bookInfo.uploadedBy) {
+        res.status(400).json({ error: "You must provide a user who uploaded the book" });
+        return;
+    }
+
+    if (!bookInfo.Title) {
+        res.status(400).json({ error: "You must provide a title" });
+        return;
+    }
+
+    if (!bookInfo.Author) {
+        res.status(400).json({ error: "You must provide an author" });
+        return;
+    }
+
+    if (!bookInfo.Year) {
+        res.status(400).json({ error: "You must provide a year" });
+        return;
+    }
+    
+
+    if (!bookInfo.Category) {
+        res.status(400).json({ error: "You must provide a category" });
+        return;
+    }
+
+    if (!bookInfo.Condition) {
+        res.status(400).json({ error: "You must provide a condition" });
+        return;
+    }
+    if (!bookInfo.Location) {
+        res.status(400).json({ error: "You must provide a location" });
+        return;
+    }
+    if (!bookInfo.Description) {
+        res.status(400).json({ error: "You must provide a description" });
+        return;
+    }
+    
     bookData.addBook(req.body).then(async (book) => {
         if (!book) {
             return res.status(200).json({

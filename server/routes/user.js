@@ -181,7 +181,47 @@ router.post('/login', (req, res, next) => {
 
 router.post("/signup", function (request, res) {
     //let userImagePath = request.file.path;
-    var requestData = request.body;
+    var userInfo = request.body;
+    if (!userInfo) {
+        res.status(400).json({ error: "You must provide data to create an account" });
+        return;
+    }
+
+    if (!userInfo.firstName) {
+        res.status(400).json({ error: "You must provide a first name" });
+        return;
+    }
+
+    if (!userInfo.lastName) {
+        res.status(400).json({ error: "You must provide a last name" });
+        return;
+    }
+
+    if (!userInfo.userID) {
+        res.status(400).json({ error: "You must provide a userid" });
+        return;
+    }
+
+    if (!userInfo.password) {
+        res.status(400).json({ error: "You must provide a password" });
+        return;
+    }
+    
+
+    if (!userInfo.address) {
+        res.status(400).json({ error: "You must provide a address" });
+        return;
+    }
+
+    if (!userInfo.email) {
+        res.status(400).json({ error: "You must provide an email" });
+        return;
+    }
+    if (!userInfo.phoneNumber) {
+        res.status(400).json({ error: "You must provide a phone number" });
+        return;
+    }
+    
     console.log(requestData)
     userData.addUser(request.body)
         .then(async(newUser) => {
