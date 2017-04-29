@@ -11,6 +11,7 @@ import {
 export default class CreateEachBookCard extends React.Component {
     constructor(props) {
         super(props);
+        console.log(this.props.bookPhotoID1);
     }
 
     render() {
@@ -22,7 +23,7 @@ export default class CreateEachBookCard extends React.Component {
                         <CardTitle>{this.props.Title}</CardTitle>
                         <CardSubtitle>{this.props.Author}</CardSubtitle>
                     </CardBlock>
-                    <img width="100%" height="10px" src={"./images/" + 1 + '.jpg'} alt="Card image cap" />
+                    <img  height="10px" style={{alignSelf: 'center', width: '150px', height: '200px' }} src={`../bookThumbnailImages/${this.props.bookPhotoID1}.png`} alt="Card image cap" />
                     <CardBlock>
                         <CardText>{this.props.Description}</CardText>
                         <CardLink href={`/books/${this.props.bookID}`}>More Info</CardLink>

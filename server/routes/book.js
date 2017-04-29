@@ -13,7 +13,7 @@ const path = require("path");
 const data = require("../data");
 const bookData = data.book;
 
-var bookImagePath = "../testImageMagick/test_userPageImage.png";
+var bookImagePath = "../testImageMagick/";
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
@@ -65,14 +65,16 @@ router.get('/image/resize', function (req, res) {
 });
 
 //to test imageMagick using a worker
-router.get("/image/resizeWorker", async (req, res) => {
+router.get("/image/resizeworker/:id", async (req, res) => {
+    let bookPath = bookImagePath + req.params.id + '.jpg';
     try {
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
-            eventName: "resizeBook",
-            data: {
-                image: srcBookImage
-            }
+            eventName: "convertBookImageToThumbnailAndPageImg",
+                    data: {
+                        image: bookPath,
+                        bookid: req.params.id
+                    }
         });
 
         res.json(response);
