@@ -8,7 +8,7 @@ import MessageBoard from './containers/MessageBoard.jsx';
 import PrivateMessage from './containers/PrivateMessagePage.jsx';
 import PrivateMessageToAnyUserPage from './containers/PrivateMessageToAnyUserPage.jsx';
 // import EditUserPage from './components/EditUserPage.jsx';
-// import UploadBookPage from './components/UploadBookPage.jsx';
+import UploadBookPageContainer from './containers/UploadBookPageContainer.jsx';
 import Auth from './modules/Auth';
 
 
@@ -93,7 +93,7 @@ const routes = {
           callback(null, LoginPage);
         }
        }
-    }
+    },
 
 
     // {
@@ -101,10 +101,10 @@ const routes = {
     //   component: EditUserPage
     // },
 
-    // {
-    //   path: '/uploadbook',
-    //   component: UploadBookPage
-    // },
+    {
+      path: '/uploadbook',
+      component: UploadBookPageContainer
+    },
 
   ]
 };
