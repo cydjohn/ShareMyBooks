@@ -16,7 +16,7 @@ let exportedMethods = {
                 requestFrom: request.requestFrom,
                 requestTo: request.requestTo,
                 status: -1,
-                message: request.message,
+                //message: request.message,
                 bookId: request.bookId
             };
             // cache

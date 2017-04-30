@@ -16,8 +16,8 @@ router.get("/viewRequestByFromUserId/:id", (req, res) => {
     userRequestsData.viewRequestByFromUserId(req.params.id).then(async (userRequest) => {
         var result = []
         for (var ur in userRequest) {
-            let fromUserInfo = await userData.getUserById(userRequest[ur].requestFrom);
-            let toUserInfo = await userData.getUserById(userRequest[ur].requestTo);
+            let fromUserInfo = await userData.getUserByUserId(userRequest[ur].requestFrom);
+            let toUserInfo = await userData.getUserByUserId(userRequest[ur].requestTo);
             result.push({ requestResult: userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo })
         } res.status(200).json({
             success: true,
@@ -31,8 +31,8 @@ router.get("/viewRequestByToUserId/:id", (req, res) => {
     userRequestsData.viewRequestByToUserId(req.params.id).then(async (userRequest) => {
         var result = []
         for (var ur in userRequest) {
-            let fromUserInfo = await userData.getUserById(userRequest[ur].requestFrom);
-            let toUserInfo = await userData.getUserById(userRequest[ur].requestTo);
+            let fromUserInfo = await userData.getUserByUserId(userRequest[ur].requestFrom);
+            let toUserInfo = await userData.getUserByUserId(userRequest[ur].requestTo);
             result.push({ requestResult: userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo })
         } res.status(200).json({
             success: true,
@@ -45,8 +45,8 @@ router.get("/viewRequestByToUserId/:id", (req, res) => {
 router.get("/:id", (req, res) => {
     let requestId = req.params.id;
     userRequestsData.getRequestById(requestId).then(async (requestResult) => {
-        let fromUserInfo = await userData.getUserById(requestResult.requestFrom);
-        let toUserInfo = await userData.getUserById(requestResult.requestTo);
+        let fromUserInfo = await userData.getUserByUserId(requestResult.requestFrom);
+        let toUserInfo = await userData.getUserByUserId(requestResult.requestTo);
         res.status(200).json({
             success: true,
             message: { requestResult, "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo }
@@ -74,8 +74,8 @@ router.post("/", (req, res) => {
         return;
     }
 
-    if (!requestInfo.message) {
-        res.status(400).json({ error: "You must provide a message" });
+    if (!requestInfo.bookId) {
+        res.status(400).json({ error: "You must provide a book id" });
         return;
     }
 
