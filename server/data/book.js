@@ -7,6 +7,7 @@ const uuid = require('node-uuid');
 const time = require('time');
 const data = require("../data");
 const userData = data.user;
+var xss = require('node-xss').clean;
 
 
 let exportedMethods = {
@@ -47,21 +48,21 @@ let exportedMethods = {
             let bookPointsValueCalculation = this.calculateBooksPointsValue(book);
             let newBook = {
                 _id: id,
-                uploadedBy: book.uploadedBy,
-                Title: book.Title,
-                Author: book.Author,
+                uploadedBy: xss(book.uploadedBy),
+                Title: xss(book.Title),
+                Author: xss(book.Author),
                 bookPhotoID1: id,
-                bookPhotoID2: book.bookPhotoID2,
-                bookPhotoID3: book.bookPhotoID3,
-                Year: book.Year,
-                Category: book.Category,
-                Condition: book.Condition,
-                Location: book.Location,
-                Description: book.Description,
+                bookPhotoID2: xss(book.bookPhotoID2),
+                bookPhotoID3: xss(book.bookPhotoID3),
+                Year: xss(book.Year),
+                Category: xss(book.Category),
+                Condition: xss(book.Condition),
+                Location: xss(book.Location),
+                Description: xss(book.Description),
                 bookPointsValue: bookPointsValueCalculation,
                 timestampOfUpload: new time.Date(),
                 numberOfRequests: 0,
-                visibleBoolean: book.visibleBoolean
+                visibleBoolean: xss(book.visibleBoolean)
             };
 
             return booksCollection.findOne({ Title: book.Title }).then((book) => {

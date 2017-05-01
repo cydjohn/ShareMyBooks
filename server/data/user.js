@@ -2,7 +2,7 @@ const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
 const bcrypt = require("bcrypt-nodejs");
-
+var xss = require('node-xss').clean;
 
 let exportedMethods = {
     getAllUsers() {
@@ -15,15 +15,15 @@ let exportedMethods = {
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
-                firstName: user.firstName,
-                lastName: user.lastName,
-                userID: user.userID,
+                firstName: xss(user.firstName),
+                lastName: xss(user.lastName),
+                userID: xss(user.userID),
                 passwordHash: bcrypt.hashSync(user.password),
-                address: user.address,
+                address: xss(user.address),
                 email: decodeURIComponent(user.email),
-                phoneNumber: user.phoneNumber,
-                userPhotoID: user.userID,
-                userTotalPoints: user.userTotalPoints
+                phoneNumber: xss(user.phoneNumber),
+                userPhotoID: xss(user.userID),
+                userTotalPoints: xss(user.userTotalPoints)
             };
             return usersCollection.findOne({ email: user.email }).then((user) => {
                 if (user) throw "Email already exists.";

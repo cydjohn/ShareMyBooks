@@ -97,13 +97,10 @@ router.post("/", (req, res) => {
         res.status(400).json({ error: "You must provide a year" });
         return;
     }
-    
-
     if (!bookInfo.Category) {
         res.status(400).json({ error: "You must provide a category" });
         return;
     }
-
     if (!bookInfo.Condition) {
         res.status(400).json({ error: "You must provide a condition" });
         return;
