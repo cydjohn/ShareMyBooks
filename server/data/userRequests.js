@@ -1,7 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const userRequests = mongoCollections.userRequests;
 const uuid = require('node-uuid');
-//const time = require('time');
+// const time = require('time');
 
 const flat = require("flat");
 const redis = require('redis');
@@ -16,7 +16,7 @@ let exportedMethods = {
                 requestFrom: request.requestFrom,
                 requestTo: request.requestTo,
                 status: -1,
-                message: request.message
+                bookId: request.bookId
             };
             // cache
             client.hmsetAsync(newRequest._id, flat(newRequest));

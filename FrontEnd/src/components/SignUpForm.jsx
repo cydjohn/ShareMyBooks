@@ -22,11 +22,42 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
-          floatingLabelText="Name"
-          name="name"
-          errorText={errors.name}
+          floatingLabelText="First Name"
+          name="fname"
+          errorText={errors}
           onChange={onChange}
-          value={user.name}
+          value={user.fname}
+        />
+      </div>
+
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Last Name"
+          name="lname"
+          errorText={errors}
+          onChange={onChange}
+          value={user.lname}
+        />
+      </div>
+
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Address"
+          name="address"
+          errorText={errors}
+          onChange={onChange}
+          value={user.address}
+        />
+      </div>
+
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Phone Number"
+          name="number"
+          type="number"
+          errorText={errors}
+          onChange={onChange}
+          value={user.number}
         />
       </div>
 
@@ -34,7 +65,7 @@ const SignUpForm = ({
         <TextField
           floatingLabelText="Email"
           name="email"
-          errorText={errors.email}
+          errorText={errors}
           onChange={onChange}
           value={user.email}
         />
@@ -46,7 +77,7 @@ const SignUpForm = ({
           type="password"
           name="password"
           onChange={onChange}
-          errorText={errors.password}
+          errorText={errors}
           value={user.password}
         />
       </div>
@@ -68,4 +99,3 @@ SignUpForm.propTypes = {
 };
 
 export default SignUpForm;
-

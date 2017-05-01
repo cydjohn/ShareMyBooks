@@ -59,6 +59,7 @@ router.get("/:id", (req, res) => {
 
 router.post("/", (req, res) => {
      var requestInfo = req.body;
+     console.log(req.body)
     if (!requestInfo) {
         res.status(400).json({ error: "You must provide data to request a book" });
         return;
@@ -74,8 +75,8 @@ router.post("/", (req, res) => {
         return;
     }
 
-    if (!requestInfo.message) {
-        res.status(400).json({ error: "You must provide a message" });
+    if (!requestInfo.bookId) {
+        res.status(400).json({ error: "You must provide a book id" });
         return;
     }
 

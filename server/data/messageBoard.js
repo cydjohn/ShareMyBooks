@@ -3,7 +3,7 @@ const mongoCollections = require("../config/mongoCollections");
 const messageBoard = mongoCollections.messageBoard;
 const userData = data.users;
 const uuid = require('node-uuid');
-//const time = require('time');
+// const time = require('time');
 
 let exportedMethods = {
     addMessage(message) {
@@ -13,7 +13,7 @@ let exportedMethods = {
                 messageText: message.userMessage,
                 postingUser: message.userName,
                 room: message.room,
-                //timestamp: new time.Date()
+                // timestamp: new time.Date()
             }
             return messageBoardCollection.insertOne(newMessage).then((newMessageInfo) => {
                 return newMessageInfo.insertedId;
@@ -36,7 +36,7 @@ let exportedMethods = {
     },
     getMessagesByRoom(room) {
         return messageBoard().then((messageBoardCollection) => {
-          //  return messageBoardCollection.find({room:room}).sort({timestamp: 1}).toArray();
+            return messageBoardCollection.find({room:room}).sort({timestamp: 1}).toArray();
             });
     },
     deleteMessageById(id) {

@@ -112,7 +112,7 @@ router.delete("/:id", async (req, res) => {
         res.json({ error: e.message });
     }
 });
-
+*/
 
 router.put("/:id",(req, res) => {
     userData.updateUser(req.params.id,req.body).then((user) =>{
@@ -130,7 +130,7 @@ router.put("/:id",(req, res) => {
         }
     });
 });
-*/
+
 
 // router.post('/login', passport.authenticate('login', {
 //     successRedirect: '/myprofile',
@@ -182,6 +182,7 @@ router.post('/login', (req, res, next) => {
 router.post("/signup", function (request, res) {
     //let userImagePath = request.file.path;
     var userInfo = request.body;
+    console.log(userInfo)
     if (!userInfo) {
         res.status(400).json({ error: "You must provide data to create an account" });
         return;

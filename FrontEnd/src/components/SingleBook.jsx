@@ -2,31 +2,134 @@ import React from 'react';
 import Img from 'react-image'
 import VisibilitySensor from 'react-visibility-sensor'
 import RaisedButton from 'material-ui/RaisedButton';
-import '../styles/Singlebook.css'
+import ReactModal from 'react-modal';
+import '../styles/Singlebook.css';
+const baseUrl = "http://localhost:3002";
+
 
 export default class Singlebook extends React.Component {
     constructor(props) {
         super(props);
-        
+        this.state = {
+            requestSuccess: false,
+            notRequested: true,
+            showModal: false
+        }
+
+        this.handleOpenModal = this.handleOpenModal.bind(this);
+        this.handleCloseModal = this.handleCloseModal.bind(this);
+
+    }
+    handleOpenModal() {
+        this.setState({ showModal: true });
+    }
+
+    handleCloseModal() {
+        this.setState({ showModal: false });
+    }
+
+    handleRequest() {
+        let userid = localStorage.getItem("userinfo");
+        let self = this;
+        fetch(`${baseUrl}/users/${userid}`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then((userInfo) => {
+                fetch('http://localhost:3002/userRequests', {
+                    method: 'post',
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    }),
+                    body: JSON.stringify({
+                        requestFrom: userInfo.userID,
+                        requestTo: this.props.book.uploadedBy,
+                        bookId: this.props.book._id,
+                    })
+                })
+                    .then((response) => {
+                        return (response.json());
+                    }).then((data) => {
+                        if (data.success == true) {
+                            self.setState({
+                                requestSuccess: true,
+                                notRequested: false,
+                                showModal: true
+                            })
+                        }
+                    })
+            })
+            .catch(function (error) {
+                // return error;
+                self.setState({ errors: error });
+            });
+    }
+
+    componentDidMount() {
+        let userid = localStorage.getItem("userinfo");
+        let self = this;
+        fetch(`${baseUrl}/users/${userid}`)
+            .then(function (response) {
+                return response.json();
+            })
+            .then((userInfo) => {
+                fetch('http://localhost:3002/userRequests/viewRequestByToUserId/' + userInfo.userID, {
+                    method: 'get',
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    })
+                })
+                    .then((response) => {
+                        return (response.json());
+                    }).then((data) => {
+                        if (data.success == true) {
+                            data.message.map((eachRequest) => {
+                                if (eachRequest.requestResult.bookId == self.props.book._id) {
+                                    self.setState({
+                                        requestSuccess: true,
+                                        notRequested: false,
+                                    })
+                                }
+                            })
+                        }
+                    })
+            })
+            .catch(function (error) {
+                // return error;
+                self.setState({ errors: error });
+            });
     }
 
     render() {
-console.log("book photo id on book page: " + this.props.Title);
-        return (
-            <div className="container">
-                <div className="each-card">
-                    <div className="container-fliud">
-                        <div className="wrapper row">
-                            <div className="preview col-md-4">
+        console.log(this.props);
+        if (this.state.requestSuccess == true && this.state.showModal == true) {
+            return (
+                <ReactModal
+                    isOpen={this.state.showModal}
+                    contentLabel="Minimal Modal Example"
+                >
+                    <h2> Your Request has been sent to <strong>{this.props.book.uploadedBy}!!</strong></h2>
+                    <button onClick={this.handleCloseModal}>Close Modal</button>
+                </ReactModal>
+            )
+        }
+        else {
 
-                               <div className="preview-pic tab-content">
-                                    <div className="tab-pane active" id="pic-1"><img src={`../bookPageImages/${this.props.book.bookPhotoID1}.png`} /></div>
-                                    <div className="tab-pane" id="pic-2"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
-                                     <div className="tab-pane" id="pic-3"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
-                                    <div className="tab-pane" id="pic-4"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
-                                    <div className="tab-pane" id="pic-5"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
-                                </div>
-                                {/*<ul className="preview-thumbnail nav nav-tabs">
+            return (
+                <div className="container">
+                    <div className="each-card">
+                        <div className="container-fliud">
+                            <div className="wrapper row">
+                                <div className="preview col-md-4">
+
+                                    <div className="preview-pic tab-content">
+                                        <div className="tab-pane active" id="pic-1"><img src={`../bookPageImages/${this.props.book.bookPhotoID1}.png`} /></div>
+                                        <div className="tab-pane" id="pic-2"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                        <div className="tab-pane" id="pic-3"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                        <div className="tab-pane" id="pic-4"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                        <div className="tab-pane" id="pic-5"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                    </div>
+                                    {/*<ul className="preview-thumbnail nav nav-tabs">
                                     <li className="active"><a data-target="#pic-1" data-toggle="tab"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></a></li>
                                     <li><a data-target="#pic-2" data-toggle="#pic-2"><img src={"../bookPageImages/" + 2 + '.jpg'} /></a></li>
                                     <li><a data-target="#pic-3" data-toggle="#pic-3"><img src={"../bookPageImages/" + 3 + '.jpg'} /></a></li>
@@ -34,27 +137,29 @@ console.log("book photo id on book page: " + this.props.Title);
                                     <li><a data-target="#pic-5" data-toggle="#pic-5"><img src={"../bookPageImages/" + 5 + '.jpg'} /></a></li>
                                 </ul>*/}
 
-                            </div>
-                            <div className="details col-md-6">
-                                <h3 className="product-title">{this.props.book.Title}</h3>
-                                <span className="review-no"><strong>Author: </strong>{this.props.book.Author}</span>
-                                <br />
-                                <span className="review-no"><strong>Uploaded By This User: </strong>{this.props.book.uploadedBy}</span>
-                                <br />
-                                <p className="product-description">{this.props.book.Description}</p>
-                                <div className="action">
-                                    <RaisedButton className="primary" label="Request This Book" primary />
-                                    <RaisedButton label="Contact the Owner" href={`/private_message/${this.props.book.uploadedBy}`} secondary />
-                                    {/*<button className="add-to-cart btn btn-default" type="button">Request this book</button>*/}
-                                    {/*<button className="like btn btn-default" type="button"><span className="fa fa-heart"></span></button>*/}
                                 </div>
-                            </div>
+                                <div className="details col-md-6">
+                                    <h3 className="product-title">{this.props.book.Title}</h3>
+                                    <span className="review-no"><strong>Author: </strong>{this.props.book.Author}</span>
+                                    <br />
+                                    <span className="review-no"><strong>Uploaded By This User: </strong>{this.props.book.uploadedBy}</span>
+                                    <br />
+                                    <p className="product-description">{this.props.book.Description}</p>
+                                    <div className="action">
+                                        {this.state.notRequested && <RaisedButton className="primary" label="Request This Book" onClick={this.handleRequest.bind(this)} primary />}
+                                        {this.state.requestSuccess && <RaisedButton className="primary" label="Book Already Requested" disabled={true} primary />}
+                                        <RaisedButton label="Contact the Owner" href={`/private_message/${this.props.book.uploadedBy}`} secondary />
+                                        {/*<button className="add-to-cart btn btn-default" type="button">Request this book</button>*/}
+                                        {/*<button className="like btn btn-default" type="button"><span className="fa fa-heart"></span></button>*/}
+                                    </div>
+                                </div>
 
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
 }
 

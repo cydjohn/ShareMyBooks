@@ -16,7 +16,10 @@ class SignUpPage extends React.Component {
       errors: '',
       user: {
         email: '',
-        name: '',
+        fname: '',
+        lname:'',
+        address:'',
+        number: null,
         password: ''
       }
     };
@@ -36,21 +39,26 @@ class SignUpPage extends React.Component {
     const self=this;
 
     // create a string for an HTTP body message
-    const name = encodeURIComponent(this.state.user.name);
+    const fname = encodeURIComponent(this.state.user.name);
     const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
-    const formData = `name=${name}&email=${email}&password=${password}`;
-    console.log(name);
-    console.log(this.state.user.email);
+    const lname = encodeURIComponent(this.state.user.lname);
+    const address = encodeURIComponent(this.state.user.address);
+    const number = encodeURIComponent(this.state.user.number);
+    
     fetch('http://localhost:3002/users/signup', {
       method: 'post',
       headers: new Headers({
         'Content-Type': 'application/json'
       }),
       body: JSON.stringify({
-        firstName:name,
+        firstName:fname,
+        lastName:lname,
+        address:address,
+        phoneNumber:number,
         email: email,
-        password: password
+        password: password,
+
       })
     })
       .then((response) => {

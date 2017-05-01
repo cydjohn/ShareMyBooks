@@ -12,8 +12,6 @@ const im = require('imagemagick');
 const path = require("path");
 const data = require("../data");
 const bookData = data.book;
-const multer = require('multer');
-const upload = multer({ dest: "./uploads" });
 
 var bookImagePath = "../testImageMagick/";
 
@@ -72,53 +70,49 @@ router.get("/image/resizeworker/:id", async (req, res) => {
 });
 
 //upload book to database and add book image to thumnail and book page folders
-router.post("/",  upload.single('photo'), (req, res) => {
-    console.log("heya");
-    console.log(req.file);
-    console.log(req.body);
-
-    let bookImagePath = req.file.path;
+router.post("/", (req, res) => {
+    //let bookImagePath = req.file.path;
     var bookInfo = req.body;
     if (!bookInfo) {
         res.status(400).json({ error: "You must provide data to upload an book" });
         return;
     }
 
-    // if (!bookInfo.uploadedBy) {
-    //     res.status(400).json({ error: "You must provide a user who uploaded the book" });
-    //     return;
-    // }
+    if (!bookInfo.uploadedBy) {
+        res.status(400).json({ error: "You must provide a user who uploaded the book" });
+        return;
+    }
 
-    if (!bookInfo.title) {
+    if (!bookInfo.Title) {
         res.status(400).json({ error: "You must provide a title" });
         return;
     }
 
-    if (!bookInfo.author) {
+    if (!bookInfo.Author) {
         res.status(400).json({ error: "You must provide an author" });
         return;
     }
 
-    if (!bookInfo.year) {
+    if (!bookInfo.Year) {
         res.status(400).json({ error: "You must provide a year" });
         return;
     }
     
 
-    if (!bookInfo.category) {
+    if (!bookInfo.Category) {
         res.status(400).json({ error: "You must provide a category" });
         return;
     }
 
-    if (!bookInfo.condition) {
+    if (!bookInfo.Condition) {
         res.status(400).json({ error: "You must provide a condition" });
         return;
     }
-    if (!bookInfo.location) {
+    if (!bookInfo.Location) {
         res.status(400).json({ error: "You must provide a location" });
         return;
     }
-    if (!bookInfo.description) {
+    if (!bookInfo.Description) {
         res.status(400).json({ error: "You must provide a description" });
         return;
     }
