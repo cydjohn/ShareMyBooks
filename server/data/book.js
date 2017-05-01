@@ -171,47 +171,47 @@ let exportedMethods = {
             let updatedBookData = {};
 
             if (updateBook.Title) {
-                updatedBookData.title = updateBook.title;
+                updatedBookData.title = xss(updateBook.title);
             }
 
             if (updateBook.Author) {
-                updatedBookData.Author = updateBook.Author
+                updatedBookData.Author = xss(updateBook.Author);
             }
 
             if (updateBook.bookPhotoID1) {
-                updatedBookData.bookPhotoID1 = updateBook.bookPhotoID1;
+                updatedBookData.bookPhotoID1 = xss(updateBook.bookPhotoID1);
             }
 
             if (updateBook.bookPhotoID2) {
-                updatedBookData.bookPhotoID2 = updateBook.bookPhotoID2;
+                updatedBookData.bookPhotoID2 = xss(updateBook.bookPhotoID2);
             }
 
             if (updateBook.bookPhotoID3) {
-                updatedBookData.bookPhotoID3 = updateBook.bookPhotoID3;
+                updatedBookData.bookPhotoID3 = xss(updateBook.bookPhotoID3);
             }
 
             if (updateBook.Year) {
-                updatedBookData.Year = updateBook.Year;
+                updatedBookData.Year = xss(updateBook.Year);
             }
 
             if (updateBook.Category) {
-                updatedBookData.Category = updateBook.Category;
+                updatedBookData.Category = xss(updateBook.Category);
             }
 
             if (updateBook.Condition) {
-                updatedBookData.Condition = updateBook.Condition;
+                updatedBookData.Condition = xss(updateBook.Condition);
             }
 
             if (updateBook.Location) {
-                updatedBookData.Location = updateBook.Location;
+                updatedBookData.Location = xss(updateBook.Location);
             }
 
             if (updateBook.Description) {
-                updatedBookData.Description = updateBook.Description;
+                updatedBookData.Description = xss(updateBook.Description);
             }
 
             if (updateBook.bookPointsValue) {
-                updatedBookData.bookPointsValue = updateBook.bookPointsValue;
+                updatedBookData.bookPointsValue = xss(updateBook.bookPointsValue);
             }
 
             if (updateBook.visibleBoolean === false) {

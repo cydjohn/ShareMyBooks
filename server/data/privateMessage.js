@@ -109,15 +109,15 @@ let exportedMethods = {
             let updatedMessageData = {};
 
             if (updateMessage.fromUserId) {
-                updatedMessageData.fromUserId = updateMessage.fromUserId
+                updatedMessageData.fromUserId = xss(updateMessage.fromUserId);
             }
 
             if (updateMessage.toUserId) {
-                updatedMessageData.toUserId = updateMessage.toUserId;
+                updatedMessageData.toUserId = xss(updateMessage.toUserId);
             }
 
             if (updateMessage.time) {
-                updatedMessageData.time = updateMessage.time;
+                updatedMessageData.time = xss(updateMessage.time);
             }
 
             if (updateMessage.messageRead === false) {

@@ -87,35 +87,35 @@ let exportedMethods = {
         return users().then((usersCollection) => {
             let updatedUserData = {};
             if (updateUser.firstName) {
-                updatedUserData.firstName = updateUser.firstName;
+                updatedUserData.firstName = xss(updateUser.firstName);
             }
 
             if (updateUser.lastName) {
-                updatedUserData.lastName = updateUser.lastName
+                updatedUserData.lastName = xss(updateUser.lastName);
             }
 
             if (updateUser.userID) {
-                updatedUserData.userID = updateUser.userID;
+                updatedUserData.userID = xss(updateUser.userID);
             }
 
             if (updateUser.address) {
-                updatedUserData.address = updateUser.address;
+                updatedUserData.address = xss(updateUser.address);
             }
 
             if (updateUser.email) {
-                updatedUserData.email = updateUser.email;
+                updatedUserData.email = xss(updateUser.email);
             }
 
             if (updateUser.phoneNumber) {
-                updatedUserData.phoneNumber = updateUser.phoneNumber;
+                updatedUserData.phoneNumber = xss(updateUser.phoneNumber);
             }
 
             if (updateUser.userPhotoID) {
-                updatedUserData.userPhotoID = updateUser.userPhotoID;
+                updatedUserData.userPhotoID = xss(updateUser.userPhotoID);
             }
 
             if (updateUser.userTotalPoints) {
-                updatedUserData.userTotalPoints = updateUser.userTotalPoints;
+                updatedUserData.userTotalPoints = xss(updateUser.userTotalPoints);
             }
 
             if (updateUser.passwordHash) {
