@@ -7,7 +7,7 @@ import SingleBookPage from './components/SingleBookPage.jsx';
 import MessageBoard from './containers/MessageBoard.jsx';
 import PrivateMessage from './containers/PrivateMessagePage.jsx';
 import PrivateMessageToAnyUserPage from './containers/PrivateMessageToAnyUserPage.jsx';
-// import EditUserPage from './components/EditUserPage.jsx';
+ import viewReceivedRequests from './containers/viewReceivedRequests.jsx';
 // import UploadBookPage from './components/UploadBookPage.jsx';
 import Auth from './modules/Auth';
 
@@ -84,6 +84,17 @@ const routes = {
         }
        }
     },
+    {
+      path: '/viewreceivedrequests',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, viewReceivedRequests);
+        } else {
+          callback(null, LoginPage);
+        }
+       }
+     },
+
     {
       path: '/private_message_to_any_user',
       getComponent: (location, callback) => {
