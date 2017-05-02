@@ -7,7 +7,7 @@ import MenuItem from 'material-ui/MenuItem';
 import { getBooks } from "../data/books";
 const baseUrl = "http://localhost:3002";
 import router from 'react-router';
-import '../styles/Search.css';
+//import '../styles/Search.css';
 
 export default class HomePage extends React.Component {
     constructor(props) {

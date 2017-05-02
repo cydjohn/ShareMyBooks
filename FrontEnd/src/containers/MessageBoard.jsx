@@ -1,13 +1,8 @@
 import React from 'react';
-//import io from 'socket.io';
 var Router = require('react-router');
 import RaisedButton from 'material-ui/RaisedButton';
-//import '../styles/MessageBoard.css';
-//var socket = io.connect();
-//const socket = io('http://localhost:3002/messageBoard').connect();
 import io from 'socket.io-client';
 let socket = io('http://localhost:3002/messageBoard');
-//const socket = io('http://localhost:3002/messageBoard');
 const baseUrl = "http://localhost:3002";
 import MessageList from '../components/MessageList.jsx';
 import MessageForm from './MessageForm.jsx';

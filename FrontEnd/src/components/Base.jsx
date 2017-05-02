@@ -1,7 +1,8 @@
 import React, { PropTypes } from 'react';
 import { Link, IndexLink } from 'react-router';
 import Auth from '../modules/Auth';
-import '../styles/Base.css';
+//import '../styles/Base.css';
+import '../styles/allStyles.min.css';
 import Footer from './Footer.jsx';
 
 
