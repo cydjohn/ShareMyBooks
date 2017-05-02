@@ -7,11 +7,11 @@ import '../styles/Singlebook.css'
 export default class Singlebook extends React.Component {
     constructor(props) {
         super(props);
-        
+
     }
 
     render() {
-console.log("book photo id on book page: " + this.props.Title);
+        console.log("book photo id on book page: " + this.props.Title);
         return (
             <div className="container">
                 <div className="each-card">
@@ -19,10 +19,10 @@ console.log("book photo id on book page: " + this.props.Title);
                         <div className="wrapper row">
                             <div className="preview col-md-4">
 
-                               <div className="preview-pic tab-content">
+                                <div className="preview-pic tab-content">
                                     <div className="tab-pane active" id="pic-1"><img src={`../bookPageImages/${this.props.book.bookPhotoID1}.png`} /></div>
                                     <div className="tab-pane" id="pic-2"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
-                                     <div className="tab-pane" id="pic-3"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                    <div className="tab-pane" id="pic-3"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
                                     <div className="tab-pane" id="pic-4"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
                                     <div className="tab-pane" id="pic-5"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
                                 </div>
