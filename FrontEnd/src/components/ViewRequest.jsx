@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import RaisedButton from 'material-ui/RaisedButton';
-import '../styles/viewReceivedRequests.css';
+//import '../styles/viewReceivedRequests.css';
 
 const ViewRequest = ({
   requests

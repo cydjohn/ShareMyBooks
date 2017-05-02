@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 //import router from 'react-router';
 var Router = require('react-router');
-import '../styles/MessageBoard.css';
+//import '../styles/MessageBoard.css';
 const baseUrl = "http://localhost:3002";
 import TextField from 'material-ui/TextField';
 import RaisedButton from 'material-ui/RaisedButton';

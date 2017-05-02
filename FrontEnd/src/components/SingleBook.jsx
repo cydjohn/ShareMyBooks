@@ -2,7 +2,7 @@ import React from 'react';
 import Img from 'react-image'
 import VisibilitySensor from 'react-visibility-sensor'
 import RaisedButton from 'material-ui/RaisedButton';
-import '../styles/Singlebook.css'
+//import '../styles/Singlebook.css'
 
 export default class Singlebook extends React.Component {
     constructor(props) {
