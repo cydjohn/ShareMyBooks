@@ -12,6 +12,19 @@ run redis server with the command
 redis-server
 ```
 
+if gulp is not globally installed on your computer use the below command:
+
+```bash
+sudo npm install -g gulp
+```
+
+```
+
+to compile css files, run the below command when in the FrontEnd folder in the terminal:
+
+```bash
+gulp build
+```
 
 --------
 
