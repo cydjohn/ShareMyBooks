@@ -2,7 +2,8 @@ const mongoCollections = require("../config/mongoCollections");
 const userRequests = mongoCollections.userRequests;
 const uuid = require('node-uuid');
 const time = require('time');
-
+const books = mongoCollections.books;
+const users = mongoCollections.users;
 const flat = require("flat");
 const redis = require('redis');
 const client = redis.createClient();
@@ -79,6 +80,7 @@ let exportedMethods = {
         });
     },
     acceptUserRequest(id) {
+        //let userRequestId = id;
         return userRequests().then((userRequestsCollection) => {
             return userRequestsCollection.findOne({ _id: id }).then((userRequest) => {
                 if (!userRequest) throw "request not found";
@@ -91,9 +93,43 @@ let exportedMethods = {
                 return userRequestsCollection.updateOne({ _id: id }, updateCommand).then(async () => {
                     let p = await client.delAsync(id);
                     return this.getRequestById(id);
+                }).then((thisRequest)=>{
+                        return books().then((booksCollection)=> {
+                            return booksCollection.findOne({ _id: thisRequest.bookId}).then((book)=>{
+                            return book;
+                        });
+                        });
+                }).then((book)=>{
+                        this.updateUserPoints(book._id,book.uploadedBy,book.bookPointsValue).then((user)=>{
+                            //return this.getBookById(book._id);
+                            //return this.getRequestById(id);
+                        });
+                        //return this.getBookById(book._id);
+                        return this.getRequestById(id);
                 });
             })
         });
+    },
+     updateUserPoints(bookid,userid,points){
+        //return userData.updateUserTotalPoints(userid,points).then((user)=>{
+          //  return user;
+        //})
+        return users().then((usersCollection) => {
+            return usersCollection.findOne({ userID: userid }).then((requestedUser) => {
+                if (!requestedUser) throw "user not foound";
+                let updateData = {
+                    userTotalPoints: requestedUser.userTotalPoints - points
+                }
+                let updateCommand = {
+                    $set: updateData
+                }
+                return usersCollection.updateOne({ userID: userid }, updateCommand).then((updatedUser) => {
+                    //return this.getBookById(bookid);
+                    return updatedUser;
+                });
+            })
+        });
+    
     },
     rejectUserRequest(id) {
         return userRequests().then((userRequestsCollection) => {
