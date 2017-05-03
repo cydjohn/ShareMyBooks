@@ -34,12 +34,10 @@ const ViewRequest = ({
                                 backgroundColor="#d9534f"
                                 onClick={accept}
                             />
-
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     );
 
@@ -49,4 +47,3 @@ ViewRequest.propTypes = {
 };
 
 export default ViewRequest;
-

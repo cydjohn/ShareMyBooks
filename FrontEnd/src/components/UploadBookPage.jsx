@@ -107,7 +107,7 @@ const UploadBookPage =({
    
  <div className="FileUpload">
           <FileInput name="myImage"
-                   accept=".png,.gif,.jpeg"
+                   accept=".png,.gif,.jpeg,.jpg"
                    placeholder="My Image"
                    className="inputClass"
                    onChange={onChangeFile} />
