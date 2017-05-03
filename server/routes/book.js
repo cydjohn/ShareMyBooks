@@ -18,9 +18,19 @@ var bookImagePath = "../testImageMagick/";
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
-//get all books
-router.get("/", (req, res) => {
-    bookData.getAllBooks().then((bookList) => {
+//get all books where page=0 is the first set
+router.get("/:page", (req, res) => {
+    bookData.getAllBooks(req.params.page).then((bookList) => {
+        res.status(200).json(bookList);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
+});
+
+//get recently uploaded books where page=0 is the first set with a total of 12 books in all for 2 pages
+router.get("/recent/:page", (req, res) => {
+    bookData.getRecentlyUploadedBooks(req.params.page).then((bookList) => {
         res.status(200).json(bookList);
     }, () => {
         // Something went wrong with the server!
