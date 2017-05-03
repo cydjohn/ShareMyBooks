@@ -28,6 +28,15 @@ router.get("/:page", (req, res) => {
     });
 });
 
+//get recently uploaded books where page=0 is the first set with a total of 12 books in all for 2 pages
+router.get("/recent/:page", (req, res) => {
+    bookData.getRecentlyUploadedBooks(req.params.page).then((bookList) => {
+        res.status(200).json(bookList);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
+});
 
 //get all book categories
 router.get("/categories", (req, res) => {

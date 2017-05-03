@@ -34,7 +34,7 @@ let exportedMethods = {
     },
 getRecentlyUploadedBooks(page) {
         return books().then((booksCollection) => {
-            return booksCollection.find({}).sort({timestampOfUpload: 1}).toArray();
+            return booksCollection.find({}).sort({timestampOfUpload: -1}).limit(12).toArray();
         }).then((bookInfo)=>{
             let bookArray=[];
             let bookList=[];
