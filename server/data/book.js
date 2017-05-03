@@ -10,11 +10,29 @@ const userData = data.user;
 
 
 let exportedMethods = {
-    getAllBooks() {
+    getAllBooks(page) {
         return books().then((booksCollection) => {
             return booksCollection.find({}).toArray();
+        }).then((bookInfo)=>{
+            let bookArray=[];
+            let bookList=[];
+            let currentPage = 0;
+            //split list into groups of 9 book starting from index 0 with 9 per group
+            while (bookInfo.length > 0) {
+                bookArray.push(bookInfo.splice(0, 9));
+            }
+
+            //set current page if specifed as get variable (eg: /?page=2)
+            if (typeof page !== 'undefined') {
+                currentPage = parseInt(page);
+            }
+
+            //show list of users from group
+            bookList = bookArray[currentPage];
+            return bookList;
         });
     },
+
     calculateBooksPointsValue(book) {
         let currentPoints = 0;
         var date = 1;//new Date();
