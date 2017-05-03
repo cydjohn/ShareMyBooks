@@ -29,12 +29,15 @@
                 .cta-title{
                     margin: 0 auto 5px;
                     padding: 0;
+
                     color: black;
+
                 }
 
                 .cta-desc{
                     padding: 0;
                     color: black;
+
                 }
 
                 .cta-desc p:last-child{

@@ -7,9 +7,7 @@ import TextField from 'material-ui/TextField';
 import SelectField from 'material-ui/SelectField';
 import DropDownMenu from 'material-ui/DropDownMenu';
 import MenuItem from 'material-ui/MenuItem';
-import '../styles/authentication.css';
-//import '../styles/Base.css';
-//const userList = ['white', 'blue', 'green'];
+//import '../styles/authentication.css';
 const baseUrl = "http://localhost:3002";
 
 

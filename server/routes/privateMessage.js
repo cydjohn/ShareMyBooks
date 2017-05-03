@@ -70,7 +70,7 @@ router.get("/:id", (req, res) => {//works
 });
 
 //add message to db
-router.post("/", (req, res) => {//works
+router.post("/", async(req, res) => {//works
     let messageInfo = req.body;
     if (!messageInfo) {
         res.status(400).json({ error: "You must provide data to create a message" });
@@ -91,19 +91,27 @@ router.post("/", (req, res) => {//works
         res.status(400).json({ error: "You must provide a message body" });
         return;
     }
-    let message = {
+    let newMessage = {
         fromUserId: messageInfo.fromUserId,
         toUserId: messageInfo.toUserId,
         messageText: messageInfo.messageText
     }
 
-    pmData.addPrivateMessage(message)
-        .then((newMessage) => {
-            res.status(201).json(newMessage);
-        }).catch((e) => {
-            res.status(500).json({ error: e });//500 for internal server error b/c DB issue
+        try {
+        let response = await nrpSender.sendMessage({
+            redis: redisConnection,
+            eventName: "addPrivateMessageToDB",
+            data: {
+                message: newMessage
+            }
         });
+
+        res.status(201).json(response);
+    } catch (e) {
+        res.status(500).json({ error: e.message });
+    }
 });
+
 
 router.put("/:id", (req, res) => {//works
 

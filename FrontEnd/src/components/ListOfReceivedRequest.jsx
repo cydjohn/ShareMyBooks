@@ -7,6 +7,7 @@ export default class ListOfReceivedRequest extends React.Component {
 
     constructor(props) {
         super(props);
+
         this.state={
             data:[]
         }
@@ -17,6 +18,7 @@ export default class ListOfReceivedRequest extends React.Component {
         console.log(event.target.name);
     }
 
+
     render() {
         return (
             <div className="AllBooks">
@@ -26,6 +28,7 @@ export default class ListOfReceivedRequest extends React.Component {
                         <ViewRequest
                             requests={eachRequest}
                             accept={this.handleAccept.bind(this)}
+
                        />
                     );
                 })}
