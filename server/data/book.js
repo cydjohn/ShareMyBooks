@@ -4,7 +4,7 @@ const elasticsearch = es.book;
 const books = mongoCollections.books;
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
-// const time = require('time');
+const time = require('time');
 const data = require("../data");
 const userData = data.user;
 
@@ -32,7 +32,28 @@ let exportedMethods = {
             return bookList;
         });
     },
+getRecentlyUploadedBooks(page) {
+        return books().then((booksCollection) => {
+            return booksCollection.find({}).sort({timestampOfUpload: 1}).toArray();
+        }).then((bookInfo)=>{
+            let bookArray=[];
+            let bookList=[];
+            let currentPage = 0;
+            //split list into groups of 9 book starting from index 0 with 9 per group
+            while (bookInfo.length > 0) {
+                bookArray.push(bookInfo.splice(0, 9));
+            }
 
+            //set current page if specifed as get variable (eg: /?page=2)
+            if (typeof page !== 'undefined') {
+                currentPage = parseInt(page);
+            }
+
+            //show list of users from group
+            bookList = bookArray[currentPage];
+            return bookList;
+        });
+    },
     calculateBooksPointsValue(book) {
         let currentPoints = 0;
         var date = 1;//new Date();
@@ -78,7 +99,7 @@ let exportedMethods = {
                 Location: book.Location,
                 Description: book.Description,
                 bookPointsValue: bookPointsValueCalculation,
-                // timestampOfUpload: new time.Date(),
+                timestampOfUpload: new time.Date(),
                 numberOfRequests: 0,
                 visibleBoolean: book.visibleBoolean
             };
