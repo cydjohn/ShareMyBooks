@@ -4,7 +4,7 @@ const elasticsearch = es.book;
 const books = mongoCollections.books;
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
-const time = require('time');
+// const time = require('time');
 const data = require("../data");
 const userData = data.user;
 
@@ -17,8 +17,8 @@ let exportedMethods = {
     },
     calculateBooksPointsValue(book) {
         let currentPoints = 0;
-        var date = new Date();
-        var currentYear = date.getFullYear();
+        var date = 1;//new Date();
+         var currentYear = 2017;//date.getFullYear();
         //if 2009 + 5 = 2014 < 2017
         if (book.Year + 5 < currentYear) {
             currentPoints = 3;
@@ -42,6 +42,7 @@ let exportedMethods = {
         return currentPoints;
     },
     addBook(book) {
+        console.log(book)
         return books().then((booksCollection) => {
             let id = uuid.v4();
             let bookPointsValueCalculation = this.calculateBooksPointsValue(book);
@@ -59,7 +60,7 @@ let exportedMethods = {
                 Location: book.Location,
                 Description: book.Description,
                 bookPointsValue: bookPointsValueCalculation,
-                timestampOfUpload: new time.Date(),
+                // timestampOfUpload: new time.Date(),
                 numberOfRequests: 0,
                 visibleBoolean: book.visibleBoolean
             };

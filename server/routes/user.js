@@ -57,6 +57,22 @@ router.get("/user/:userid", (req, res) => {
 });
 
 
+router.put("/:id",(req, res) => {
+    userData.updateUser(req.params.id,req.body).then((user) =>{
+        if(!user) {
+            res.status(200).json({
+                success: false,
+                message: "Error while updating a user info!"
+            });
+        }
+        else {
+            res.status(200).json({
+                success: true,
+                message: user
+            });
+        }
+    });
+});
 
 
 
@@ -110,6 +126,7 @@ router.post('/login', (req, res, next) => {
 router.post("/signup", function (request, res) {
     //let userImagePath = request.file.path;
     var userInfo = request.body;
+    console.log(userInfo)
     if (!userInfo) {
         res.status(400).json({ error: "You must provide data to create an account" });
         return;
