@@ -1,14 +1,20 @@
 import Base from './components/Base.jsx';
 import HomePage from './containers/HomePage.jsx';
- import DashboardPage from './containers/DashboardPage.jsx';
+import DashboardPage from './containers/DashboardPage.jsx';
 import LoginPage from './containers/LoginPage.jsx';
 import SignUpPage from './containers/SignUpPage.jsx';
 import SingleBookPage from './components/SingleBookPage.jsx';
 import MessageBoard from './containers/MessageBoard.jsx';
 import PrivateMessage from './containers/PrivateMessagePage.jsx';
 import PrivateMessageToAnyUserPage from './containers/PrivateMessageToAnyUserPage.jsx';
- import viewReceivedRequests from './containers/viewReceivedRequests.jsx';
+ import EditUserPage from './containers/EditUserPage.jsx';
+// import EditUserPage from './components/EditUserPage.jsx';
+import UploadBookPageContainer from './containers/UploadBookPageContainer.jsx';
+import ViewReceivedRequests from './containers/ViewReceivedRequests.jsx';
+
+//  import viewReceivedRequests from './containers/viewReceivedRequests.jsx';
 // import UploadBookPage from './components/UploadBookPage.jsx';
+
 import Auth from './modules/Auth';
 
 
@@ -20,19 +26,24 @@ const routes = {
     {
       path: '/',
       component: HomePage
-    //   getComponent: (location, callback) => {
-    //     if (Auth.isUserAuthenticated()) {
-    //       callback(null, DashboardPage);
-    //     } else {
-    //       callback(null, HomePage);
-    //     }
-    //   }
+      //   getComponent: (location, callback) => {
+      //     if (Auth.isUserAuthenticated()) {
+      //       callback(null, DashboardPage);
+      //     } else {
+      //       callback(null, HomePage);
+      //     }
+      //   }
     },
 
     {
       path: '/login',
       component: LoginPage
     },
+
+    {
+      path: '/edituser',
+       component: EditUserPage
+     },
 
     {
       path: '/signup',
@@ -54,7 +65,7 @@ const routes = {
       component: SingleBookPage
     },
 
-     {
+    {
       path: '/user',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
@@ -62,9 +73,9 @@ const routes = {
         } else {
           callback(null, LoginPage);
         }
-       }
-     },
-     {
+      }
+    },
+    {
       path: '/messageboard',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
@@ -72,7 +83,7 @@ const routes = {
         } else {
           callback(null, LoginPage);
         }
-       }
+      }
     },
     {
       path: '/private_message/:bookUploadedBy',
@@ -82,18 +93,28 @@ const routes = {
         } else {
           callback(null, LoginPage);
         }
-       }
+      }
     },
     {
       path: '/viewreceivedrequests',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
-          callback(null, viewReceivedRequests);
+          callback(null, ViewReceivedRequests);
         } else {
           callback(null, LoginPage);
         }
-       }
-     },
+      }
+    },
+    // {
+    //   path: '/viewreceivedrequests',
+    //   getComponent: (location, callback) => {
+    //     if (Auth.isUserAuthenticated()) {
+    //       callback(null, viewReceivedRequests);
+    //     } else {
+    //       callback(null, LoginPage);
+    //     }
+    //    }
+    //  },
 
     {
       path: '/private_message_to_any_user',
@@ -103,8 +124,8 @@ const routes = {
         } else {
           callback(null, LoginPage);
         }
-       }
-    }
+      }
+    },
 
 
     // {
@@ -112,10 +133,10 @@ const routes = {
     //   component: EditUserPage
     // },
 
-    // {
-    //   path: '/uploadbook',
-    //   component: UploadBookPage
-    // },
+    {
+      path: '/uploadbook',
+      component: UploadBookPageContainer
+    },
 
   ]
 };

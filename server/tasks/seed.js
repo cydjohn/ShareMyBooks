@@ -50,7 +50,7 @@ dbConnection().then(db => {
             Location: "New York, NY",
             Description: "A great modern classic and the prelude to THE LORD OF THE RINGS. Bilbo Baggins is a hobbit who enjoys a comfortable, unambitious life, rarely traveling any farther than his pantry or cellar. But his contentment is disturbed when the wizard Gandalf and a company of dwarves arrive on his doorstep one day to whisk him away on an adventure. They have launched a plot to raid the treasure hoard guarded by Smaug the Magnificent, a large and very dangerous dragon. Bilbo reluctantly joins their quest, unaware that on his journey to the Lonely Mountain he will encounter both a magic ring and a frightening creature known as Gollum. ",
             bookPointsValue: "3",
-            timestampOfUpload: "2015-02-10T10:50:42.389Z",
+            // timestampOfUpload: "2015-02-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }
@@ -589,7 +589,7 @@ dbConnection().then(db => {
             Location: "Houston,TX",
             Description: "San Francisco Detective Lindsay Boxer is loving her life as a new mother. With an attentive husband, a job she loves, plus best friends who can talk about anything from sex to murder, things couldn't be better. Then the FBI sends Lindsay a photo of a killer from her past, and her happy world is shattered. The picture captures a beautiful woman at a stoplight. But all Lindsay sees is the psychopath behind those seductive eyes: Mackie Morales, the most deranged and dangerous mind the Women's Murder Club has ever encountered. In this pulse-racing, emotionally charged novel by James Patterson, the Women's Murder Club must find a killer--before she finds them first.",
             bookPointsValue: "2",
-            timestampOfUpload: "2016-11-10T10:50:42.389Z",
+            // timestampOfUpload: "2016-11-10T10:50:42.389Z",
             numberOfRequests: 0,
             visibleBoolean: true
         }

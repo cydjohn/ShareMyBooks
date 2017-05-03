@@ -1,7 +1,7 @@
 const mongoCollections = require("../config/mongoCollections");
 const userRequests = mongoCollections.userRequests;
 const uuid = require('node-uuid');
-const time = require('time');
+// const time = require('time');
 const books = mongoCollections.books;
 const users = mongoCollections.users;
 const flat = require("flat");
@@ -17,7 +17,6 @@ let exportedMethods = {
                 requestFrom: request.requestFrom,
                 requestTo: request.requestTo,
                 status: -1,
-                //message: request.message,
                 bookId: request.bookId
             };
             // cache
