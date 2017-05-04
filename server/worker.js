@@ -6,6 +6,7 @@ const im = require('imagemagick');
 const path = require("path");
 const data = require("./data");
 const mbData = data.messageBoard;
+const pmData = data.privateMessage;
 
 const desPath = "../userThumbnailImages/";
 
@@ -27,6 +28,37 @@ redisConnection.on('addMessageToMessageBoardCollections:request:*', (message, ch
             room: room
         };
         mbData.addMessage(newMessage)
+            .then((result) => {
+                redisConnection.emit(successEvent, {
+                    requestId: requestId,
+                    data: {
+                        message: result,
+                    },
+                    eventName: eventName
+                });
+            }).catch((e) => {
+                return e.message;
+            });
+
+});
+
+redisConnection.on('addPrivateMessageToDB:request:*', (message, channel) => {
+    //must have event name and request id
+    let eventName = message.eventName;
+    let requestId = message.requestId;
+    let successEvent = `${eventName}:success:${requestId}`;
+    let fromUserId = message.data.message.fromUserId;
+    let toUserId = message.data.message.toUserId;
+    let messageText = message.data.message.messageText;
+
+
+     let newMessage = {
+        fromUserId: fromUserId,
+        toUserId: toUserId,
+        messageText: messageText
+    }
+
+        pmData.addPrivateMessage(newMessage)
             .then((result) => {
                 //return result;
                 redisConnection.emit(successEvent, {

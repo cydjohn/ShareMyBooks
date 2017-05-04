@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import '../styles/authentication.css';
+//import '../styles/authentication.css';
 
 
 
@@ -99,4 +99,3 @@ SignUpForm.propTypes = {
 };
 
 export default SignUpForm;
-

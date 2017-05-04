@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import { Link, IndexLink } from 'react-router';
-import '../styles/MessageBoard.css';
+//import '../styles/MessageBoard.css';
 
 
 const MessageList = ({messages}) =>(//components

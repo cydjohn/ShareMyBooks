@@ -18,20 +18,33 @@ class viewReceivedRequests extends React.Component {
         };
     }
 
+    
     async componentDidMount() {
+      let userid = localStorage.getItem("userinfo");
         let self = this;
-        let userID = localStorage.getItem('userinfo');
-        fetch(`${baseUrl}/userRequests/viewRequestByFromUserId/` + userID)
+        fetch(`${baseUrl}/users/${userid}`)
             .then(function (response) {
                 return response.json();
             })
-            .then((receivedRequests) => {
-                self.setState({ requests: receivedRequests })
+            .then((userInfo) => {
+                fetch('http://localhost:3002/userRequests/viewRequestByToUserId/' + userInfo.userID, {
+                    method: 'get',
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    })
+                })
+                    .then((response) => {
+                        return (response.json());
+                    }).then((data) => {
+                        if (data.success == true) {
+                         self.setState({requests: data.message})
+                        }
+                    })
             })
             .catch(function (error) {
-                return error;
-            });
-    }
+                // return error;
+                self.setState({ errors: error });
+            });    }
 
 
     /**

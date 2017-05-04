@@ -11,15 +11,54 @@ var xss = require('node-xss').clean;
 
 
 let exportedMethods = {
-    getAllBooks() {
+    getAllBooks(page) {
         return books().then((booksCollection) => {
             return booksCollection.find({}).toArray();
+        }).then((bookInfo)=>{
+            let bookArray=[];
+            let bookList=[];
+            let currentPage = 0;
+            //split list into groups of 9 book starting from index 0 with 9 per group
+            while (bookInfo.length > 0) {
+                bookArray.push(bookInfo.splice(0, 9));
+            }
+
+            //set current page if specifed as get variable (eg: /?page=2)
+            if (typeof page !== 'undefined') {
+                currentPage = parseInt(page);
+            }
+
+            //show list of users from group
+            bookList = bookArray[currentPage];
+            return bookList;
+        });
+    },
+getRecentlyUploadedBooks(page) {
+        return books().then((booksCollection) => {
+            return booksCollection.find({}).sort({timestampOfUpload: -1}).limit(12).toArray();
+        }).then((bookInfo)=>{
+            let bookArray=[];
+            let bookList=[];
+            let currentPage = 0;
+            //split list into groups of 9 book starting from index 0 with 9 per group
+            while (bookInfo.length > 0) {
+                bookArray.push(bookInfo.splice(0, 9));
+            }
+
+            //set current page if specifed as get variable (eg: /?page=2)
+            if (typeof page !== 'undefined') {
+                currentPage = parseInt(page);
+            }
+
+            //show list of users from group
+            bookList = bookArray[currentPage];
+            return bookList;
         });
     },
     calculateBooksPointsValue(book) {
         let currentPoints = 0;
-        var date = new Date();
-        var currentYear = date.getFullYear();
+        var date = 1;//new Date();
+         var currentYear = 2017;//date.getFullYear();
         //if 2009 + 5 = 2014 < 2017
         if (book.Year + 5 < currentYear) {
             currentPoints = 3;
@@ -43,6 +82,7 @@ let exportedMethods = {
         return currentPoints;
     },
     addBook(book) {
+        console.log(book)
         return books().then((booksCollection) => {
             let id = uuid.v4();
             let bookPointsValueCalculation = this.calculateBooksPointsValue(book);

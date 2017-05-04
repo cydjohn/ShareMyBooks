@@ -57,63 +57,6 @@ router.get("/user/:userid", (req, res) => {
 });
 
 
-/*
-
-//to upload user's profile data using a worker
-router.post("/", async (req, res) => {
-    let userData = req.body;
-    //to access an uploaded file: req.file.path
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "post",
-            data: {
-                message: personData
-            }
-        });
-
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
-});
-
-
-
-router.post("/", async (req, res) => {
-    let personData = req.body;
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "post",
-            data: {
-                message: personData
-            }
-        });
-
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
-});
-
-router.delete("/:id", async (req, res) => {
-    try {
-        let response = await nrpSender.sendMessage({
-            redis: redisConnection,
-            eventName: "delete",
-            data: {
-                id: req.params.id
-            }
-        });
-
-        res.json(response);
-    } catch (e) {
-        res.json({ error: e.message });
-    }
-});
-
-
 router.put("/:id",(req, res) => {
     userData.updateUser(req.params.id,req.body).then((user) =>{
         if(!user) {
@@ -130,7 +73,8 @@ router.put("/:id",(req, res) => {
         }
     });
 });
-*/
+
+
 
 // router.post('/login', passport.authenticate('login', {
 //     successRedirect: '/myprofile',
@@ -182,6 +126,7 @@ router.post('/login', (req, res, next) => {
 router.post("/signup", function (request, res) {
     //let userImagePath = request.file.path;
     var userInfo = request.body;
+    console.log(userInfo)
     if (!userInfo) {
         res.status(400).json({ error: "You must provide data to create an account" });
         return;
