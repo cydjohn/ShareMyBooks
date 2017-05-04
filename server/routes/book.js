@@ -107,6 +107,11 @@ router.post("/", (req, res) => {
         res.status(400).json({ error: "You must provide a year" });
         return;
     }
+
+    if ((typeof bookInfo.Year !== "number" )) {
+        res.status(400).json({ error: "You must provide a year and it must be a 4 digit number" });
+        return;
+    }
     
 
     if (!bookInfo.Category) {
@@ -142,7 +147,7 @@ router.post("/", (req, res) => {
                     redis: redisConnection,
                     eventName: "convertBookImageToThumbnailAndPageImg",
                     data: {
-                        image: bookImagePath,
+                        image: bookInfo.Photo,
                         bookid: book._id
                     }
                 });
