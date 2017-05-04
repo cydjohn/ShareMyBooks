@@ -23,7 +23,7 @@ let exportedMethods = {
                 email: decodeURIComponent(user.email),
                 phoneNumber: xss(user.phoneNumber),
                 userPhotoID: xss(user.userID),
-                userTotalPoints: xss(user.userTotalPoints)
+                userTotalPoints: user.userTotalPoints
             };
             return usersCollection.findOne({ email: user.email }).then((user) => {
                 if (user) throw "Email already exists.";
@@ -115,14 +115,12 @@ let exportedMethods = {
             }
 
             if (updateUser.userTotalPoints) {
-                updatedUserData.userTotalPoints = xss(updateUser.userTotalPoints);
+                updatedUserData.userTotalPoints = updateUser.userTotalPoints;
             }
 
             if (updateUser.passwordHash) {
                 updatedUserData.passwordHash = bcrypt.hashSync(updateUser.passwordHash);
             }
-
-
 
             let updateCommand = {
                 $set: updatedUserData

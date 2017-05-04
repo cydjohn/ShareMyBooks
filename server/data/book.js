@@ -102,7 +102,7 @@ getRecentlyUploadedBooks(page) {
                 bookPointsValue: bookPointsValueCalculation,
                 timestampOfUpload: new time.Date(),
                 numberOfRequests: 0,
-                visibleBoolean: xss(book.visibleBoolean)
+                visibleBoolean: book.visibleBoolean
             };
 
             return booksCollection.findOne({ Title: book.Title }).then((book) => {
@@ -250,8 +250,8 @@ getRecentlyUploadedBooks(page) {
                 updatedBookData.Description = xss(updateBook.Description);
             }
 
-            if (updateBook.bookPointsValue) {
-                updatedBookData.bookPointsValue = xss(updateBook.bookPointsValue);
+            if (updateBook.bookPointsValue && typeof(updateBook.bookPointsValue)=="number") {
+                updatedBookData.bookPointsValue = updateBook.bookPointsValue;
             }
 
             if (updateBook.visibleBoolean === false) {
@@ -260,11 +260,13 @@ getRecentlyUploadedBooks(page) {
             else if (updateBook.visibleBoolean === true) {
                 updatedBookData.visibleBoolean = true;
             }
+            
 
             let updateCommand = {
                 $set: updatedBookData
             };
             return booksCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                // elasticsearch.updateBook(id,updatedBookData);
                 return this.getBookById(id);
             }).catch((err) => {
                 console.log("Error while updating book:", err);
@@ -274,7 +276,7 @@ getRecentlyUploadedBooks(page) {
     },
     searchForBook(searchText) {
         return elasticsearch.searchForBook(searchText).then((bookList)=>{
-            result = []
+            result = [];
             bookList.forEach(function(book) {
                 book["_source"]._id = book["_source"]["bookUUID"];
                 delete book["_source"]["bookUUID"];
