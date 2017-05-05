@@ -75,10 +75,10 @@ router.get("/image/resizeworker/:id", async (req, res) => {
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
             eventName: "convertBookImageToThumbnailAndPageImg",
-                    data: {
-                        image: bookPath,
-                        bookid: req.params.id
-                    }
+            data: {
+                image: bookPath,
+                bookid: req.params.id
+            }
         });
 
         res.json(response);
@@ -138,7 +138,7 @@ router.post("/", (req, res) => {
         res.status(400).json({ error: "You must provide a description" });
         return;
     }
-    
+
     bookData.addBook(req.body).then(async (book) => {
         if (!book) {
             return res.status(200).json({
@@ -197,7 +197,7 @@ router.put("/:id", (req, res) => {
             });
         }
         else {
-            
+
             res.status(200).json({
                 success: true,
                 message: book
@@ -208,7 +208,7 @@ router.put("/:id", (req, res) => {
 
 router.get("/search/:keyword", (req, res) => {
     if (req.params.keyword === undefined) {
-        res.status(200).json({message: "must provide a keyword"});
+        res.status(200).json({ message: "must provide a keyword" });
     }
     else {
         bookList = bookData.searchForBook(req.params.keyword).then((bookList) => {
@@ -217,11 +217,17 @@ router.get("/search/:keyword", (req, res) => {
     }
 });
 
-router.get("/category/:category",(req,res) => {
-   bookData.viewBooksByCategory(req.params.category).then((bookList) => {
-       res.status(200).json(bookList);
-   }); 
+router.get("/category/:category", (req, res) => {
+    bookData.viewBooksByCategory(req.params.category).then((bookList) => {
+        res.status(200).json(bookList);
+    });
 });
+
+router.post("/searchByCategory", (req, res) => {
+   bookData.searchForBookByCategory(req.body.keyword, req.body.category).then((bookList) => {
+        res.status(200).json(bookList);
+    });
+})
 
 
 module.exports = router;
