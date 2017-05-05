@@ -4,7 +4,7 @@ import router from 'react-router';
 var Router = require('react-router');
 const baseUrl = "http://localhost:3002";
 
-class viewReceivedRequests extends React.Component {
+class ViewReceivedRequests extends React.Component {
 
     /**
      * Class constructor.
@@ -62,8 +62,8 @@ class viewReceivedRequests extends React.Component {
 
 }
 
-viewReceivedRequests.contextTypes = {
+ViewReceivedRequests.contextTypes = {
     router: PropTypes.object.isRequired
 };
 
-export default viewReceivedRequests;
+export default ViewReceivedRequests;

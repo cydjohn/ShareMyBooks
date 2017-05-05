@@ -84,10 +84,11 @@ export default class Dashboard extends React.Component {
                         </div>
                         <div >
                             <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "edituser")} label="EDIT INFO" primary />
-                            <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "uploadbook")} label="UPLOAD A BOOK" primary /><br />
+                            <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "uploadbook")} label="UPLOAD A BOOK" primary />
                             <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "viewreceivedrequests")} label="VIEW RECEIVED REQUESTS" primary />
-                            <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "viewsentrequests")} label="VIEW REQUESTS SENT BY ME" primary />
-                            <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "conncet")} label="CONNECT TO PEOPLE" primary />
+                            <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "viewsentrequests")} label="VIEW REQUESTS SENT BY ME" primary /><br />
+                            <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "private_message_to_any_user")} label="SEND A PRIVATE MESSAGE" primary />
+                            <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "view_private_messages")} label="VIEW ALL PRIVATE MESSAGES" primary />
                             <RaisedButton className="userActions" type="submit" onClick={this.handleClick.bind(this, "messageboard")} label="GO TO MESSAGE BOARD" primary />
                         </div>
                     </div>

@@ -18,9 +18,27 @@ var bookImagePath = "../testImageMagick/";
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
-//get all books
 router.get("/", (req, res) => {
     bookData.getAllBooks().then((bookList) => {
+        res.status(200).json(bookList);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
+});
+//get all books where page=0 is the first set
+router.get("/page/:page", (req, res) => {
+    bookData.getAllBooks(req.params.page).then((bookList) => {
+        res.status(200).json(bookList);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
+});
+
+//get recently uploaded books where page=0 is the first set with a total of 12 books in all for 2 pages
+router.get("/recent/:page", (req, res) => {
+    bookData.getRecentlyUploadedBooks(req.params.page).then((bookList) => {
         res.status(200).json(bookList);
     }, () => {
         // Something went wrong with the server!
@@ -57,10 +75,10 @@ router.get("/image/resizeworker/:id", async (req, res) => {
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
             eventName: "convertBookImageToThumbnailAndPageImg",
-                    data: {
-                        image: bookPath,
-                        bookid: req.params.id
-                    }
+            data: {
+                image: bookPath,
+                bookid: req.params.id
+            }
         });
 
         res.json(response);
@@ -97,13 +115,17 @@ router.post("/", (req, res) => {
         res.status(400).json({ error: "You must provide a year" });
         return;
     }
-    
+
+
+    if ((typeof bookInfo.Year !== "number" )) {
+        res.status(400).json({ error: "You must provide a year and it must be a 4 digit number" });
+        return;
+    }
 
     if (!bookInfo.Category) {
         res.status(400).json({ error: "You must provide a category" });
         return;
     }
-
     if (!bookInfo.Condition) {
         res.status(400).json({ error: "You must provide a condition" });
         return;
@@ -116,7 +138,7 @@ router.post("/", (req, res) => {
         res.status(400).json({ error: "You must provide a description" });
         return;
     }
-    
+
     bookData.addBook(req.body).then(async (book) => {
         if (!book) {
             return res.status(200).json({
@@ -132,7 +154,7 @@ router.post("/", (req, res) => {
                     redis: redisConnection,
                     eventName: "convertBookImageToThumbnailAndPageImg",
                     data: {
-                        image: bookImagePath,
+                        image: bookInfo.Photo,
                         bookid: book._id
                     }
                 });
@@ -175,7 +197,7 @@ router.put("/:id", (req, res) => {
             });
         }
         else {
-            
+
             res.status(200).json({
                 success: true,
                 message: book
@@ -186,7 +208,7 @@ router.put("/:id", (req, res) => {
 
 router.get("/search/:keyword", (req, res) => {
     if (req.params.keyword === undefined) {
-        res.status(200).json({message: "must provide a keyword"});
+        res.status(200).json({ message: "must provide a keyword" });
     }
     else {
         bookList = bookData.searchForBook(req.params.keyword).then((bookList) => {
@@ -195,11 +217,17 @@ router.get("/search/:keyword", (req, res) => {
     }
 });
 
-router.get("/category/:category",(req,res) => {
-   bookData.viewBooksByCategory(req.params.category).then((bookList) => {
-       res.status(200).json(bookList);
-   }); 
+router.get("/category/:category", (req, res) => {
+    bookData.viewBooksByCategory(req.params.category).then((bookList) => {
+        res.status(200).json(bookList);
+    });
 });
+
+router.post("/searchByCategory", (req, res) => {
+   bookData.searchForBookByCategory(req.body.keyword, req.body.category).then((bookList) => {
+        res.status(200).json(bookList);
+    });
+})
 
 
 module.exports = router;

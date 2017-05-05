@@ -4,21 +4,61 @@ const elasticsearch = es.book;
 const books = mongoCollections.books;
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
-// const time = require('time');
+var moment = require('moment');
 const data = require("../data");
 const userData = data.user;
+var xss = require('node-xss').clean;
 
 
 let exportedMethods = {
-    getAllBooks() {
+    getAllBooks(page) {
         return books().then((booksCollection) => {
             return booksCollection.find({}).toArray();
+        }).then((bookInfo)=>{
+            let bookArray=[];
+            let bookList=[];
+            let currentPage = 0;
+            //split list into groups of 9 book starting from index 0 with 9 per group
+            while (bookInfo.length > 0) {
+                bookArray.push(bookInfo.splice(0, 9));
+            }
+
+            //set current page if specifed as get variable (eg: /?page=2)
+            if (typeof page !== 'undefined') {
+                currentPage = parseInt(page);
+            }
+
+            //show list of users from group
+            bookList = bookArray[currentPage];
+            return bookList;
+        });
+    },
+    getRecentlyUploadedBooks(page) {
+        return books().then((booksCollection) => {
+            return booksCollection.find({}).sort({ timestampOfUpload: -1 }).limit(12).toArray();
+        }).then((bookInfo) => {
+            let bookArray = [];
+            let bookList = [];
+            let currentPage = 0;
+            //split list into groups of 9 book starting from index 0 with 9 per group
+            while (bookInfo.length > 0) {
+                bookArray.push(bookInfo.splice(0, 9));
+            }
+
+            //set current page if specifed as get variable (eg: /?page=2)
+            if (typeof page !== 'undefined') {
+                currentPage = parseInt(page);
+            }
+
+            //show list of users from group
+            bookList = bookArray[currentPage];
+            return bookList;
         });
     },
     calculateBooksPointsValue(book) {
         let currentPoints = 0;
         var date = 1;//new Date();
-         var currentYear = 2017;//date.getFullYear();
+        var currentYear = 2017;//date.getFullYear();
         //if 2009 + 5 = 2014 < 2017
         if (book.Year + 5 < currentYear) {
             currentPoints = 3;
@@ -48,19 +88,19 @@ let exportedMethods = {
             let bookPointsValueCalculation = this.calculateBooksPointsValue(book);
             let newBook = {
                 _id: id,
-                uploadedBy: book.uploadedBy,
-                Title: book.Title,
-                Author: book.Author,
-                bookPhotoID1: id,
-                bookPhotoID2: book.bookPhotoID2,
-                bookPhotoID3: book.bookPhotoID3,
-                Year: book.Year,
-                Category: book.Category,
-                Condition: book.Condition,
-                Location: book.Location,
-                Description: book.Description,
+                uploadedBy: xss(book.uploadedBy),
+                Title: xss(book.Title),
+                Author: xss(book.Author),
+                bookPhotoID1: xss(book.bookPhotoID1),
+                bookPhotoID2: xss(book.bookPhotoID2),
+                bookPhotoID3: xss(book.bookPhotoID3),
+                Year: xss(book.Year),
+                Category: xss(book.Category),
+                Condition: xss(book.Condition),
+                Location: xss(book.Location),
+                Description: xss(book.Description),
                 bookPointsValue: bookPointsValueCalculation,
-                // timestampOfUpload: new time.Date(),
+                timestampOfUpload: moment().format(),
                 numberOfRequests: 0,
                 visibleBoolean: book.visibleBoolean
             };
@@ -78,17 +118,17 @@ let exportedMethods = {
                             book.bookUUID = book["_id"];
                             delete book["_id"];
                             elasticsearch.addBook(book);
-                        }).catch((e)=>{
+                        }).catch((e) => {
                             throw "Error while adding book to elastic search";
                         });
                         return this.getBookById(newId);
-                    }).then((book)=>{
-                        this.updateUserPoints(book._id,book.uploadedBy,book.bookPointsValue).then((book)=>{
+                    }).then((book) => {
+                        this.updateUserPoints(book._id, book.uploadedBy, book.bookPointsValue).then((book) => {
                             return this.getBookById(book._id);
                         });
                         return this.getBookById(book._id);
                     });
-                    
+
                 }
             });
 
@@ -96,9 +136,9 @@ let exportedMethods = {
             console.log("Error while adding book:", e);
         });
     },
-    updateUserPoints(bookid,userid,points){
+    updateUserPoints(bookid, userid, points) {
         //return userData.updateUserTotalPoints(userid,points).then((user)=>{
-          //  return user;
+        //  return user;
         //})
         return users().then((usersCollection) => {
             return usersCollection.findOne({ userID: userid }).then((requestedUser) => {
@@ -114,7 +154,7 @@ let exportedMethods = {
                 });
             })
         });
-    
+
     },
     getBookById(id) {
         return books().then((booksCollection) => {
@@ -171,46 +211,46 @@ let exportedMethods = {
             let updatedBookData = {};
 
             if (updateBook.Title) {
-                updatedBookData.title = updateBook.title;
+                updatedBookData.title = xss(updateBook.title);
             }
 
             if (updateBook.Author) {
-                updatedBookData.Author = updateBook.Author
+                updatedBookData.Author = xss(updateBook.Author);
             }
 
             if (updateBook.bookPhotoID1) {
-                updatedBookData.bookPhotoID1 = updateBook.bookPhotoID1;
+                updatedBookData.bookPhotoID1 = xss(updateBook.bookPhotoID1);
             }
 
             if (updateBook.bookPhotoID2) {
-                updatedBookData.bookPhotoID2 = updateBook.bookPhotoID2;
+                updatedBookData.bookPhotoID2 = xss(updateBook.bookPhotoID2);
             }
 
             if (updateBook.bookPhotoID3) {
-                updatedBookData.bookPhotoID3 = updateBook.bookPhotoID3;
+                updatedBookData.bookPhotoID3 = xss(updateBook.bookPhotoID3);
             }
 
             if (updateBook.Year) {
-                updatedBookData.Year = updateBook.Year;
+                updatedBookData.Year = xss(updateBook.Year);
             }
 
             if (updateBook.Category) {
-                updatedBookData.Category = updateBook.Category;
+                updatedBookData.Category = xss(updateBook.Category);
             }
 
             if (updateBook.Condition) {
-                updatedBookData.Condition = updateBook.Condition;
+                updatedBookData.Condition = xss(updateBook.Condition);
             }
 
             if (updateBook.Location) {
-                updatedBookData.Location = updateBook.Location;
+                updatedBookData.Location = xss(updateBook.Location);
             }
 
             if (updateBook.Description) {
-                updatedBookData.Description = updateBook.Description;
+                updatedBookData.Description = xss(updateBook.Description);
             }
 
-            if (updateBook.bookPointsValue) {
+            if (updateBook.bookPointsValue && typeof (updateBook.bookPointsValue) == "number") {
                 updatedBookData.bookPointsValue = updateBook.bookPointsValue;
             }
 
@@ -221,10 +261,12 @@ let exportedMethods = {
                 updatedBookData.visibleBoolean = true;
             }
 
+
             let updateCommand = {
                 $set: updatedBookData
             };
             return booksCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                // elasticsearch.updateBook(id,updatedBookData);
                 return this.getBookById(id);
             }).catch((err) => {
                 console.log("Error while updating book:", err);
@@ -233,33 +275,44 @@ let exportedMethods = {
         });
     },
     searchForBook(searchText) {
-        return elasticsearch.searchForBook(searchText).then((bookList)=>{
-            result = []
-            bookList.forEach(function(book) {
+        return elasticsearch.searchForBook(searchText).then((bookList) => {
+            result = [];
+            bookList.forEach(function (book) {
                 book["_source"]._id = book["_source"]["bookUUID"];
                 delete book["_source"]["bookUUID"];
                 result.push(book["_source"]);
             }, this);
-           return result;
+            return result;
         });
     },
-    getAllBookCategories(){
-        let categoryList=[];
-        return books().then((booksCollection) => {
-            return booksCollection.find({}).toArray().then((books)=>{
-                books.forEach(function(book) {
-                if (categoryList.indexOf(book.Category) == -1) {
-                    //Not in the array!
-                    categoryList.push(book.Category);
-                }
-            });
-            return categoryList;
+    searchForBookByCategory(searchText, category) {
+        return elasticsearch.searchForBookByCategory(searchText, category).then((bookList) => {
+            result = [];
+            bookList.forEach(function (book) {
+                book["_source"]._id = book["_source"]["bookUUID"];
+                delete book["_source"]["bookUUID"];
+                result.push(book["_source"]);
+            }, this);
+            return result;
         });
-    });
+    },
+    getAllBookCategories() {
+        let categoryList = [];
+        return books().then((booksCollection) => {
+            return booksCollection.find({}).toArray().then((books) => {
+                books.forEach(function (book) {
+                    if (categoryList.indexOf(book.Category) == -1) {
+                        //Not in the array!
+                        categoryList.push(book.Category);
+                    }
+                });
+                return categoryList;
+            });
+        });
     },
     viewBooksByCategory(category) {
         return books().then((booksCollection) => {
-            return booksCollection.find({Category:category}).toArray();
+            return booksCollection.find({ Category: category }).toArray();
         })
     }
 }

@@ -2,7 +2,7 @@ const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
 const bcrypt = require("bcrypt-nodejs");
-
+var xss = require('node-xss').clean;
 
 let exportedMethods = {
     getAllUsers() {
@@ -15,14 +15,14 @@ let exportedMethods = {
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
-                firstName: user.firstName,
-                lastName: user.lastName,
-                userID: user.userID,
+                firstName: xss(user.firstName),
+                lastName: xss(user.lastName),
+                userID: xss(user.userID),
                 passwordHash: bcrypt.hashSync(user.password),
-                address: user.address,
+                address: xss(user.address),
                 email: decodeURIComponent(user.email),
-                phoneNumber: user.phoneNumber,
-                userPhotoID: user.userID,
+                phoneNumber: xss(user.phoneNumber),
+                userPhotoID: xss(user.userID),
                 userTotalPoints: user.userTotalPoints
             };
             return usersCollection.findOne({ email: user.email }).then((user) => {
@@ -87,31 +87,31 @@ let exportedMethods = {
         return users().then((usersCollection) => {
             let updatedUserData = {};
             if (updateUser.firstName) {
-                updatedUserData.firstName = updateUser.firstName;
+                updatedUserData.firstName = xss(updateUser.firstName);
             }
 
             if (updateUser.lastName) {
-                updatedUserData.lastName = updateUser.lastName
+                updatedUserData.lastName = xss(updateUser.lastName);
             }
 
             if (updateUser.userID) {
-                updatedUserData.userID = updateUser.userID;
+                updatedUserData.userID = xss(updateUser.userID);
             }
 
             if (updateUser.address) {
-                updatedUserData.address = updateUser.address;
+                updatedUserData.address = xss(updateUser.address);
             }
 
             if (updateUser.email) {
-                updatedUserData.email = updateUser.email;
+                updatedUserData.email = xss(updateUser.email);
             }
 
             if (updateUser.phoneNumber) {
-                updatedUserData.phoneNumber = updateUser.phoneNumber;
+                updatedUserData.phoneNumber = xss(updateUser.phoneNumber);
             }
 
             if (updateUser.userPhotoID) {
-                updatedUserData.userPhotoID = updateUser.userPhotoID;
+                updatedUserData.userPhotoID = xss(updateUser.userPhotoID);
             }
 
             if (updateUser.userTotalPoints) {
@@ -121,8 +121,6 @@ let exportedMethods = {
             if (updateUser.passwordHash) {
                 updatedUserData.passwordHash = bcrypt.hashSync(updateUser.passwordHash);
             }
-
-
 
             let updateCommand = {
                 $set: updatedUserData
