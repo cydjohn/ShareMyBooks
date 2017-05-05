@@ -1,10 +1,8 @@
 import React, { PropTypes } from 'react';
-import ListOfReceivedRequest from '../components/ListOfReceivedRequest.jsx';
-import router from 'react-router';
-var Router = require('react-router');
+import ListOfSentRequest from '../components/ListOfSentRequest.jsx';
 const baseUrl = "http://localhost:3002";
 
-class ViewReceivedRequests extends React.Component {
+class ViewSentRequest extends React.Component {
 
     /**
      * Class constructor.
@@ -27,7 +25,7 @@ class ViewReceivedRequests extends React.Component {
                 return response.json();
             })
             .then((userInfo) => {
-                fetch('http://localhost:3002/userRequests/viewRequestByToUserId/' + userInfo.userID, {
+                fetch('http://localhost:3002/userRequests/viewRequestByFromUserId/' + userInfo.userID, {
                     method: 'get',
                     headers: new Headers({
                         'Content-Type': 'application/json'
@@ -54,7 +52,7 @@ class ViewReceivedRequests extends React.Component {
         if (this.state.requests.length === 0)
             return <div>Loading...</div>;
         return (
-                <ListOfReceivedRequest requests={this.state.requests}
+                <ListOfSentRequest requests={this.state.requests}
                 />
 
         );
@@ -62,8 +60,8 @@ class ViewReceivedRequests extends React.Component {
 
 }
 
-ViewReceivedRequests.contextTypes = {
+ViewSentRequest.contextTypes = {
     router: PropTypes.object.isRequired
 };
 
-export default ViewReceivedRequests;
+export default ViewSentRequest;
