@@ -4,7 +4,7 @@ const elasticsearch = es.book;
 const books = mongoCollections.books;
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
-const time = require('time');
+var moment = require('moment');
 const data = require("../data");
 const userData = data.user;
 var xss = require('node-xss').clean;
@@ -100,7 +100,7 @@ let exportedMethods = {
                 Location: xss(book.Location),
                 Description: xss(book.Description),
                 bookPointsValue: bookPointsValueCalculation,
-                timestampOfUpload: new time.Date(),
+                timestampOfUpload: moment().format(),
                 numberOfRequests: 0,
                 visibleBoolean: book.visibleBoolean
             };
