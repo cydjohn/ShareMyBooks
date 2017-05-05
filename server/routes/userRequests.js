@@ -61,25 +61,25 @@ router.get("/:id", (req, res) => {
 router.post("/", (req, res) => {
      var requestInfo = req.body;
      console.log(req.body)
-    if (!requestInfo) {
-        res.status(400).json({ error: "You must provide data to request a book" });
-        return;
-    }
+    // if (!requestInfo) {
+    //     res.status(400).json({ error: "You must provide data to request a book" });
+    //     return;
+    // }
 
-    if (!requestInfo.requestFrom) {
-        res.status(400).json({ error: "You must provide a user to send request from" });
-        return;
-    }
+    // if (!requestInfo.requestFrom) {
+    //     res.status(400).json({ error: "You must provide a user to send request from" });
+    //     return;
+    // }
 
-    if (!requestInfo.requestTo) {
-        res.status(400).json({ error: "You must provide a user to send request to" });
-        return;
-    }
+    // if (!requestInfo.requestTo) {
+    //     res.status(400).json({ error: "You must provide a user to send request to" });
+    //     return;
+    // }
 
-    if (!requestInfo.bookId) {
-        res.status(400).json({ error: "You must provide a book id" });
-        return;
-    }
+    // if (!requestInfo.bookId) {
+    //     res.status(400).json({ error: "You must provide a book id" });
+    //     return;
+    // }
 
     userRequestsData.addUserRequest(req.body).then((userRequest) => {
         if (!userRequest) {
