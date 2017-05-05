@@ -50,7 +50,7 @@ export default class HomePage extends React.Component {
 
     processSearch(event) {
         event.preventDefault();
-
+console.log("in search");
         let self = this;
         fetch(`${baseUrl}/books/search/` + this.state.keyword)
             .then(function (response) {
@@ -93,9 +93,6 @@ export default class HomePage extends React.Component {
                 <Search
                     onSubmit={this.processSearch.bind(this)}
                     onUpdateInput={this.processInput.bind(this)} 
-                    //onChange={this.processCategoryChange.bind(this)}
-                    //category={this.state.category}
-                    //categoryList={this.state.categoryList}
                     />
                 <CreateListOfBooks ListOfBooks={this.state.Books} />
             </div>

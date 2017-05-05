@@ -18,8 +18,16 @@ var bookImagePath = "../testImageMagick/";
 bluebird.promisifyAll(redis.RedisClient.prototype);
 bluebird.promisifyAll(redis.Multi.prototype);
 
+router.get("/", (req, res) => {
+    bookData.getAllBooks().then((bookList) => {
+        res.status(200).json(bookList);
+    }, () => {
+        // Something went wrong with the server!
+        res.sendStatus(500);
+    });
+});
 //get all books where page=0 is the first set
-router.get("/:page", (req, res) => {
+router.get("/page/:page", (req, res) => {
     bookData.getAllBooks(req.params.page).then((bookList) => {
         res.status(200).json(bookList);
     }, () => {
@@ -107,6 +115,13 @@ router.post("/", (req, res) => {
         res.status(400).json({ error: "You must provide a year" });
         return;
     }
+
+
+    if ((typeof bookInfo.Year !== "number" )) {
+        res.status(400).json({ error: "You must provide a year and it must be a 4 digit number" });
+        return;
+    }
+
     if (!bookInfo.Category) {
         res.status(400).json({ error: "You must provide a category" });
         return;
@@ -139,7 +154,7 @@ router.post("/", (req, res) => {
                     redis: redisConnection,
                     eventName: "convertBookImageToThumbnailAndPageImg",
                     data: {
-                        image: bookImagePath,
+                        image: bookInfo.Photo,
                         bookid: book._id
                     }
                 });

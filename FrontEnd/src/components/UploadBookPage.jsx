@@ -30,9 +30,18 @@ const UploadBookPage =({
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">Upload Book</h2>
 
-      {/*{errors && <p className="error-message">{errors}</p>}*/}
+      {errors && <p className="error-message">{errors}</p>}
 
     
+ <div className="field-line">
+        <TextField
+          floatingLabelText="Title"
+          name="title"
+         // errorText={errors.}
+          onChange={onChange}
+          value={book.title}
+        />
+      </div>
 
       <div className="field-line">
         <TextField
@@ -85,16 +94,6 @@ const UploadBookPage =({
 
       </div>
 
-       <div className="field-line">
-        <TextField
-          floatingLabelText="Author"
-          name="author"
-         // errorText={errors.}
-          onChange={onChange}
-          value={book.author}
-        />
-      </div>
-
           <div className="field-line">
         <TextField
           floatingLabelText="Description"
@@ -108,7 +107,7 @@ const UploadBookPage =({
  <div className="FileUpload">
           <FileInput name="myImage"
                    accept=".png,.gif,.jpeg,.jpg"
-                   placeholder="My Image"
+                   placeholder="Click Here to Upload An Image"
                    className="inputClass"
                    onChange={onChangeFile} />
         </div>
