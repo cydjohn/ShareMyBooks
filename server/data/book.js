@@ -7,6 +7,7 @@ const uuid = require('node-uuid');
 const time = require('time');
 const data = require("../data");
 const userData = data.user;
+var xss = require('node-xss').clean;
 
 
 let exportedMethods = {
@@ -91,17 +92,18 @@ getRecentlyUploadedBooks(page) {
             let bookPointsValueCalculation = this.calculateBooksPointsValue(book);
             let newBook = {
                 _id: id,
-                uploadedBy: book.uploadedBy,
-                Title: book.Title,
-                Author: book.Author,
-                bookPhotoID1: book.bookPhotoID1,
-                bookPhotoID2: book.bookPhotoID2,
-                bookPhotoID3: book.bookPhotoID3,
-                Year: book.Year,
-                Category: book.Category,
-                Condition: book.Condition,
-                Location: book.Location,
-                Description: book.Description,
+                uploadedBy: xss(book.uploadedBy),
+                Title: xss(book.Title),
+                Author: xss(book.Author),
+                bookPhotoID1: xss(book.bookPhotoID1),
+                bookPhotoID2: xss(book.bookPhotoID2),
+                bookPhotoID3: xss(book.bookPhotoID3),
+                Year: xss(book.Year),
+                Category: xss(book.Category),
+                Condition: xss(book.Condition),
+                Location: xss(book.Location),
+                Description: xss(book.Description),
+
                 bookPointsValue: bookPointsValueCalculation,
                 timestampOfUpload: new time.Date(),
                 numberOfRequests: 0,
@@ -214,46 +216,46 @@ getRecentlyUploadedBooks(page) {
             let updatedBookData = {};
 
             if (updateBook.Title) {
-                updatedBookData.title = updateBook.title;
+                updatedBookData.title = xss(updateBook.title);
             }
 
             if (updateBook.Author) {
-                updatedBookData.Author = updateBook.Author
+                updatedBookData.Author = xss(updateBook.Author);
             }
 
             if (updateBook.bookPhotoID1) {
-                updatedBookData.bookPhotoID1 = updateBook.bookPhotoID1;
+                updatedBookData.bookPhotoID1 = xss(updateBook.bookPhotoID1);
             }
 
             if (updateBook.bookPhotoID2) {
-                updatedBookData.bookPhotoID2 = updateBook.bookPhotoID2;
+                updatedBookData.bookPhotoID2 = xss(updateBook.bookPhotoID2);
             }
 
             if (updateBook.bookPhotoID3) {
-                updatedBookData.bookPhotoID3 = updateBook.bookPhotoID3;
+                updatedBookData.bookPhotoID3 = xss(updateBook.bookPhotoID3);
             }
 
             if (updateBook.Year) {
-                updatedBookData.Year = updateBook.Year;
+                updatedBookData.Year = xss(updateBook.Year);
             }
 
             if (updateBook.Category) {
-                updatedBookData.Category = updateBook.Category;
+                updatedBookData.Category = xss(updateBook.Category);
             }
 
             if (updateBook.Condition) {
-                updatedBookData.Condition = updateBook.Condition;
+                updatedBookData.Condition = xss(updateBook.Condition);
             }
 
             if (updateBook.Location) {
-                updatedBookData.Location = updateBook.Location;
+                updatedBookData.Location = xss(updateBook.Location);
             }
 
             if (updateBook.Description) {
-                updatedBookData.Description = updateBook.Description;
+                updatedBookData.Description = xss(updateBook.Description);
             }
 
-            if (updateBook.bookPointsValue) {
+            if (updateBook.bookPointsValue && typeof(updateBook.bookPointsValue)=="number") {
                 updatedBookData.bookPointsValue = updateBook.bookPointsValue;
             }
 
@@ -263,11 +265,13 @@ getRecentlyUploadedBooks(page) {
             else if (updateBook.visibleBoolean === true) {
                 updatedBookData.visibleBoolean = true;
             }
+            
 
             let updateCommand = {
                 $set: updatedBookData
             };
             return booksCollection.updateOne({ _id: id }, updateCommand).then(() => {
+                // elasticsearch.updateBook(id,updatedBookData);
                 return this.getBookById(id);
             }).catch((err) => {
                 console.log("Error while updating book:", err);
@@ -277,7 +281,7 @@ getRecentlyUploadedBooks(page) {
     },
     searchForBook(searchText) {
         return elasticsearch.searchForBook(searchText).then((bookList)=>{
-            result = []
+            result = [];
             bookList.forEach(function(book) {
                 book["_source"]._id = book["_source"]["bookUUID"];
                 delete book["_source"]["bookUUID"];

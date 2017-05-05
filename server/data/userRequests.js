@@ -7,17 +7,19 @@ const users = mongoCollections.users;
 const flat = require("flat");
 const redis = require('redis');
 const client = redis.createClient();
-
+var xss = require('node-xss').clean;
 
 let exportedMethods = {
     addUserRequest(request) {
         return userRequests().then((userRequestsCollection) => {
             let newRequest = {
                 _id: uuid.v4(),
-                requestFrom: request.requestFrom,
-                requestTo: request.requestTo,
+                requestFrom: xss(request.requestFrom),
+                requestTo: xss(request.requestTo),
                 status: -1,
-                bookId: request.bookId
+                //message: request.message,
+                bookId: xss(request.bookId)
+
             };
             // cache
             client.hmsetAsync(newRequest._id, flat(newRequest));

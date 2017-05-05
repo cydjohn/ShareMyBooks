@@ -116,17 +116,16 @@ router.post("/", (req, res) => {
         return;
     }
 
+
     if ((typeof bookInfo.Year !== "number" )) {
         res.status(400).json({ error: "You must provide a year and it must be a 4 digit number" });
         return;
     }
-    
 
     if (!bookInfo.Category) {
         res.status(400).json({ error: "You must provide a category" });
         return;
     }
-
     if (!bookInfo.Condition) {
         res.status(400).json({ error: "You must provide a condition" });
         return;

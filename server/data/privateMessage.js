@@ -3,6 +3,7 @@ const mongoCollections = require("../config/mongoCollections");
 const privateMessage = mongoCollections.privateMessage;
 const uuid = require('node-uuid');
 const time = require('time');
+var xss = require('node-xss').clean;
 
 let exportedMethods = {
     getPrivateMessageById(id) {
@@ -19,9 +20,9 @@ let exportedMethods = {
         return privateMessage().then((privateMessageCollection) => {
             let newMessage = {
                 _id: uuid.v4(),
-                fromUserId: message.fromUserId,
-                toUserId: message.toUserId,
-                messageText: message.messageText,
+                fromUserId: xss(message.fromUserId),
+                toUserId: xss(message.toUserId),
+                messageText: xss(message.messageText),
                 messageRead: false,
                 time: new time.Date()
             };
@@ -108,15 +109,15 @@ let exportedMethods = {
             let updatedMessageData = {};
 
             if (updateMessage.fromUserId) {
-                updatedMessageData.fromUserId = updateMessage.fromUserId
+                updatedMessageData.fromUserId = xss(updateMessage.fromUserId);
             }
 
             if (updateMessage.toUserId) {
-                updatedMessageData.toUserId = updateMessage.toUserId;
+                updatedMessageData.toUserId = xss(updateMessage.toUserId);
             }
 
             if (updateMessage.time) {
-                updatedMessageData.time = updateMessage.time;
+                updatedMessageData.time = xss(updateMessage.time);
             }
 
             if (updateMessage.messageRead === false) {
