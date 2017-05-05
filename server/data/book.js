@@ -14,6 +14,10 @@ let exportedMethods = {
     getAllBooks(page) {
         return books().then((booksCollection) => {
             return booksCollection.find({}).toArray();
+        })},
+    getAllBooks(page) {
+        return books().then((booksCollection) => {
+            return booksCollection.find({}).toArray();
         }).then((bookInfo)=>{
             let bookArray=[];
             let bookList=[];
@@ -91,7 +95,7 @@ getRecentlyUploadedBooks(page) {
                 uploadedBy: xss(book.uploadedBy),
                 Title: xss(book.Title),
                 Author: xss(book.Author),
-                bookPhotoID1: id,
+                bookPhotoID1: xss(book.bookPhotoID1),
                 bookPhotoID2: xss(book.bookPhotoID2),
                 bookPhotoID3: xss(book.bookPhotoID3),
                 Year: xss(book.Year),
@@ -99,6 +103,7 @@ getRecentlyUploadedBooks(page) {
                 Condition: xss(book.Condition),
                 Location: xss(book.Location),
                 Description: xss(book.Description),
+
                 bookPointsValue: bookPointsValueCalculation,
                 timestampOfUpload: new time.Date(),
                 numberOfRequests: 0,
