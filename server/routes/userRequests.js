@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const userRequestsData = data.userRequests;
 const userData = data.user;
+const bookData = data.book;
 
 
 // only for debugging

@@ -10,7 +10,7 @@ import PrivateMessageToAnyUserPage from './containers/PrivateMessageToAnyUserPag
  import EditUserPage from './containers/EditUserPage.jsx';
 // import EditUserPage from './components/EditUserPage.jsx';
 import UploadBookPageContainer from './containers/UploadBookPageContainer.jsx';
-import ViewReceivedRequests from './containers/viewReceivedRequests.jsx';
+import ViewReceivedRequests from './containers/ViewReceivedRequests.jsx';
 import ViewPrivateMessages from './containers/ViewPrivateMessages.jsx';
 
 //  import viewReceivedRequests from './containers/viewReceivedRequests.jsx';
