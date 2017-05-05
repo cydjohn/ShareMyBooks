@@ -103,7 +103,6 @@ getRecentlyUploadedBooks(page) {
                 Condition: xss(book.Condition),
                 Location: xss(book.Location),
                 Description: xss(book.Description),
-
                 bookPointsValue: bookPointsValueCalculation,
                 timestampOfUpload: new time.Date(),
                 numberOfRequests: 0,
