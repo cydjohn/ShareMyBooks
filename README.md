@@ -1,5 +1,11 @@
 # ShareMyBooks
 
+## Dev Process
+
+We are using git flow for this project.
+
+## Instructions
+
 to run:
 install ImageMagick CLI with homebrew on Mac OSX: 
 
