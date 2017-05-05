@@ -3,7 +3,7 @@ const mongoCollections = require("../config/mongoCollections");
 const messageBoard = mongoCollections.messageBoard;
 const userData = data.users;
 const uuid = require('node-uuid');
-const time = require('time');
+var moment = require('moment');
 var xss = require('node-xss').clean;
 
 let exportedMethods = {
@@ -14,7 +14,7 @@ let exportedMethods = {
                 messageText: xss(message.userMessage),
                 postingUser: xss(message.userName),
                 room: xss(message.room),
-                timestamp: new time.Date()
+                timestamp: moment().format()
             }
             return messageBoardCollection.insertOne(newMessage).then((newMessageInfo) => {
                 return newMessageInfo.insertedId;

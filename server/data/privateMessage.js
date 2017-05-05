@@ -2,7 +2,7 @@ const data = require("../data");
 const mongoCollections = require("../config/mongoCollections");
 const privateMessage = mongoCollections.privateMessage;
 const uuid = require('node-uuid');
-const time = require('time');
+var moment = require('moment');
 var xss = require('node-xss').clean;
 
 let exportedMethods = {
@@ -24,7 +24,7 @@ let exportedMethods = {
                 toUserId: xss(message.toUserId),
                 messageText: xss(message.messageText),
                 messageRead: false,
-                time: new time.Date()
+                time: moment().format()
             };
             return privateMessageCollection.insertOne(newMessage).then((newMessageInfo) => {
                 return newMessageInfo.insertedId;
