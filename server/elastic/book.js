@@ -22,7 +22,7 @@ let exportedMethods = {
             console.log(resp);
         });
     },
-    updateBook(id,book) {
+    updateBook(id, book) {
         searchForBook(id)
         return client.update({
             index: 'book',
@@ -42,10 +42,26 @@ let exportedMethods = {
         }, function (error) {
             console.trace(error.message);
         });
+    },
+    searchForBookByCategory(keywords, category) {
+        return client.search({
+            index: 'book',
+            type: 'bookInfo',
+            body: {
+                query: {
+                    match: {
+                        Category: category
+                    }
+                }
+            },
+            q:keywords
+        }).then(function (resp) {
+            var hits = resp.hits.hits;
+            return hits;
+        }, function (err) {
+            console.trace(err.message);
+        });
     }
-    // searchForBookByCategory(keywords, category) {
-
-    // }
 }
 
 module.exports = exportedMethods;

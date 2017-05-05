@@ -14,9 +14,9 @@ let exportedMethods = {
     getAllBooks(page) {
         return books().then((booksCollection) => {
             return booksCollection.find({}).toArray();
-        }).then((bookInfo)=>{
-            let bookArray=[];
-            let bookList=[];
+        }).then((bookInfo) => {
+            let bookArray = [];
+            let bookList = [];
             let currentPage = 0;
             //split list into groups of 9 book starting from index 0 with 9 per group
             while (bookInfo.length > 0) {
@@ -33,12 +33,12 @@ let exportedMethods = {
             return bookList;
         });
     },
-getRecentlyUploadedBooks(page) {
+    getRecentlyUploadedBooks(page) {
         return books().then((booksCollection) => {
-            return booksCollection.find({}).sort({timestampOfUpload: -1}).limit(12).toArray();
-        }).then((bookInfo)=>{
-            let bookArray=[];
-            let bookList=[];
+            return booksCollection.find({}).sort({ timestampOfUpload: -1 }).limit(12).toArray();
+        }).then((bookInfo) => {
+            let bookArray = [];
+            let bookList = [];
             let currentPage = 0;
             //split list into groups of 9 book starting from index 0 with 9 per group
             while (bookInfo.length > 0) {
@@ -58,7 +58,7 @@ getRecentlyUploadedBooks(page) {
     calculateBooksPointsValue(book) {
         let currentPoints = 0;
         var date = 1;//new Date();
-         var currentYear = 2017;//date.getFullYear();
+        var currentYear = 2017;//date.getFullYear();
         //if 2009 + 5 = 2014 < 2017
         if (book.Year + 5 < currentYear) {
             currentPoints = 3;
@@ -118,17 +118,17 @@ getRecentlyUploadedBooks(page) {
                             book.bookUUID = book["_id"];
                             delete book["_id"];
                             elasticsearch.addBook(book);
-                        }).catch((e)=>{
+                        }).catch((e) => {
                             throw "Error while adding book to elastic search";
                         });
                         return this.getBookById(newId);
-                    }).then((book)=>{
-                        this.updateUserPoints(book._id,book.uploadedBy,book.bookPointsValue).then((book)=>{
+                    }).then((book) => {
+                        this.updateUserPoints(book._id, book.uploadedBy, book.bookPointsValue).then((book) => {
                             return this.getBookById(book._id);
                         });
                         return this.getBookById(book._id);
                     });
-                    
+
                 }
             });
 
@@ -136,9 +136,9 @@ getRecentlyUploadedBooks(page) {
             console.log("Error while adding book:", e);
         });
     },
-    updateUserPoints(bookid,userid,points){
+    updateUserPoints(bookid, userid, points) {
         //return userData.updateUserTotalPoints(userid,points).then((user)=>{
-          //  return user;
+        //  return user;
         //})
         return users().then((usersCollection) => {
             return usersCollection.findOne({ userID: userid }).then((requestedUser) => {
@@ -154,7 +154,7 @@ getRecentlyUploadedBooks(page) {
                 });
             })
         });
-    
+
     },
     getBookById(id) {
         return books().then((booksCollection) => {
@@ -250,7 +250,7 @@ getRecentlyUploadedBooks(page) {
                 updatedBookData.Description = xss(updateBook.Description);
             }
 
-            if (updateBook.bookPointsValue && typeof(updateBook.bookPointsValue)=="number") {
+            if (updateBook.bookPointsValue && typeof (updateBook.bookPointsValue) == "number") {
                 updatedBookData.bookPointsValue = updateBook.bookPointsValue;
             }
 
@@ -260,7 +260,7 @@ getRecentlyUploadedBooks(page) {
             else if (updateBook.visibleBoolean === true) {
                 updatedBookData.visibleBoolean = true;
             }
-            
+
 
             let updateCommand = {
                 $set: updatedBookData
@@ -275,33 +275,44 @@ getRecentlyUploadedBooks(page) {
         });
     },
     searchForBook(searchText) {
-        return elasticsearch.searchForBook(searchText).then((bookList)=>{
+        return elasticsearch.searchForBook(searchText).then((bookList) => {
             result = [];
-            bookList.forEach(function(book) {
+            bookList.forEach(function (book) {
                 book["_source"]._id = book["_source"]["bookUUID"];
                 delete book["_source"]["bookUUID"];
                 result.push(book["_source"]);
             }, this);
-           return result;
+            return result;
         });
     },
-    getAllBookCategories(){
-        let categoryList=[];
-        return books().then((booksCollection) => {
-            return booksCollection.find({}).toArray().then((books)=>{
-                books.forEach(function(book) {
-                if (categoryList.indexOf(book.Category) == -1) {
-                    //Not in the array!
-                    categoryList.push(book.Category);
-                }
-            });
-            return categoryList;
+    searchForBookByCategory(searchText, category) {
+        return elasticsearch.searchForBookByCategory(searchText, category).then((bookList) => {
+            result = [];
+            bookList.forEach(function (book) {
+                book["_source"]._id = book["_source"]["bookUUID"];
+                delete book["_source"]["bookUUID"];
+                result.push(book["_source"]);
+            }, this);
+            return result;
         });
-    });
+    },
+    getAllBookCategories() {
+        let categoryList = [];
+        return books().then((booksCollection) => {
+            return booksCollection.find({}).toArray().then((books) => {
+                books.forEach(function (book) {
+                    if (categoryList.indexOf(book.Category) == -1) {
+                        //Not in the array!
+                        categoryList.push(book.Category);
+                    }
+                });
+                return categoryList;
+            });
+        });
     },
     viewBooksByCategory(category) {
         return books().then((booksCollection) => {
-            return booksCollection.find({Category:category}).toArray();
+            return booksCollection.find({ Category: category }).toArray();
         })
     }
 }
