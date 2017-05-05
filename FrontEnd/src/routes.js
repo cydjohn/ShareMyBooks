@@ -11,6 +11,7 @@ import PrivateMessageToAnyUserPage from './containers/PrivateMessageToAnyUserPag
 // import EditUserPage from './components/EditUserPage.jsx';
 import UploadBookPageContainer from './containers/UploadBookPageContainer.jsx';
 import ViewReceivedRequests from './containers/ViewReceivedRequests.jsx';
+import ViewSentRequests from './containers/ViewSentRequests.jsx';
 
 //  import viewReceivedRequests from './containers/viewReceivedRequests.jsx';
 // import UploadBookPage from './components/UploadBookPage.jsx';
@@ -100,6 +101,16 @@ const routes = {
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
           callback(null, ViewReceivedRequests);
+        } else {
+          callback(null, LoginPage);
+        }
+      }
+    },
+    {
+      path: '/viewsentrequests',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, ViewSentRequests);
         } else {
           callback(null, LoginPage);
         }

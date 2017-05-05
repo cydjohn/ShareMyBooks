@@ -15,7 +15,8 @@ export default class Singlebook extends React.Component {
         this.state = {
             requestSuccess: false,
             notRequested: true,
-            showModal: false
+            showModal: false,
+            login: true,
         }
 
         this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -27,44 +28,55 @@ export default class Singlebook extends React.Component {
     }
 
     handleCloseModal() {
-        this.setState({ showModal: false });
+        this.setState({
+            showModal: false,
+            login: true
+        });
     }
 
     handleRequest() {
         let userid = localStorage.getItem("userinfo");
-        let self = this;
-        fetch(`${baseUrl}/users/${userid}`)
-            .then(function (response) {
-                return response.json();
-            })
-            .then((userInfo) => {
-                fetch('http://localhost:3002/userRequests', {
-                    method: 'post',
-                    headers: new Headers({
-                        'Content-Type': 'application/json'
-                    }),
-                    body: JSON.stringify({
-                        requestFrom: userInfo.userID,
-                        requestTo: this.props.book.uploadedBy,
-                        bookId: this.props.book._id,
-                    })
-                })
-                    .then((response) => {
-                        return (response.json());
-                    }).then((data) => {
-                        if (data.success == true) {
-                            self.setState({
-                                requestSuccess: true,
-                                notRequested: false,
-                                showModal: true
-                            })
-                        }
-                    })
-            })
-            .catch(function (error) {
-                // return error;
-                self.setState({ errors: error });
+        if (!userid) {
+            this.setState({
+                login: false,
+                showModal: true
             });
+        }
+        else {
+            let self = this;
+            fetch(`${baseUrl}/users/${userid}`)
+                .then(function (response) {
+                    return response.json();
+                })
+                .then((userInfo) => {
+                    fetch('http://localhost:3002/userRequests', {
+                        method: 'post',
+                        headers: new Headers({
+                            'Content-Type': 'application/json'
+                        }),
+                        body: JSON.stringify({
+                            requestFrom: userInfo.userID,
+                            requestTo: self.props.book.uploadedBy,
+                            bookId: self.props.book._id,
+                        })
+                    })
+                        .then((response) => {
+                            return (response.json());
+                        }).then((data) => {
+                            if (data.success == true) {
+                                self.setState({
+                                    requestSuccess: true,
+                                    notRequested: false,
+                                    showModal: true
+                                })
+                            }
+                        })
+                })
+                .catch(function (error) {
+                    // return error;
+                    self.setState({ errors: error });
+                });
+        }
     }
 
     componentDidMount() {
@@ -111,6 +123,17 @@ export default class Singlebook extends React.Component {
                     contentLabel="Minimal Modal Example"
                 >
                     <h2> Your Request has been sent to <strong>{this.props.book.uploadedBy}!!</strong></h2>
+                    <button onClick={this.handleCloseModal}>Close Modal</button>
+                </ReactModal>
+            )
+        }
+        if (this.state.login == false) {
+            return (
+                <ReactModal
+                    isOpen={this.state.showModal}
+                    contentLabel="Minimal Modal Example"
+                >
+                    <h2> Kindly Login First!!</h2>
                     <button onClick={this.handleCloseModal}>Close Modal</button>
                 </ReactModal>
             )
