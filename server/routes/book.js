@@ -12,6 +12,7 @@ const im = require('imagemagick');
 const path = require("path");
 const data = require("../data");
 const bookData = data.book;
+const xss = require("xss");
 
 var bookImagePath = "../testImageMagick/";
 
@@ -116,7 +117,6 @@ router.post("/", (req, res) => {
         return;
     }
 
-
     if ((typeof bookInfo.Year !== "number" )) {
         res.status(400).json({ error: "You must provide a year and it must be a 4 digit number" });
         return;
@@ -138,6 +138,8 @@ router.post("/", (req, res) => {
         res.status(400).json({ error: "You must provide a description" });
         return;
     }
+
+    
 
     bookData.addBook(req.body).then(async (book) => {
         if (!book) {
