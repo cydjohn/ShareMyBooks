@@ -13,6 +13,10 @@ let exportedMethods = {
     getAllBooks(page) {
         return books().then((booksCollection) => {
             return booksCollection.find({}).toArray();
+        })},
+    getAllBooks(page) {
+        return books().then((booksCollection) => {
+            return booksCollection.find({}).toArray();
         }).then((bookInfo)=>{
             let bookArray=[];
             let bookList=[];
@@ -90,7 +94,7 @@ getRecentlyUploadedBooks(page) {
                 uploadedBy: book.uploadedBy,
                 Title: book.Title,
                 Author: book.Author,
-                bookPhotoID1: id,
+                bookPhotoID1: book.bookPhotoID1,
                 bookPhotoID2: book.bookPhotoID2,
                 bookPhotoID3: book.bookPhotoID3,
                 Year: book.Year,

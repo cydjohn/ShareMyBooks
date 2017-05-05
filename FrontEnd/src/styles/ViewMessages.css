@@ -1,0 +1,52 @@
+.viewMessages{
+	text-align: center;
+	border: 10px solid green;
+	padding: 5px;
+    margin: 0 auto;
+
+}
+
+.clickOnMessageMessage{
+    text-align: center;
+    font-weight: bold;
+    color: #0000ff;
+}
+.noPrivateMessages {
+	text-align: center;
+    font-weight: bold;
+    color: #ff0000;
+    
+}
+h3 {
+    text-align: center;
+}
+.tableClass {
+	text-align: center;
+	border: 10px solid blue;
+	padding: 5px;
+    margin: 0 auto;
+}
+
+.tableClass table {
+    border: 1px solid black;
+    width: 100%;
+    margin: 0 auto;
+
+}
+
+tr,td {
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    height: 50px;
+    width: 150px;
+}
+
+td{
+    border-right: 1px solid black;
+}
+
+tr:hover {
+    background-color: grey;
+    color: white;
+   
+}

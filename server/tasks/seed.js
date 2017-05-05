@@ -4,6 +4,7 @@ const dbConnection = require("../config/mongoConnection");
 const book = data.book;
 const users = data.user;
 const mbData = data.messageBoard;
+const privateData = data.privateMessage;
 const uuid = require('node-uuid');
 const client = require("../config/elasticsearch");
 
@@ -615,6 +616,34 @@ dbConnection().then(db => {
             room: "other"
         }
         return mbData.addMessage(message);
+    }).then(() => {
+        let newMessage = {
+        fromUserId: "jdoe",
+        toUserId: "slin",
+        messageText: "message 1"
+    }
+        return privateData.addPrivateMessage(newMessage);
+    }).then(() => {
+        let newMessage = {
+        fromUserId: "jdoe",
+        toUserId: "slin",
+        messageText: "message 2"
+    }
+        return privateData.addPrivateMessage(newMessage);
+    }).then(() => {
+        let newMessage = {
+        fromUserId: "slin",
+        toUserId: "jdoe",
+        messageText: "message 1"
+    }
+        return privateData.addPrivateMessage(newMessage);
+    }).then(() => {
+        let newMessage = {
+        fromUserId: "slin",
+        toUserId: "jdoe",
+        messageText: "message 2"
+    }
+        return privateData.addPrivateMessage(newMessage);
     }).then(() => {
         console.log("Done seeding database");
         db.close();
