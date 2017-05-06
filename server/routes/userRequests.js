@@ -48,38 +48,41 @@ router.get("/:id", (req, res) => {
     userRequestsData.getRequestById(requestId).then(async (requestResult) => {
         let fromUserInfo = await userData.getUserByUserId(requestResult.requestFrom);
         let toUserInfo = await userData.getUserByUserId(requestResult.requestTo);
+        let book = await bookData.getBookById(requestResult.bookId);
         res.status(200).json({
             success: true,
-            message: { requestResult, "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo }
+            message: { requestResult, "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo, "bookName":book.Title }
         });
     }).catch((e) => {
-        console.log(e);
-        res.sendStatus(500);
+        res.status(200).json({
+            success: false,
+            message: e
+        });
     });
 });
 
 router.post("/", (req, res) => {
      var requestInfo = req.body;
      console.log(req.body)
-    // if (!requestInfo) {
-    //     res.status(400).json({ error: "You must provide data to request a book" });
-    //     return;
-    // }
+    if (!requestInfo) {
+        res.status(400).json({ error: "You must provide data to request a book" });
+        return;
+    }
 
-    // if (!requestInfo.requestFrom) {
-    //     res.status(400).json({ error: "You must provide a user to send request from" });
-    //     return;
-    // }
+    if (!requestInfo.requestFrom) {
+        res.status(400).json({ error: "You must provide a user to send request from" });
+        return;
+    }
 
-    // if (!requestInfo.requestTo) {
-    //     res.status(400).json({ error: "You must provide a user to send request to" });
-    //     return;
-    // }
+    if (!requestInfo.requestTo) {
+        res.status(400).json({ error: "You must provide a user to send request to" });
+        return;
+    }
 
-    // if (!requestInfo.bookId) {
-    //     res.status(400).json({ error: "You must provide a book id" });
-    //     return;
-    // }
+    if (!requestInfo.bookId) {
+        res.status(400).json({ error: "You must provide a book id" });
+        return;
+    }
 
     userRequestsData.addUserRequest(req.body).then((userRequest) => {
         if (!userRequest) {
