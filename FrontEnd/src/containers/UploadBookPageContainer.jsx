@@ -5,7 +5,6 @@ var Router = require('react-router');
 //import Dropzone from 'react-dropzone';
 import request from 'superagent';
 import React, { PropTypes } from 'react';
-var FormData = require('form-data');
 
 export default class UploadBookPageContainer extends React.Component {
 
@@ -21,6 +20,7 @@ export default class UploadBookPageContainer extends React.Component {
     this.state = {
       errors: '',
       book: {
+        title:'',
         uploadedFile: null,
       //uploadedFileCloudinaryUrl: '',
       fileName:'',
@@ -30,15 +30,14 @@ export default class UploadBookPageContainer extends React.Component {
           category:'',
           condition:'',
           location:'',
-          description:'',
-          title: ''
-                  
+          description:''
+
+        
       }
     };
     this.processForm = this.processForm.bind(this);
     this.changebook = this.changebook.bind(this);
   }
-
   /**
    * 
    * @param {} e - Javascript event
@@ -47,7 +46,6 @@ export default class UploadBookPageContainer extends React.Component {
 processForm(event) {
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
-    console.log("starting form processing on front end...");
     const self=this;
 
     // create a string for an HTTP body message
@@ -62,13 +60,11 @@ processForm(event) {
     var formData = new FormData();
  
   
-  let data = new FormData();
-  data.append('file', document);
-  data.append('name', name);
+  
 
 
 
-  formData.append('file',this.state.book.uploadedFile);
+  //formData.append('file',this.state.book.uploadedFile);
   
     console.log(formData);
 
@@ -77,55 +73,24 @@ processForm(event) {
     var photo = new FormData();
   photo.append('photo', this.state.book.uploadedFile);
   //photo.append('')
+  photo.append('Author',this.state.book.author);
+  photo.append('Title',this.state.book.title);
+  photo.append('Category',this.state.book.category);
+  photo.append('Condition',this.state.book.condition);
+  photo.append('Year',this.state.book.year);
+  photo.append('Description',this.state.book.description);
+  photo.append('Location',this.state.book.location);
   
-  photo.append('author',this.state.book.author);
-  photo.append('category',this.state.book.category);
-  photo.append('condition',this.state.book.condition);
-  photo.append('year',this.state.book.year);
-  photo.append('description',this.state.book.description);
-  photo.append('location',this.state.book.location);
-  
-
+ let userid = localStorage.getItem("userinfo");
+  photo.append('uploadedBy',userid);
   console.log(photo);
-  let userid = localStorage.getItem("userinfo");
 
-//let userid = localStorage.getItem("userinfo");
-  //request.post('http://localhost:3002/books/')
-  //  .send(photo)
-  //  .end(function(err, resp) {
-   //   if (err) { console.error(err); }
-   //   return resp;
-   //});
-   fetch('http://localhost:3002/books', {
-      method: 'post',
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      }),
-      body: JSON.stringify({
-        uploadedBy: userid,
-        Title: this.state.book.title,
-        Author:this.state.book.author,
-        Location:this.state.book.location,
-        Category:this.state.book.category,
-        Condition:this.state.book.condition,
-        Year: this.state.book.year,
-        Description: this.state.book.description,
-        Photo: this.state.book.uploadedFile.name
-
-      })
-    })
-      .then((response) => {
-         return (response.json());
-      }).then(function (message) {
-          console.log("returned response from attempting to add book to db:")
-        console.log(message);
-        if(message){
-            //Router.browserHistory.push('/');//redirect to home page
-            self.setState({errors:JSON.stringify(message)});
-        }
-       
-      })
-    
+  request.post('http://localhost:3002/books/')
+    .send(photo)
+    .end(function(err, resp) {
+      if (err) { console.error(err); }
+      return resp;
+    });
 
   }
 

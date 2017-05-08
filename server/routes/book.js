@@ -89,7 +89,7 @@ router.get("/image/resizeworker/:id", async (req, res) => {
 
 //upload book to database and add book image to thumnail and book page folders
 router.post("/", (req, res) => {
-    //let bookImagePath = req.file.path;
+    let bookImagePath = req.file.path;
     var bookInfo = req.body;
     if (!bookInfo) {
         res.status(400).json({ error: "You must provide data to upload an book" });
@@ -154,7 +154,7 @@ router.post("/", (req, res) => {
                     redis: redisConnection,
                     eventName: "convertBookImageToThumbnailAndPageImg",
                     data: {
-                        image: bookInfo.Photo,
+                        image: bookImagePath,
                         bookid: book._id
                     }
                 });
