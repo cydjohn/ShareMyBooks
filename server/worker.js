@@ -118,7 +118,7 @@ redisConnection.on('convertBookImageToThumbnailAndPageImg:request:*', (message, 
     //convert to book image thumbnail
     let thumbnailDesPath = "../FrontEnd/public/bookThumbnailImages/";
         let thumbnailOptionsObj = {
-            srcPath: bookImage,
+            srcPath: bookImage + ".jpg",
             dstPath: thumbnailDesPath + bookid + ".png",
             quality: 1.0,
             width: "50",
@@ -135,13 +135,14 @@ redisConnection.on('convertBookImageToThumbnailAndPageImg:request:*', (message, 
         im.resize(thumbnailOptionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
             thumbnailResult= "image successfully converted and stored at " + desPath;
+            console.log(thumbnailResult);
         });
 
         //convert to book image page
         let pageResult;
     let pageDesPath = "../FrontEnd/public/bookPageImages/";
         var pageOptionsObj = {
-            srcPath: bookImage,
+            srcPath: bookImage + ".jpg",
             dstPath: pageDesPath + bookid + ".png",
             quality: 1.0,
             width: "350",
@@ -157,8 +158,9 @@ redisConnection.on('convertBookImageToThumbnailAndPageImg:request:*', (message, 
         im.resize(pageOptionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
             pageResult= "image successfully converted and stored at " + desPath;
+            console.log(pageResult);
         });
-        */
+      */  
     let result2 = module.exports.convertBookImageToThumbnail(uploadedImage,bookid);
     redisConnection.emit(successEvent, {
         requestId: requestId,
@@ -252,6 +254,7 @@ module.exports = {
         };
         im.resize(optionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
+            console.log("image successfully converted and stored at " + desPath);
             return "image successfully converted and stored at " + desPath;
         });
 
@@ -274,6 +277,7 @@ module.exports = {
         };
         im.resize(optionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
+            console.log("image successfully converted and stored at " + desPath);
             return "image successfully converted and stored at " + desPath;
         });
 
