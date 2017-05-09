@@ -12,6 +12,7 @@ install ImageMagick CLI with homebrew on Mac OSX:
 ```bash
 brew install imagemagick
 ```
+
 run redis server with the command 
 
 ```bash
@@ -24,7 +25,7 @@ if gulp is not globally installed on your computer use the below command:
 sudo npm install -g gulp
 ```
 
-```
+
 
 to compile css files, run the below command when in the FrontEnd folder in the terminal:
 
@@ -40,12 +41,37 @@ gulp build
 node seed.js
 ```
 
-## elasticsearch
+## Elasticsearch
 
-Goto `server/elasticsearch-5.3.0`,run
+### For Mac OS:
+
 
 ```bash
-bin/elasticsearch
+brew install elasticsearch
 ```
 
-I've done all the config file, and there is **no need** to run elasticsearch for development(except for the search functionality)~
+And start elasticsearch using command:
+
+```bash
+elasticsearch
+```
+
+### For Windows:
+
+Install Java.
+
+Download the .zip archive for Elasticsearch from: 
+
+<https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-5.4.0.zip>
+
+```bash
+cd elasticsearch-version
+```
+
+Elasticsearch can be started from the command line as follows:
+
+
+```bash
+.\bin\elasticsearch
+```
+
