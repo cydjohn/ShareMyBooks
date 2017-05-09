@@ -111,6 +111,19 @@ const routes = {
       }
     },
     {
+
+
+      path: '/viewsentrequests',
+      getComponent: (location, callback) => {
+        if (Auth.isUserAuthenticated()) {
+          callback(null, ViewSentRequests);
+          } else {
+          callback(null, LoginPage);
+        }
+      }
+    },
+{
+
       path: '/view_private_messages',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
