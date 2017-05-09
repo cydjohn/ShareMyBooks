@@ -85,6 +85,7 @@ processForm(event) {
  let userid = localStorage.getItem("userinfo");
   photo.append('uploadedBy',userid);
   console.log(photo);
+
 if ((isNaN(this.state.book.year) === true) || (this.state.book.year.length != 4)){
   this.setState({errors: "The year must be a 4-digit number value", success: ''});
   return;
@@ -120,6 +121,7 @@ this.state.book.description && this.state.book.location){
 else{
   this.setState({errors: "All fields are required!", success: ''});
 }
+
   }
 
 changebook(event) {
@@ -133,9 +135,10 @@ changebook(event) {
     });
   }
 
+
 handleConditionChange(event,index,value){
    //event.target.value is room
-   console.log("changing user dropdown:");
+   console.log("changing condition dropdown:");
    console.log(value);
 
     //this.props.onToUserChange(value);
@@ -149,6 +152,7 @@ this.setState({book: newBook});
     console.log(this.state.book.condition);
 
 }
+
 
 handleChange(event) {
 
@@ -216,6 +220,7 @@ dropHandler(e) {
         onSubmit={this.processForm.bind(this)}
         onChange={this.changebook.bind(this)}
         errors={this.state.errors}
+
         success={this.state.success}
         book={this.state.book}
         onConditionChange={this.handleConditionChange.bind(this)}

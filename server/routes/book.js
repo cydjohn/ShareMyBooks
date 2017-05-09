@@ -91,7 +91,9 @@ router.get("/image/resizeworker/:id", async (req, res) => {
 });
 
 //upload book to database and add book image to thumnail and book page folders
+
 router.post("/",upload.single('photo'), (req, res) => {
+
     let bookImagePath = req.file.path;
     var bookInfo = req.body;
     if (!bookInfo) {

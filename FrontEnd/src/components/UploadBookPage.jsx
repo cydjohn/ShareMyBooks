@@ -14,8 +14,10 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 // import request from 'superagent';
 import FileInput from 'react-file-input';
 import FileReaderInput from 'react-file-reader-input';
+
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+
 
 
 const UploadBookPage =({
@@ -26,6 +28,7 @@ const UploadBookPage =({
   book,
   onChangeFile,
   onConditionChange
+
   //onChangeFileRead
   
 })=>(
@@ -33,9 +36,11 @@ const UploadBookPage =({
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">Upload Book</h2>
+
 {errors && <p className="error-message">{errors}</p>}
 {success && <p className="success-message">{success}</p>}
-      {/*{errors && <p className="error-message">{errors}</p>}*/}
+
+      
 
     
 
@@ -69,6 +74,7 @@ const UploadBookPage =({
         />
         </div>
 
+
           <div className="field-line">
         
 <SelectField
@@ -84,6 +90,7 @@ const UploadBookPage =({
         </SelectField>
 
       </div>
+
 
           <div className="field-line">
         <TextField
@@ -125,7 +132,9 @@ const UploadBookPage =({
         </div>
 
       <div className="button-line">
+
         <RaisedButton type="submit" label="UPLOAD BOOK" primary />
+
       </div>
 {/*<label htmlFor="my-file-input">Upload a File:</label>
         <FileReaderInput as="binary" id="my-file-input"
