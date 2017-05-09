@@ -12,6 +12,9 @@ const im = require('imagemagick');
 const path = require("path");
 const data = require("../data");
 const bookData = data.book;
+const multer = require('multer');
+const upload = multer({ dest: "./uploads" });
+const userData = data.user;
 
 var bookImagePath = "../testImageMagick/";
 
@@ -88,7 +91,9 @@ router.get("/image/resizeworker/:id", async (req, res) => {
 });
 
 //upload book to database and add book image to thumnail and book page folders
-router.post("/", (req, res) => {
+
+router.post("/",upload.single('photo'), (req, res) => {
+
     let bookImagePath = req.file.path;
     var bookInfo = req.body;
     if (!bookInfo) {
@@ -117,7 +122,7 @@ router.post("/", (req, res) => {
     }
 
 
-    if ((typeof bookInfo.Year !== "number" )) {
+    if (isNaN(bookInfo.Year) === true ) {// returns true if the variable does NOT contain a valid number
         res.status(400).json({ error: "You must provide a year and it must be a 4 digit number" });
         return;
     }
@@ -138,7 +143,8 @@ router.post("/", (req, res) => {
         res.status(400).json({ error: "You must provide a description" });
         return;
     }
-
+return userData.getUserById(bookInfo.uploadedBy).then((userResult)=>{
+    bookInfo.uploadedBy = userResult.userID;
     bookData.addBook(req.body).then(async (book) => {
         if (!book) {
             return res.status(200).json({
@@ -169,6 +175,9 @@ router.post("/", (req, res) => {
             });
         }
     });
+});
+
+    
 });
 
 router.delete("/:id", (req, res) => {

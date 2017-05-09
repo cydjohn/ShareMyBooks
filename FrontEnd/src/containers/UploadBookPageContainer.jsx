@@ -19,6 +19,7 @@ export default class UploadBookPageContainer extends React.Component {
     // set the initial component state
     this.state = {
       errors: '',
+      success: '',
       book: {
         title:'',
         uploadedFile: null,
@@ -85,12 +86,41 @@ processForm(event) {
   photo.append('uploadedBy',userid);
   console.log(photo);
 
+if ((isNaN(this.state.book.year) === true) || (this.state.book.year.length != 4)){
+  this.setState({errors: "The year must be a 4-digit number value", success: ''});
+  return;
+}
+if(this.state.book.uploadedFile && this.state.book.author && this.state.book.title && 
+this.state.book.category && this.state.book.condition && this.state.book.year &&
+this.state.book.description && this.state.book.location){
   request.post('http://localhost:3002/books/')
     .send(photo)
-    .end(function(err, resp) {
-      if (err) { console.error(err); }
-      return resp;
+    .end((err, resp) =>{
+      console.log(resp.body.success);
+      if (resp.body.success == false) 
+      { 
+        console.log("internal error:");
+        console.error(err);
+        console.error(resp.body.message);
+        //this.setState({errors: resp.body.message});
+        let errorMessage = resp.body.message;
+        console.log("this:");
+        console.log(this);
+        this.setState({errors: errorMessage, success: ''});
+
+      }
+      else{
+        console.log(resp);
+        console.log(resp.body.message);
+        this.setState({success: "Book sucessfully created!", errors: ''});
+        //return resp;
+      }
+      
     });
+}
+else{
+  this.setState({errors: "All fields are required!", success: ''});
+}
 
   }
 
@@ -100,11 +130,29 @@ changebook(event) {
     const field = event.target.name;
     const book = self.state.book;
     book[field] = event.target.value;
-    
     self.setState({
       book
     });
   }
+
+
+handleConditionChange(event,index,value){
+   //event.target.value is room
+   console.log("changing condition dropdown:");
+   console.log(value);
+
+    //this.props.onToUserChange(value);
+    //this.setState(this.state.book.condition : "great" );
+    //console.log("book condition");
+    //console.log(this.state.book.condition);
+    let newBook = this.state.book;
+newBook.condition = value;
+this.setState({book: newBook});
+ console.log("book condition");
+    console.log(this.state.book.condition);
+
+}
+
 
 handleChange(event) {
 
@@ -172,7 +220,10 @@ dropHandler(e) {
         onSubmit={this.processForm.bind(this)}
         onChange={this.changebook.bind(this)}
         errors={this.state.errors}
+
+        success={this.state.success}
         book={this.state.book}
+        onConditionChange={this.handleConditionChange.bind(this)}
         //onDrop={this.onDrop.bind(this)}
         onChangeFile={this.handleChange.bind(this)}
         //onChangeFileRead={this.handleChange.bind(this)}
