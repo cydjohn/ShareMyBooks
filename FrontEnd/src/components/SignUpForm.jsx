@@ -4,8 +4,6 @@ import { Link } from 'react-router';
 import { Card, CardText } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
-import FileInput from 'react-file-input';
-import FileReaderInput from 'react-file-reader-input';
 //import '../styles/authentication.css';
 
 
@@ -15,46 +13,40 @@ const SignUpForm = ({
   onChange,
   errors,
   user,
-  onChangeFile
 }) => (
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">Sign Up</h2>
 
-     <p className="error-message">{errors}</p>
+      {errors && <p className="error-message">{errors}</p>}
 
       <div className="field-line">
         <TextField
           floatingLabelText="First Name"
-          name="fname"          
+          name="fname"
+          errorText={errors}
           onChange={onChange}
           value={user.fname}
-          required={true}
-          pattern="[a-zA-Z]+"
-          title="Please enter only letters"
-          
         />
       </div>
 
       <div className="field-line">
         <TextField
           floatingLabelText="Last Name"
-          name="lname"          
+          name="lname"
+          errorText={errors}
           onChange={onChange}
           value={user.lname}
-           required={true}
-           pattern="[a-zA-Z]+"
-           title="Please enter only letters"
         />
       </div>
 
       <div className="field-line">
         <TextField
           floatingLabelText="Address"
-          name="address"        
+          name="address"
+          errorText={errors}
           onChange={onChange}
           value={user.address}
-          required={true}
         />
       </div>
 
@@ -62,23 +54,20 @@ const SignUpForm = ({
         <TextField
           floatingLabelText="Phone Number"
           name="number"
-          type="number"         
+          type="number"
+          errorText={errors}
           onChange={onChange}
           value={user.number}
-           required={true}
-         
         />
       </div>
 
       <div className="field-line">
         <TextField
           floatingLabelText="Email"
-          name="email"        
+          name="email"
+          errorText={errors}
           onChange={onChange}
           value={user.email}
-          required={true}
-           type="email" 
-           minCharacters={11}
         />
       </div>
 
@@ -87,30 +76,10 @@ const SignUpForm = ({
           floatingLabelText="Password"
           type="password"
           name="password"
-          onChange={onChange}         
-          value={user.password}
-          required={true}          
-           
-        />
-
-        <div className="field-line">
-        <TextField
-          floatingLabelText="UserID"
-          name="userID"        
           onChange={onChange}
-          value={user.userID}
-          required={true}
+          errorText={errors}
+          value={user.password}
         />
-      </div>
-
-         <div className="FileUpload">
-          <FileInput name="myImage"
-                  required={true}
-                   accept=".png,.gif,.jpeg,.jpg"
-                   placeholder="Click Here to Upload An Image"
-                   className="inputClass"
-                   onChange={onChangeFile} />
-        </div>
       </div>
 
       <div className="button-line">
@@ -126,8 +95,7 @@ SignUpForm.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  user: PropTypes.object.isRequired,
-  onChangeFile:PropTypes.func.isRequired
+  user: PropTypes.object.isRequired
 };
 
 export default SignUpForm;

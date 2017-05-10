@@ -6,17 +6,16 @@ const autoPrefix = require("gulp-autoprefixer");
 const rename = require("gulp-rename");
 const cssFilesCollection = './src/styles/*.css';
 const cssFilesLocation = "./src/styles/";
-const mainCSSFileForApplication = "./src/mainCSS/";
 
 // create task
 gulp.task("css", () => {
     gulp.src(cssFilesCollection)
         .pipe(concatenate("allStyles.css"))
-        .pipe(gulp.dest(mainCSSFileForApplication))
+        .pipe(gulp.dest(cssFilesLocation))
         .pipe(autoPrefix())
         .pipe(cleanCSS())
         .pipe(rename("allStyles.min.css"))
-        .pipe(gulp.dest(mainCSSFileForApplication));
+        .pipe(gulp.dest(cssFilesLocation));
 });
 
 gulp.task("build", ["css"]);

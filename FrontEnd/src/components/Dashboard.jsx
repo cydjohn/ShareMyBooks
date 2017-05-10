@@ -75,10 +75,11 @@ export default class Dashboard extends React.Component {
                                     <p><strong>{this.props.user.email} </strong> </p>
                                     <p><strong>{this.props.user.address} </strong> </p>
                                     <p><strong>{this.props.user.phoneNumber} </strong> </p>
+                                    <p><strong> Total Points: {this.props.user.userTotalPoints} </strong></p>
                                 </div>
                                 <div className="col-xs-12 col-sm-4">
                                     {/*add this.props.user.uuid for images*/}
-                                    <img src={`../userPageImages/${this.props.user.userID}.png`} alt="user image" className="img-circle img-responsive" />
+                                    <img src={"../bookPageImages/464d4339-826c-4744-94ce-ec07efa134c3.png"} alt="" className="img-circle img-responsive" />
                                 </div>
                             </div>
                         </div>

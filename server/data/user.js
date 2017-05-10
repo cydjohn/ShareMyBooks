@@ -106,11 +106,6 @@ let exportedMethods = {
                 updatedUserData.email = xss(updateUser.email);
             }
 
-            if (updateUser.password) {
-                updatedUserData.passwordHash = bcrypt.hashSync(updateUser.password);
-                
-            }
-
             if (updateUser.phoneNumber) {
                 updatedUserData.phoneNumber = xss(updateUser.phoneNumber);
             }
@@ -123,7 +118,9 @@ let exportedMethods = {
                 updatedUserData.userTotalPoints = updateUser.userTotalPoints;
             }
 
-            
+            if (updateUser.passwordHash) {
+                updatedUserData.passwordHash = bcrypt.hashSync(updateUser.passwordHash);
+            }
 
             let updateCommand = {
                 $set: updatedUserData

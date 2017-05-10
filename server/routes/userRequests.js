@@ -48,16 +48,13 @@ router.get("/:id", (req, res) => {
     userRequestsData.getRequestById(requestId).then(async (requestResult) => {
         let fromUserInfo = await userData.getUserByUserId(requestResult.requestFrom);
         let toUserInfo = await userData.getUserByUserId(requestResult.requestTo);
-        let book = await bookData.getBookById(requestResult.bookId);
         res.status(200).json({
             success: true,
-            message: { requestResult, "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo, "bookName":book.Title }
+            message: { requestResult, "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo }
         });
     }).catch((e) => {
-        res.status(200).json({
-            success: false,
-            message: e
-        });
+        console.log(e);
+        res.sendStatus(500);
     });
 });
 

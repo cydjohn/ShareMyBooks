@@ -75,7 +75,7 @@ redisConnection.on('addPrivateMessageToDB:request:*', (message, channel) => {
 });
 
 
-redisConnection.on('convertUserImage:request:*', (message, channel) => {
+redisConnection.on('convertUserImageToThumbnailAndPageImg:request:*', (message, channel) => {
     //must have event name and request id
     let eventName = message.eventName;
     let requestId = message.requestId;
@@ -85,14 +85,14 @@ redisConnection.on('convertUserImage:request:*', (message, channel) => {
 
     let successEvent = `${eventName}:success:${requestId}`;
 
-    //let result = module.exports.convertUserImageToThumbnail(uploadedImage,userName);
+    let result = module.exports.convertUserImageToThumbnail(uploadedImage,userName);
 
 
     let result2 = module.exports.convertUserImageToPageImage(uploadedImage,userName);
     redisConnection.emit(successEvent, {
         requestId: requestId,
         data: {
-            //message1: result,
+            message1: result,
             message2: result2
         },
         eventName: eventName
@@ -118,7 +118,7 @@ redisConnection.on('convertBookImageToThumbnailAndPageImg:request:*', (message, 
     //convert to book image thumbnail
     let thumbnailDesPath = "../FrontEnd/public/bookThumbnailImages/";
         let thumbnailOptionsObj = {
-            srcPath: bookImage + ".jpg",
+            srcPath: bookImage,
             dstPath: thumbnailDesPath + bookid + ".png",
             quality: 1.0,
             width: "50",
@@ -135,14 +135,13 @@ redisConnection.on('convertBookImageToThumbnailAndPageImg:request:*', (message, 
         im.resize(thumbnailOptionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
             thumbnailResult= "image successfully converted and stored at " + desPath;
-            console.log(thumbnailResult);
         });
 
         //convert to book image page
         let pageResult;
     let pageDesPath = "../FrontEnd/public/bookPageImages/";
         var pageOptionsObj = {
-            srcPath: bookImage + ".jpg",
+            srcPath: bookImage,
             dstPath: pageDesPath + bookid + ".png",
             quality: 1.0,
             width: "350",
@@ -158,9 +157,8 @@ redisConnection.on('convertBookImageToThumbnailAndPageImg:request:*', (message, 
         im.resize(pageOptionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
             pageResult= "image successfully converted and stored at " + desPath;
-            console.log(pageResult);
         });
-      */  
+        */
     let result2 = module.exports.convertBookImageToThumbnail(uploadedImage,bookid);
     redisConnection.emit(successEvent, {
         requestId: requestId,
@@ -232,7 +230,6 @@ module.exports = {
         };
         im.resize(optionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
-            console.log("user's image successfully converted and stored at " + desPath + userName + ".png");
             return "image successfully converted and stored at " + desPath;
         });
 
@@ -255,7 +252,6 @@ module.exports = {
         };
         im.resize(optionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
-            console.log("image successfully converted and stored at " + desPath);
             return "image successfully converted and stored at " + desPath;
         });
 
@@ -278,7 +274,6 @@ module.exports = {
         };
         im.resize(optionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
-            console.log("image successfully converted and stored at " + desPath);
             return "image successfully converted and stored at " + desPath;
         });
 

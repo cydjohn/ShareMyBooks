@@ -23,7 +23,7 @@ class LoginPage extends React.Component {
 
     // set the initial component state
     this.state = {
-      errors: '',
+      errors: {},
       successMessage,
       user: {
         email: '',
@@ -39,13 +39,9 @@ class LoginPage extends React.Component {
    */
   processForm(event) {
     event.preventDefault();
-    const self=this;
-console.log("in login form");
 
     const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
-    console.log(email);
-    console.log(password);
     fetch('http://localhost:3002/users/login', {
       method: 'post',
       headers: new Headers({
@@ -57,31 +53,24 @@ console.log("in login form");
       })
     })
       .then((response) => {
-        console.log(response);
-        console.log("login attempt response:");
         return (response.json());
-      }).catch((e)=>{
-        console.log(e);
-      })
-      .then((message) =>  {
-        console.log("login attempt response:");
+      }).then(function (message) {
         console.log(message);
         if (message.success == true) {
-          console.log("suceess occurred");
           localStorage.setItem('successMessage', message.message);
           localStorage.setItem('userinfo', message.user);
 
           Auth.authenticateUser(message.token);
-          
+
           Router.browserHistory.push('/user');
-          
-        } 
-        else {
-          self.setState({ errors: message.message + ": email or password is incorrect" });
+
+        } else {
+          self.setState({ errors: message.errors });
         }
 
+      }).catch((err) => {
+        self.setState({ errors: "UserID or Password is Incorrect!" });
       })
-
   }
 
 
