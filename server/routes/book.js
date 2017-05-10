@@ -12,9 +12,11 @@ const im = require('imagemagick');
 const path = require("path");
 const data = require("../data");
 const bookData = data.book;
+const xss = require("xss");
 const multer = require('multer');
 const upload = multer({ dest: "./uploads" });
 const userData = data.user;
+
 
 var bookImagePath = "../testImageMagick/";
 
@@ -122,7 +124,9 @@ router.post("/",upload.single('photo'), (req, res) => {
     }
 
 
+
     if (isNaN(bookInfo.Year) === true ) {// returns true if the variable does NOT contain a valid number
+
         res.status(400).json({ error: "You must provide a year and it must be a 4 digit number" });
         return;
     }
@@ -143,8 +147,10 @@ router.post("/",upload.single('photo'), (req, res) => {
         res.status(400).json({ error: "You must provide a description" });
         return;
     }
+
 return userData.getUserById(bookInfo.uploadedBy).then((userResult)=>{
     bookInfo.uploadedBy = userResult.userID;
+
     bookData.addBook(req.body).then(async (book) => {
         if (!book) {
             return res.status(200).json({

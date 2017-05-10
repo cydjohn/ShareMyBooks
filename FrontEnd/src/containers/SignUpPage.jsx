@@ -2,6 +2,9 @@ import React, { PropTypes } from 'react';
 import SignUpForm from '../components/SignUpForm.jsx';
 import router from 'react-router';
 var Router = require('react-router');
+var FormData = require('form-data');
+import request from 'superagent';
+import {default as UUID} from "node-uuid";
 
 class SignUpPage extends React.Component {
 
@@ -15,12 +18,16 @@ class SignUpPage extends React.Component {
     this.state = {
       errors: '',
       user: {
+          uploadedFile: null,
+      //uploadedFileCloudinaryUrl: '',
+      fileName:'',
         email: '',
         fname: '',
         lname:'',
         address:'',
         number: null,
-        password: ''
+        password: '',
+        userID:UUID.v4()
       }
     };
 
@@ -34,50 +41,86 @@ class SignUpPage extends React.Component {
    * @param {object} event - the JavaScript event object
    */
   processForm(event) {
+
+    
     // prevent default action. in this case, action is the form submission event
     event.preventDefault();
     const self=this;
-
+    var photo = new FormData();
+        
     // create a string for an HTTP body message
-    const fname = encodeURIComponent(this.state.user.name);
+    const fname = encodeURIComponent(this.state.user.fname);
     const email = encodeURIComponent(this.state.user.email);
     const password = encodeURIComponent(this.state.user.password);
     const lname = encodeURIComponent(this.state.user.lname);
     const address = encodeURIComponent(this.state.user.address);
     const number = encodeURIComponent(this.state.user.number);
+    console.log("fname"+fname)
     
-    fetch('http://localhost:3002/users/signup', {
-      method: 'post',
-      headers: new Headers({
-        'Content-Type': 'application/json'
-      }),
-      body: JSON.stringify({
-        firstName:fname,
-        lastName:lname,
-        address:address,
-        phoneNumber:number,
-        email: email,
-        password: password,
+    photo.append('photo', this.state.user.uploadedFile);
+    photo.append('firstName', this.state.user.fname);
+    photo.append('lastName', this.state.user.lname);
+    photo.append('password', this.state.user.password);
+    photo.append('address', this.state.user.address);
+    photo.append('email', this.state.user.email);
+    photo.append('phoneNumber', this.state.user.number);
+    photo.append('userID', this.state.user.userID);
+    
+    // Display the key/value pairs
+for (var pair of photo.entries()) {
+    console.log(pair[0]+ ', ' + pair[1]); 
+}
+    
 
-      })
-    })
+    // fetch('http://localhost:3002/users/signup', {
+    //   method: 'post',
+    //   headers: new Headers({
+    //     'Content-Type': 'application/json'
+    //   }),
+    //   body: JSON.stringify({
+    //     firstName:fname,
+    //     lastName:lname,
+    //     address:address,
+    //     phoneNumber:number,
+    //     email: email,
+    //     password: password,
+
+    //   })
+    // })
+      request.post('http://localhost:3002/users/signup')
+    .send(photo)
       .then((response) => {
-         return (response.json());
+        console.log("successfully ran")
+        console.log(response)
+         return (response);
+        // return (response.json());
       }).then(function (message) {
         console.log(message);
         if(message.success==true){
            localStorage.setItem('successMessage', message.message);
             Router.browserHistory.push('/login');
         }else{
-          self.setState({errors:message.message});
+          self.setState({errors:message.error});
         }
        
       })
 
+
+
   }
 
-  
-   
+  /**
+   * function called when file added
+   */
+   handleChange(event) {
+
+     const self=this;
+     const user = self.state.user;
+    user['uploadedFile']=event.target.files[0];
+    user['fileName']=event.target.files[0].name;
+    console.log(this.state.user['uploadedFile']);
+    console.log('Selected file:', event.target.files[0]);
+}
     
 
   /**
@@ -105,6 +148,7 @@ class SignUpPage extends React.Component {
         onChange={this.changeUser}
         errors={this.state.errors}
         user={this.state.user}
+        onChangeFile={this.handleChange.bind(this)}
       />
     );
   }

@@ -4,7 +4,7 @@ import Auth from '../modules/Auth';
 import EditUser from '../components/EditUser.jsx';
 var Router = require('react-router');
 import fetch from 'isomorphic-fetch';
-
+const baseUrl = "http://localhost:3002";
 
 class EditUserpage extends React.Component {
 
@@ -27,10 +27,10 @@ class EditUserpage extends React.Component {
       user: {
         email: '',
         fname: '',
-        lname:'',
+        lastName:'',
         address:'',
         password: '',
-        PhoneNumber:null
+        phoneNumber:''
 
       }
     };
@@ -39,7 +39,32 @@ class EditUserpage extends React.Component {
 
   }
  
+ async componentDidMount() {
+        let self = this;
+        const userID = localStorage.getItem('userinfo');
+        console.log(userID);
 
+        fetch(`${baseUrl}/users/` + userID)
+            .then(function (response) {
+
+                return response.json();
+            })
+            .then((UserData) => {
+                console.log(UserData);
+                console.log("USER EDIT INFO DATA")
+                self.setState({ user: UserData });
+                console.log("last name:");
+            
+             console.log("this.state.user.lastName: "+ this.state.user.lastName);
+             
+                
+            })
+            .catch(function (error) {
+                return error;
+            });
+
+            
+    }
   
   processForm(event) {
     event.preventDefault();
@@ -48,16 +73,18 @@ class EditUserpage extends React.Component {
     console.log("Im in edit");
     console.log(userId);
     const fname = this.state.user.firstName;
-    const lname = this.state.user.LastName;
+    const lname = this.state.user.lastName;
     const email = this.state.user.email;
     const address=this.state.user.address;
-    const num=(this.state.user.PhoneNumber);
+    const num=(this.state.user.phoneNumber);
+    const password = this.state.user.password;
 
     console.log(fname);
     console.log(lname);
      console.log(email);
      console.log(address);
      console.log(num);
+     console.log(password);
       
     //const password = encodeURIComponent(this.state.user.password);
 
@@ -74,7 +101,8 @@ class EditUserpage extends React.Component {
         lastName:lname,
         address:address,
         email: email,
-        phoneNumber:num
+        phoneNumber:num,
+        password: password
 
        // password: password
       })
