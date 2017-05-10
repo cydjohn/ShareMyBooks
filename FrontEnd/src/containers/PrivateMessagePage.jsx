@@ -55,6 +55,7 @@ constructor(props, context) {
     const toUserId = encodeURIComponent(this.state.bookUploader);
     const messageText = this.state.message;
     //const formData = `fromUserId=${fromUserId}&toUserId=${toUserId}&messageText=${messageText}`;
+if(this.state.user && this.state.bookUploader && this.state.message){
 
     fetch('http://localhost:3002/private_messages/', {
       method: 'post',
@@ -79,7 +80,10 @@ constructor(props, context) {
         }
        
       })
-
+   }
+   else{
+     self.setState({errors:"All fields are required!" });
+   }
   }
 
   processMessageTextInput(event) {

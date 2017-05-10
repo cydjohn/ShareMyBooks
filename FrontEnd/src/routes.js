@@ -112,6 +112,7 @@ const routes = {
     },
     {
 
+
       path: '/viewsentrequests',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
@@ -122,11 +123,11 @@ const routes = {
       }
     },
 {
+
       path: '/view_private_messages',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
           callback(null, ViewPrivateMessages);
-
         } else {
           callback(null, LoginPage);
         }
