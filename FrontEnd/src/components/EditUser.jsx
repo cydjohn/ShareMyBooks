@@ -37,10 +37,10 @@ const EditUser= ({
        <div className="field-line">
         <TextField
           floatingLabelText="Last Name"
-          name="LastName"
-          errorText={errors.LastName}
+          name="lastName"
+          errorText={errors.lastName}
           onChange={onChange}
-          value={user.LastName}
+          value={user.lastName}
            required={true}
         />
       </div>
@@ -62,7 +62,7 @@ const EditUser= ({
           errorText={errors.Location}
           onChange={onChange}
           value={user.address}
-           
+           required={true}
         />
       </div>
        <div className="field-line">
@@ -80,10 +80,10 @@ const EditUser= ({
         <TextField
           floatingLabelText="Phone Number"
          // type="number"
-          name="PhoneNumber"
-          errorText={errors.PhoneNumber}
+          name="phoneNumber"
+          errorText={errors.phoneNumber}
           onChange={onChange}
-          value={user.PhoneNumber}
+          value={user.phoneNumber}
            required={true}
            type="number"
         />
