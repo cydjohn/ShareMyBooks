@@ -21,9 +21,65 @@ class ViewPrivateMessages extends React.Component {
             toMessages: [],
             toNewMessages: []
         };
-    }
 
+        //this.handleDelete = this.handleDelete.bind(this);
+    }
+componentDidUpdate() {
+    console.log(this.state.toNewMessages.length );
+    console.log(this.state.toNewMessages);
+    this._handleDelete();
+    //this.forceUpdate();
     
+  }
+
+
+    _handleDelete(){
+        console.log("inside handle delete");
+        if(this.state.toNewMessages.length === 0){
+           // console.log("inside 0 length toNewMessages");
+           // let noMessages = {
+            //    fromUserId: "no messages",
+            //    toUserId: "N/A",
+           //     messageText: "N/A",
+            //    messageRead: "N/A",
+           //     time: "N/A"
+          //  };
+          //  this.state.toMessages.push(noMessages);
+        }
+        else{
+         let userid = localStorage.getItem("userinfo");
+        let self = this;
+        fetch(`${baseUrl}/users/${userid}`)
+            .then(function (response) {
+                //getting userID
+                return response.json();
+            })
+            .then((userInfo) => {                
+                //getting all user's new messages
+                fetch('http://localhost:3002/private_messages/to/new/' + userInfo.userID, {
+                    method: 'get',
+                    headers: new Headers({
+                        'Content-Type': 'application/json'
+                    })
+                }).then((response) => {
+                        return (response.json());
+                    }).then((data) => {
+                        
+                         self.setState({toNewMessages: data})
+                        
+                    }).catch(function (error) {
+                // return error;
+                self.setState({ toNewMessages: [] });
+            });
+
+
+            })
+            .catch(function (error) {
+                // return error;
+                self.setState({ errors: error });
+            });   
+        }
+    }
     async componentDidMount() {
       let userid = localStorage.getItem("userinfo");
         let self = this;
@@ -119,10 +175,10 @@ class ViewPrivateMessages extends React.Component {
             return (
             <div class="viewMessages">
                 <h3>New Messages:</h3>
-                <h4 class="clickOnMessageMessage">Click on a new message to set status to read</h4>
+                <h4 className="success-message">Click on a new message to set status to read</h4>
                 <ListOfNewPrivateMessages messages={this.state.toNewMessages}/>
                 <h3>All Messages:</h3>
-                <p class="noPrivateMessages">No Messages For User</p>
+                <p className="error-message">No Messages For User</p>
                 <h3>Sent Messages:</h3>
                 <ListOfSentPrivateMessages messages={this.state.sentMessages}/>
                 </div>
@@ -135,7 +191,7 @@ class ViewPrivateMessages extends React.Component {
              return (
             <div class="viewMessages">
                 <h3>New Messages:</h3>
-                <p class="noPrivateMessages">No New Messages for User</p>
+                <p className="error-message">No New Messages for User</p>
                 <h3>All Messages:</h3>
                 <ListOfAllPrivateMessages messages={this.state.toMessages}/>
                 <h3>Sent Messages:</h3>
@@ -148,20 +204,20 @@ class ViewPrivateMessages extends React.Component {
             return (
             <div class="viewMessages">
                 <h3>New Messages:</h3>
-                <h4 class="clickOnMessageMessage">Click on a new message to set status to read</h4>
+                <h4 className="success-message">Click on a new message to set status to read</h4>
                 <ListOfNewPrivateMessages messages={this.state.toNewMessages}/>
                 <h3>All Messages:</h3>
                 <ListOfAllPrivateMessages messages={this.state.toMessages}/>
                 <h3>Sent Messages:</h3>
-                <p class="noPrivateMessages">No Messages Sent By User</p>
+                <p className="error-message">No Messages Sent By User</p>
                 </div>
         );
         }
         return (
             <div class="viewMessages">
                 <h3>New Messages:</h3>
-                <h4 class="clickOnMessageMessage">Click on a new message to set status to read</h4>
-                <ListOfNewPrivateMessages messages={this.state.toNewMessages}/>
+                <h4 className="success-message">Click on a new message to set status to read</h4>
+                <ListOfNewPrivateMessages messages={this.state.toNewMessages} />
                 <h3>All Messages:</h3>
                 <ListOfAllPrivateMessages messages={this.state.toMessages}/>
                 <h3>Sent Messages:</h3>
