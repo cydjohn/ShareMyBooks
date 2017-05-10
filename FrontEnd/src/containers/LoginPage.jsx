@@ -61,15 +61,16 @@ class LoginPage extends React.Component {
           localStorage.setItem('userinfo', message.user);
 
           Auth.authenticateUser(message.token);
-          
+
           Router.browserHistory.push('/user');
-          
+
         } else {
-          self.setState({ errors: message.message });
+          self.setState({ errors: message.errors });
         }
 
+      }).catch((err) => {
+        self.setState({ errors: "UserID or Password is Incorrect!" });
       })
-
   }
 
 

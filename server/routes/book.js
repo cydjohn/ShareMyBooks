@@ -29,6 +29,7 @@ router.get("/", (req, res) => {
 });
 //get all books where page=0 is the first set
 router.get("/page/:page", (req, res) => {
+    console.log(req.params.page)
     bookData.getAllBooks(req.params.page).then((bookList) => {
         res.status(200).json(bookList);
     }, () => {
