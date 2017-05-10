@@ -147,6 +147,30 @@ componentDidUpdate() {
         console.log(this.state.toMessages);
         console.log(this.state.toNewMessages);
         console.log(this.state.sentMessages);
+        if (this.state.toMessages.length === 0 && this.state.toNewMessages.length === 0 && this.state.sentMessages.length===0){            
+            return (
+            <div class="viewMessages">
+                <h3>New Messages:</h3>
+                <p class="noPrivateMessages">No New Messages For User</p>
+                <h3>All Messages:</h3>
+                <p class="noPrivateMessages">No Messages For User</p>
+                <h3>Sent Messages:</h3>
+                <p class="noPrivateMessages">No Messages Sent By User</p>
+                </div>
+        );
+        }
+        if (this.state.toMessages.length === 0 && this.state.toNewMessages.length === 0){            
+            return (
+            <div class="viewMessages">
+                <h3>New Messages:</h3>
+                <p class="noPrivateMessages">No New Messages For User</p>
+                <h3>All Messages:</h3>
+                <p class="noPrivateMessages">No Messages For User</p>
+                <h3>Sent Messages:</h3>
+                <ListOfSentPrivateMessages messages={this.state.sentMessages}/>
+                </div>
+        );
+        }
         if (this.state.toMessages.length === 0){            
             return (
             <div class="viewMessages">
@@ -159,7 +183,8 @@ componentDidUpdate() {
                 <ListOfSentPrivateMessages messages={this.state.sentMessages}/>
                 </div>
         );
-        }
+    }
+    
         
         if (this.state.toNewMessages.length===0){
              

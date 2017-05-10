@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node app.js",
+    "start": "concurrently 'node app.js' 'node worker.js'",
     "worker": "node worker.js",
     "seed": "node ./tasks/seed.js"
   },
@@ -49,6 +49,7 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "redis": "^2.6.5",
-    "socket.io": "1.2.0"
+    "socket.io": "1.2.0",
+    "xss": "^0.3.3"
   }
 }

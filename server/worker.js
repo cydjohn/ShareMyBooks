@@ -75,7 +75,7 @@ redisConnection.on('addPrivateMessageToDB:request:*', (message, channel) => {
 });
 
 
-redisConnection.on('convertUserImageToThumbnailAndPageImg:request:*', (message, channel) => {
+redisConnection.on('convertUserImage:request:*', (message, channel) => {
     //must have event name and request id
     let eventName = message.eventName;
     let requestId = message.requestId;
@@ -85,14 +85,14 @@ redisConnection.on('convertUserImageToThumbnailAndPageImg:request:*', (message, 
 
     let successEvent = `${eventName}:success:${requestId}`;
 
-    let result = module.exports.convertUserImageToThumbnail(uploadedImage,userName);
+    //let result = module.exports.convertUserImageToThumbnail(uploadedImage,userName);
 
 
     let result2 = module.exports.convertUserImageToPageImage(uploadedImage,userName);
     redisConnection.emit(successEvent, {
         requestId: requestId,
         data: {
-            message1: result,
+            //message1: result,
             message2: result2
         },
         eventName: eventName
@@ -232,6 +232,7 @@ module.exports = {
         };
         im.resize(optionsObj, function (err, stdout) {
             if (err) return "Could not convert user image file";
+            console.log("user's image successfully converted and stored at " + desPath + userName + ".png");
             return "image successfully converted and stored at " + desPath;
         });
 

@@ -19,7 +19,7 @@ const LoginForm = ({
       <h2 className="card-heading">Login</h2>
 
       {successMessage && <p className="success-message">{successMessage}</p>}
-      {errors.summary && <p className="error-message">{errors.summary}</p>}
+      {errors && <p className="error-message">{errors}</p>}
 
       <div className="field-line">
         <TextField
@@ -28,6 +28,7 @@ const LoginForm = ({
           errorText={errors.email}
           onChange={onChange}
           value={user.email}
+          required={true}
         />
       </div>
 
@@ -39,6 +40,7 @@ const LoginForm = ({
           onChange={onChange}
           errorText={errors.password}
           value={user.password}
+          required={true}
         />
       </div>
 

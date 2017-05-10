@@ -112,7 +112,6 @@ const routes = {
     },
     {
 
-
       path: '/viewsentrequests',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
