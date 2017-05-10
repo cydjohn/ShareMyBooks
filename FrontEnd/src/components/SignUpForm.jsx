@@ -54,6 +54,7 @@ const SignUpForm = ({
           name="address"        
           onChange={onChange}
           value={user.address}
+          required={true}
         />
       </div>
 
@@ -92,8 +93,19 @@ const SignUpForm = ({
            
         />
 
+        <div className="field-line">
+        <TextField
+          floatingLabelText="UserID"
+          name="userID"        
+          onChange={onChange}
+          value={user.userID}
+          required={true}
+        />
+      </div>
+
          <div className="FileUpload">
           <FileInput name="myImage"
+                  required={true}
                    accept=".png,.gif,.jpeg,.jpg"
                    placeholder="Click Here to Upload An Image"
                    className="inputClass"

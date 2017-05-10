@@ -108,7 +108,7 @@ let exportedMethods = {
 
             if (updateUser.password) {
                 updatedUserData.passwordHash = bcrypt.hashSync(updateUser.password);
-                // = newPasswordHash;
+                
             }
 
             if (updateUser.phoneNumber) {

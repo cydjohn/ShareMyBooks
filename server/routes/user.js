@@ -20,7 +20,7 @@ const upload = multer({ dest: "./uploads" });
 
 const userData = data.user;
 
-var srcUserImage = "../testImageMagick/1.jpeg";
+var srcUserImage = "../testImageMagick/user5.jpeg";
 //var desPath = "../testImageMagick/";
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -185,7 +185,7 @@ router.post("/signup",upload.single('photo'),function (request, res) {
             try {
                 response = await nrpSender.sendMessage({
                     redis: redisConnection,
-                    eventName: "convertUserImageToThumbnailAndPageImg",
+                    eventName: "convertUserImage",
                     data: {
                         image: userImagePath,
                         userName: newUser.userID
@@ -217,10 +217,10 @@ router.get("/image/resizeWorker", async (req, res) => {
     try {
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
-            eventName: "convertUserImageToThumbnailAndPageImg",
+            eventName: "convertUserImage",
                     data: {
                         image: srcUserImage,
-                        userName: "testCheck2"
+                        userName: "janderson"
                     }
         });
 

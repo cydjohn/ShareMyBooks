@@ -4,7 +4,7 @@ import router from 'react-router';
 var Router = require('react-router');
 var FormData = require('form-data');
 import request from 'superagent';
-import {default as UUID} from "node-uuid";
+//import {default as UUID} from "node-uuid";
 
 class SignUpPage extends React.Component {
 
@@ -27,7 +27,7 @@ class SignUpPage extends React.Component {
         address:'',
         number: null,
         password: '',
-        userID:UUID.v4()
+        userID:''
       }
     };
 
@@ -87,6 +87,8 @@ for (var pair of photo.entries()) {
 
     //   })
     // })
+    if(this.state.user.uploadedFile && this.state.user.fname && this.state.user.lname && this.state.user.password
+    && this.state.user.address && this.state.user.email && this.state.user.number && this.state.user.userID){
       request.post('http://localhost:3002/users/signup')
     .send(photo)
       .then((response) => {
@@ -96,14 +98,23 @@ for (var pair of photo.entries()) {
         // return (response.json());
       }).then(function (message) {
         console.log(message);
-        if(message.success==true){
-           localStorage.setItem('successMessage', message.message);
+        console.log(message.body.success);
+        if(message.body.success == false){
+          console.log("failed: " + message.body.message);
+          self.setState({errors: message.body.message});
+          console.log(self.state.errors);
+        }
+        if(message.body.success== true){
+           localStorage.setItem('successMessage', message.body.message);
             Router.browserHistory.push('/login');
-        }else{
-          self.setState({errors:message.error});
         }
        
       })
+    }
+    else{
+       this.setState({errors: "All fields are required!"});
+    }
+      
 
 
 
