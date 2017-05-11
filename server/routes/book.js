@@ -13,10 +13,6 @@ const path = require("path");
 const data = require("../data");
 const bookData = data.book;
 const xss = require("xss");
-const multer = require('multer');
-const upload = multer({ dest: "./uploads" });
-const userData = data.user;
-
 
 var bookImagePath = "../testImageMagick/";
 
@@ -33,6 +29,7 @@ router.get("/", (req, res) => {
 });
 //get all books where page=0 is the first set
 router.get("/page/:page", (req, res) => {
+    console.log(req.params.page)
     bookData.getAllBooks(req.params.page).then((bookList) => {
         res.status(200).json(bookList);
     }, () => {
@@ -93,10 +90,8 @@ router.get("/image/resizeworker/:id", async (req, res) => {
 });
 
 //upload book to database and add book image to thumnail and book page folders
-
-router.post("/",upload.single('photo'), (req, res) => {
-
-    let bookImagePath = req.file.path;
+router.post("/", (req, res) => {
+    //let bookImagePath = req.file.path;
     var bookInfo = req.body;
     if (!bookInfo) {
         res.status(400).json({ error: "You must provide data to upload an book" });
@@ -123,9 +118,7 @@ router.post("/",upload.single('photo'), (req, res) => {
         return;
     }
 
-
-
-    if (isNaN(bookInfo.Year) === true ) {// returns true if the variable does NOT contain a valid number
+    if ((typeof bookInfo.Year !== "number" )) {
         res.status(400).json({ error: "You must provide a year and it must be a 4 digit number" });
         return;
     }
@@ -147,9 +140,9 @@ router.post("/",upload.single('photo'), (req, res) => {
         return;
     }
 
-return userData.getUserById(bookInfo.uploadedBy).then((userResult)=>{
-    bookInfo.uploadedBy = userResult.userID;
-    bookData.addBook(req.body).then(async (book) => {
+    
+
+    bookData.addBook(xss(bookInfo)).then(async (book) => {
         if (!book) {
             return res.status(200).json({
                 success: false,
@@ -164,7 +157,7 @@ return userData.getUserById(bookInfo.uploadedBy).then((userResult)=>{
                     redis: redisConnection,
                     eventName: "convertBookImageToThumbnailAndPageImg",
                     data: {
-                        image: bookImagePath,
+                        image: bookInfo.Photo,
                         bookid: book._id
                     }
                 });
@@ -179,9 +172,6 @@ return userData.getUserById(bookInfo.uploadedBy).then((userResult)=>{
             });
         }
     });
-});
-
-    
 });
 
 router.delete("/:id", (req, res) => {
@@ -202,7 +192,7 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-    bookData.updateBookInfo(req.params.id, req.body).then((book) => {
+    bookData.updateBookInfo(req.params.id, xss(req.body)).then((book) => {
         if (!book) {
             res.status(200).json({
                 success: false,
