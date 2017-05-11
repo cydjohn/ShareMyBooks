@@ -14,6 +14,7 @@ const ViewSentRequest = ({
                         <div className="col-md-6 cta-contents">
                             <h2 className="cta-title">Book ID: {requests.requestResult.bookId}</h2>
                             <div className="cta-desc">
+                                <p>Requested book: {requests.bookName}</p>
                                 <p>Requested by: {requests.requestResult.requestFrom}</p>
                                 <p> Request Number: {requests.requestResult._id} </p>
                             </div>

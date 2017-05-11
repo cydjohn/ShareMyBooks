@@ -19,7 +19,8 @@ router.get("/viewRequestByFromUserId/:id", (req, res) => {
         for (var ur in userRequest) {
             let fromUserInfo = await userData.getUserByUserId(userRequest[ur].requestFrom);
             let toUserInfo = await userData.getUserByUserId(userRequest[ur].requestTo);
-            result.push({ requestResult: userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo })
+            let book = await bookData.getBookById(userRequest[ur].bookId);
+            result.push({ requestResult: userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo, "bookName":book.Title })
         } res.status(200).json({
             success: true,
             message: result
@@ -34,7 +35,8 @@ router.get("/viewRequestByToUserId/:id", (req, res) => {
         for (var ur in userRequest) {
             let fromUserInfo = await userData.getUserByUserId(userRequest[ur].requestFrom);
             let toUserInfo = await userData.getUserByUserId(userRequest[ur].requestTo);
-            result.push({ requestResult: userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo })
+            let book = await bookData.getBookById(userRequest[ur].bookId);
+            result.push({ requestResult: userRequest[ur], "fromUserInfo": fromUserInfo, "toUserInfo": toUserInfo, "bookName":book.Title })
         } res.status(200).json({
             success: true,
             message: result

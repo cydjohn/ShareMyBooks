@@ -101,6 +101,7 @@ export default class ListOfReceivedRequest extends React.Component {
                                             <div className="col-md-6 cta-contents">
                                                 <h2 className="cta-title">Book ID: {eachRequest.requestResult.bookId}</h2>
                                                 <div className="cta-desc">
+                                                     <p> Requested Book: {eachRequest.bookName} </p>
                                                     <p>Requested by: {eachRequest.requestResult.requestFrom}</p>
                                                     <p> Request Number: {eachRequest.requestResult._id} </p>
                                                 </div>
