@@ -5,7 +5,8 @@
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "concurrently 'node app.js' 'node worker.js'",
+    "start": "node app.js",
+    "startConcurrently": "concurrently 'node app.js' 'node worker.js'",
     "worker": "node worker.js",
     "seed": "node ./tasks/seed.js"
   },
