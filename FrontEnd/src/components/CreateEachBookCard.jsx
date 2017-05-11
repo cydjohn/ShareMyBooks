@@ -27,7 +27,7 @@ export default class CreateEachBookCard extends React.Component {
                     <CardBlock>
                         <CardText>{this.props.Description}</CardText>
                         <CardLink href={`/books/${this.props.bookID}`}>More Info</CardLink>
-                        <CardLink href="#">Like</CardLink>
+                        
                     </CardBlock>
                 </Card>
             </div>
