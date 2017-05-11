@@ -165,7 +165,7 @@ return userData.getUserById(bookInfo.uploadedBy).then((userResult)=>{
                     eventName: "convertBookImageToThumbnailAndPageImg",
                     data: {
                         image: bookImagePath,
-                        bookid: book._id
+                        bookid: book.bookPhotoID1
                     }
                 });
 
