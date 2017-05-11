@@ -142,7 +142,7 @@ router.post("/", (req, res) => {
 
     
 
-    bookData.addBook(req.body).then(async (book) => {
+    bookData.addBook(xss(bookInfo)).then(async (book) => {
         if (!book) {
             return res.status(200).json({
                 success: false,
@@ -192,7 +192,7 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-    bookData.updateBookInfo(req.params.id, req.body).then((book) => {
+    bookData.updateBookInfo(req.params.id, xss(req.body)).then((book) => {
         if (!book) {
             res.status(200).json({
                 success: false,

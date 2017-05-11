@@ -15,6 +15,7 @@ const bcrypt = require("bcrypt-nodejs");
 const passport = require("passport");
 const jwt = require('jsonwebtoken');
 const jwtSecret = "a secret phrase!!"
+const xss = require("xss");
 
 const userData = data.user;
 
@@ -58,7 +59,7 @@ router.get("/user/:userid", (req, res) => {
 
 
 router.put("/:id",(req, res) => {
-    userData.updateUser(req.params.id,req.body).then((user) =>{
+    userData.updateUser(req.params.id,xss(req.body)).then((user) =>{
         if(!user) {
             res.status(200).json({
                 success: false,
@@ -168,7 +169,7 @@ router.post("/signup", function (request, res) {
     }
     
     console.log(requestData)
-    userData.addUser(request.body)
+    userData.addUser(xss(userInfo))
         .then(async(newUser) => {
              if (!newUser) {
             return res.status(200).json({

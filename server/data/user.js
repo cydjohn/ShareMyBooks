@@ -2,7 +2,7 @@ const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
 const bcrypt = require("bcrypt-nodejs");
-var xss = require('node-xss').clean;
+
 
 let exportedMethods = {
     getAllUsers() {
@@ -15,14 +15,14 @@ let exportedMethods = {
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
-                firstName: xss(user.firstName),
-                lastName: xss(user.lastName),
-                userID: xss(user.userID),
+                firstName: user.firstName,
+                lastName: user.lastName,
+                userID: user.userID,
                 passwordHash: bcrypt.hashSync(user.password),
-                address: xss(user.address),
+                address: user.address,
                 email: decodeURIComponent(user.email),
-                phoneNumber: xss(user.phoneNumber),
-                userPhotoID: xss(user.userID),
+                phoneNumber: user.phoneNumber,
+                userPhotoID: user.userID,
                 userTotalPoints: user.userTotalPoints
             };
             return usersCollection.findOne({ email: user.email }).then((user) => {
@@ -87,31 +87,31 @@ let exportedMethods = {
         return users().then((usersCollection) => {
             let updatedUserData = {};
             if (updateUser.firstName) {
-                updatedUserData.firstName = xss(updateUser.firstName);
+                updatedUserData.firstName = updateUser.firstName;
             }
 
             if (updateUser.lastName) {
-                updatedUserData.lastName = xss(updateUser.lastName);
+                updatedUserData.lastName = updateUser.lastName;
             }
 
             if (updateUser.userID) {
-                updatedUserData.userID = xss(updateUser.userID);
+                updatedUserData.userID = updateUser.userID;
             }
 
             if (updateUser.address) {
-                updatedUserData.address = xss(updateUser.address);
+                updatedUserData.address = updateUser.address;
             }
 
             if (updateUser.email) {
-                updatedUserData.email = xss(updateUser.email);
+                updatedUserData.email = updateUser.email;
             }
 
             if (updateUser.phoneNumber) {
-                updatedUserData.phoneNumber = xss(updateUser.phoneNumber);
+                updatedUserData.phoneNumber = updateUser.phoneNumber;
             }
 
             if (updateUser.userPhotoID) {
-                updatedUserData.userPhotoID = xss(updateUser.userPhotoID);
+                updatedUserData.userPhotoID = updateUser.userPhotoID;
             }
 
             if (updateUser.userTotalPoints) {
