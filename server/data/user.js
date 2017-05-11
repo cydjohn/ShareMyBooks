@@ -2,7 +2,7 @@ const mongoCollections = require("../config/mongoCollections");
 const users = mongoCollections.users;
 const uuid = require('node-uuid');
 const bcrypt = require("bcrypt-nodejs");
-var xss = require('node-xss').clean;
+
 
 let exportedMethods = {
     getAllUsers() {
@@ -15,26 +15,31 @@ let exportedMethods = {
         return users().then((usersCollection) => {
             let newUser = {
                 _id: uuid.v4(),
-                firstName: xss(user.firstName),
-                lastName: xss(user.lastName),
-                userID: xss(user.userID),
+                firstName: user.firstName,
+                lastName: user.lastName,
+                userID: user.userID,
                 passwordHash: bcrypt.hashSync(user.password),
-                address: xss(user.address),
+                address: user.address,
                 email: decodeURIComponent(user.email),
-                phoneNumber: xss(user.phoneNumber),
-                userPhotoID: xss(user.userID),
+                phoneNumber: user.phoneNumber,
+                userPhotoID: user.userID,
                 userTotalPoints: user.userTotalPoints
             };
-            return usersCollection.findOne({ email: user.email }).then((user) => {
-                if (user) throw "Email already exists.";
+            return usersCollection.findOne({ email: user.email }).then((u) => {
+                if (u) throw "Email already exists.";
                 else {
-                    return usersCollection.insertOne(newUser).then((result) => {
-                        return result.insertedId;
-                        // return result;
-                    }).then((newId) => {
-
-                        return this.getUserById(newId);
+                    return usersCollection.findOne({ userID: user.userID }).then((ur) => {
+                        if (ur) throw "userID already exists.";
+                        else {
+                            return usersCollection.insertOne(newUser).then((result) => {
+                                return result.insertedId;
+                                // return result;
+                            }).then((newId) => {
+                                return this.getUserById(newId);
+                            });
+                        }
                     });
+
                 }
             });
         });
@@ -87,43 +92,40 @@ let exportedMethods = {
         return users().then((usersCollection) => {
             let updatedUserData = {};
             if (updateUser.firstName) {
-                updatedUserData.firstName = xss(updateUser.firstName);
+                updatedUserData.firstName = updateUser.firstName;
             }
 
             if (updateUser.lastName) {
-                updatedUserData.lastName = xss(updateUser.lastName);
+                updatedUserData.lastName = updateUser.lastName;
             }
 
             if (updateUser.userID) {
-                updatedUserData.userID = xss(updateUser.userID);
+                updatedUserData.userID = updateUser.userID;
             }
 
             if (updateUser.address) {
-                updatedUserData.address = xss(updateUser.address);
+                updatedUserData.address = updateUser.address;
             }
 
             if (updateUser.email) {
-                updatedUserData.email = xss(updateUser.email);
-            }
-
-            if (updateUser.password) {
-                updatedUserData.passwordHash = bcrypt.hashSync(updateUser.password);
-                
+                updatedUserData.email = updateUser.email;
             }
 
             if (updateUser.phoneNumber) {
-                updatedUserData.phoneNumber = xss(updateUser.phoneNumber);
+                updatedUserData.phoneNumber = updateUser.phoneNumber;
             }
 
             if (updateUser.userPhotoID) {
-                updatedUserData.userPhotoID = xss(updateUser.userPhotoID);
+                updatedUserData.userPhotoID = updateUser.userPhotoID;
             }
 
             if (updateUser.userTotalPoints) {
                 updatedUserData.userTotalPoints = updateUser.userTotalPoints;
             }
 
-            
+            if (updateUser.passwordHash) {
+                updatedUserData.passwordHash = bcrypt.hashSync(updateUser.passwordHash);
+            }
 
             let updateCommand = {
                 $set: updatedUserData
@@ -137,9 +139,9 @@ let exportedMethods = {
         });
 
     },
-    deleteUserById(id){
-        return books().then((booksCollection)=>{
-            return booksCollection.deleteOne({_id:id}).then((deletionInfo)=>{
+    deleteUserById(id) {
+        return books().then((booksCollection) => {
+            return booksCollection.deleteOne({ _id: id }).then((deletionInfo) => {
                 if (deletionInfo.deletedCount === 0) {
                     throw `Could not delete user with id of ${id}`
                 }
@@ -150,7 +152,7 @@ let exportedMethods = {
                 console.log("Error while removing user:", e);
             });
         });
-        
+
     },
 
 
@@ -168,7 +170,7 @@ let exportedMethods = {
         });
     },
 
-    updateUserTotalPoints(userid, points){
+    updateUserTotalPoints(userid, points) {
         return users().then((usersCollection) => {
             return usersCollection.findOne({ userID: userid }).then((requestedUser) => {
                 if (!requestedUser) throw "user not foound";

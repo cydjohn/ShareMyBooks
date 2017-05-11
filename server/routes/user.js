@@ -15,12 +15,11 @@ const bcrypt = require("bcrypt-nodejs");
 const passport = require("passport");
 const jwt = require('jsonwebtoken');
 const jwtSecret = "a secret phrase!!"
-const multer = require('multer');
-const upload = multer({ dest: "./uploads" });
+const xss = require("xss");
 
 const userData = data.user;
 
-var srcUserImage = "../testImageMagick/user5.jpeg";
+var srcUserImage = "../testImageMagick/1.jpeg";
 //var desPath = "../testImageMagick/";
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -60,7 +59,7 @@ router.get("/user/:userid", (req, res) => {
 
 
 router.put("/:id",(req, res) => {
-    userData.updateUser(req.params.id,req.body).then((user) =>{
+    userData.updateUser(req.params.id,xss(req.body)).then((user) =>{
         if(!user) {
             res.status(200).json({
                 success: false,
@@ -107,15 +106,14 @@ router.post('/login', (req, res, next) => {
     console.log(req.body)
 
     return passport.authenticate('login', (err, success, data) => {
-        
+        console.log(data.token, "++++++++++", data.user)
         if (!success) {
             return res.status(400).json({
                 success: false,
-                message: 'Could not process the form'
+                message: 'Could not process the form.'
             });
         }
         else {
-            console.log(data.token, "++++++++++", data.user)
             return res.status(200).json({
                 success: true,
                 message: 'login succeed!',
@@ -126,11 +124,10 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
-router.post("/signup",upload.single('photo'),function (request, res) {
-    let userImagePath = request.file.path;
+router.post("/signup", function (request, res) {
+    //let userImagePath = request.file.path;
     var userInfo = request.body;
     console.log(userInfo)
-    console.log(request.file)
     if (!userInfo) {
         res.status(400).json({ error: "You must provide data to create an account" });
         return;
@@ -171,8 +168,8 @@ router.post("/signup",upload.single('photo'),function (request, res) {
         return;
     }
     
-    //console.log(request)
-    userData.addUser(request.body)
+    console.log(requestData)
+    userData.addUser(xss(userInfo))
         .then(async(newUser) => {
              if (!newUser) {
             return res.status(200).json({
@@ -186,7 +183,7 @@ router.post("/signup",upload.single('photo'),function (request, res) {
             try {
                 response = await nrpSender.sendMessage({
                     redis: redisConnection,
-                    eventName: "convertUserImage",
+                    eventName: "convertUserImageToThumbnailAndPageImg",
                     data: {
                         image: userImagePath,
                         userName: newUser.userID
@@ -218,10 +215,10 @@ router.get("/image/resizeWorker", async (req, res) => {
     try {
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
-            eventName: "convertUserImage",
+            eventName: "convertUserImageToThumbnailAndPageImg",
                     data: {
                         image: srcUserImage,
-                        userName: "janderson"
+                        userName: "testCheck2"
                     }
         });
 

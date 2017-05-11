@@ -31,17 +31,15 @@ const EditUser= ({
           errorText={errors.firstName}
           onChange={onChange}
           value={user.firstName}
-           required={true}
         />
       </div>
        <div className="field-line">
         <TextField
           floatingLabelText="Last Name"
-          name="lastName"
-          errorText={errors.lastName}
+          name="LastName"
+          errorText={errors.LastName}
           onChange={onChange}
-          value={user.lastName}
-           required={true}
+          value={user.LastName}
         />
       </div>
       <div className="field-line">
@@ -52,7 +50,6 @@ const EditUser= ({
           onChange={onChange}
           errorText={errors.password}
           value={user.password}
-           required={true}
         />
       </div>
       <div className="field-line">
@@ -62,7 +59,6 @@ const EditUser= ({
           errorText={errors.Location}
           onChange={onChange}
           value={user.address}
-           required={true}
         />
       </div>
        <div className="field-line">
@@ -73,19 +69,16 @@ const EditUser= ({
           errorText={errors.email}
           onChange={onChange}
           value={user.email}
-           required={true}
         />
       </div> 
        <div className="field-line">
-        <TextField
+        <NumberInput
           floatingLabelText="Phone Number"
          // type="number"
-          name="phoneNumber"
-          errorText={errors.phoneNumber}
+          name="PhoneNumber"
+          errorText={errors.PhoneNumber}
           onChange={onChange}
-          value={user.phoneNumber}
-           required={true}
-           type="number"
+          value={user.PhoneNumber}
         />
       </div>
       

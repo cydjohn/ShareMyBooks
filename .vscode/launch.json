@@ -8,14 +8,7 @@
             "type": "node",
             "request": "launch",
             "name": "Launch Program",
-            "program": "${workspaceRoot}/server/app.js"
-        },
-        {
-            "type": "node",
-            "request": "attach",
-            "name": "Attach to Port",
-            "address": "localhost",
-            "port": 5858
+            "program": "${file}"
         }
     ]
 }

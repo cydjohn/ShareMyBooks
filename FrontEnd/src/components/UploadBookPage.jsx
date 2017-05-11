@@ -15,20 +15,13 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FileInput from 'react-file-input';
 import FileReaderInput from 'react-file-reader-input';
 
-import SelectField from 'material-ui/SelectField';
-import MenuItem from 'material-ui/MenuItem';
-
-
 
 const UploadBookPage =({
     onSubmit,
   onChange,
   errors,
-  success,
   book,
   onChangeFile,
-  onConditionChange
-
   //onChangeFileRead
   
 })=>(
@@ -37,20 +30,26 @@ const UploadBookPage =({
     <form action="/" onSubmit={onSubmit}>
       <h2 className="card-heading">Upload Book</h2>
 
-{errors && <p className="error-message">{errors}</p>}
-{success && <p className="success-message">{success}</p>}
-
-      
+      {errors && <p className="error-message">{errors}</p>}
 
     
-
-      <div className="field-line">
+ <div className="field-line">
         <TextField
           floatingLabelText="Title"
           name="title"
          // errorText={errors.}
           onChange={onChange}
           value={book.title}
+        />
+      </div>
+
+      <div className="field-line">
+        <TextField
+          floatingLabelText="Author"
+          name="author"
+         // errorText={errors.}
+          onChange={onChange}
+          value={book.author}
         />
       </div>
 
@@ -74,23 +73,15 @@ const UploadBookPage =({
         />
         </div>
 
-
-          <div className="field-line">
-        
-<SelectField
-          floatingLabelText="Select a Condition:"
+  <div className="field-line">
+        <TextField
+          floatingLabelText="Condition"
           name="condition"
+         // errorText={errors.}
+          onChange={onChange}
           value={book.condition}
-          onChange={onConditionChange}
-        >
-            <MenuItem key={0} value={"good"} primaryText={"good"} />
-            <MenuItem key={1} value={"great"} primaryText={"great"} />
-            <MenuItem key={2} value={"poor"} primaryText={"poor"} />
-          
-        </SelectField>
-
-      </div>
-
+        />
+        </div>
 
           <div className="field-line">
         <TextField
@@ -101,16 +92,6 @@ const UploadBookPage =({
           value={book.location}
         />
 
-      </div>
-
-       <div className="field-line">
-        <TextField
-          floatingLabelText="Author"
-          name="author"
-         // errorText={errors.}
-          onChange={onChange}
-          value={book.author}
-        />
       </div>
 
           <div className="field-line">
@@ -125,16 +106,14 @@ const UploadBookPage =({
    
  <div className="FileUpload">
           <FileInput name="myImage"
-                   accept=".png,.gif,.jpeg, .jpg"
-                   placeholder="Click here to upload the Image..."
+                   accept=".png,.gif,.jpeg,.jpg"
+                   placeholder="Click Here to Upload An Image"
                    className="inputClass"
                    onChange={onChangeFile} />
         </div>
 
       <div className="button-line">
-
-        <RaisedButton type="submit" label="UPLOAD BOOK" primary />
-
+        <RaisedButton type="submit" label="Save" primary />
       </div>
 {/*<label htmlFor="my-file-input">Upload a File:</label>
         <FileReaderInput as="binary" id="my-file-input"
@@ -151,7 +130,6 @@ UploadBookPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
-  success: PropTypes.object.isRequired,
   book: PropTypes.object.isRequired,
   onChangeFile:PropTypes.func.isRequired,
  // onChangeFileRead:PropTypes.func.isRequired
