@@ -25,16 +25,21 @@ let exportedMethods = {
                 userPhotoID: user.userID,
                 userTotalPoints: user.userTotalPoints
             };
-            return usersCollection.findOne({ email: user.email }).then((user) => {
-                if (user) throw "Email already exists.";
+            return usersCollection.findOne({ email: user.email }).then((u) => {
+                if (u) throw "Email already exists.";
                 else {
-                    return usersCollection.insertOne(newUser).then((result) => {
-                        return result.insertedId;
-                        // return result;
-                    }).then((newId) => {
-
-                        return this.getUserById(newId);
+                    return usersCollection.findOne({ userID: user.userID }).then((ur) => {
+                        if (ur) throw "userID already exists.";
+                        else {
+                            return usersCollection.insertOne(newUser).then((result) => {
+                                return result.insertedId;
+                                // return result;
+                            }).then((newId) => {
+                                return this.getUserById(newId);
+                            });
+                        }
                     });
+
                 }
             });
         });
@@ -108,7 +113,7 @@ let exportedMethods = {
 
             if (updateUser.password) {
                 updatedUserData.passwordHash = bcrypt.hashSync(updateUser.password);
-                
+
             }
 
             if (updateUser.phoneNumber) {
@@ -123,7 +128,7 @@ let exportedMethods = {
                 updatedUserData.userTotalPoints = updateUser.userTotalPoints;
             }
 
-            
+
 
             let updateCommand = {
                 $set: updatedUserData
@@ -137,9 +142,9 @@ let exportedMethods = {
         });
 
     },
-    deleteUserById(id){
-        return books().then((booksCollection)=>{
-            return booksCollection.deleteOne({_id:id}).then((deletionInfo)=>{
+    deleteUserById(id) {
+        return books().then((booksCollection) => {
+            return booksCollection.deleteOne({ _id: id }).then((deletionInfo) => {
                 if (deletionInfo.deletedCount === 0) {
                     throw `Could not delete user with id of ${id}`
                 }
@@ -150,7 +155,7 @@ let exportedMethods = {
                 console.log("Error while removing user:", e);
             });
         });
-        
+
     },
 
 
@@ -168,7 +173,7 @@ let exportedMethods = {
         });
     },
 
-    updateUserTotalPoints(userid, points){
+    updateUserTotalPoints(userid, points) {
         return users().then((usersCollection) => {
             return usersCollection.findOne({ userID: userid }).then((requestedUser) => {
                 if (!requestedUser) throw "user not foound";
