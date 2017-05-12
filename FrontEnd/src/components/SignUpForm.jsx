@@ -103,7 +103,7 @@ const SignUpForm = ({
         />
       </div>
 
-         <div className="FileUpload">
+         <div className="FileUpload1">
           <FileInput name="myImage"
                   required={true}
                    accept=".png,.gif,.jpeg,.jpg"

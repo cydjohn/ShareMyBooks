@@ -169,6 +169,8 @@ export default class Singlebook extends React.Component {
                                     <br />
                                     <span className="review-no"><strong>Uploaded By This User: </strong>{this.props.book.uploadedBy}</span>
                                     <br />
+                                    <span className="review-no"><strong>Value of Book: </strong>{this.props.book.bookPointsValue}</span>
+                                    <br />
                                     <p className="product-description">{this.props.book.Description}</p>
                                     <div className="action">
                                         {this.state.notRequested && <RaisedButton className="primary" label="Request This Book" onClick={this.handleRequest.bind(this)} primary />}

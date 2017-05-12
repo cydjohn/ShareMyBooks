@@ -123,7 +123,7 @@ const UploadBookPage =({
         />
       </div>
    
- <div className="FileUpload">
+ <div className="FileUpload1">
           <FileInput name="myImage"
                    accept=".png,.gif,.jpeg, .jpg"
                    placeholder="Click here to upload the Image..."

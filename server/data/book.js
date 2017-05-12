@@ -85,13 +85,16 @@ let exportedMethods = {
         console.log(book)
         return books().then((booksCollection) => {
             let id = uuid.v4();
+            if(book.bookPhotoID1 == null){
+                book.bookPhotoID1 = uuid.v4();
+            }
             let bookPointsValueCalculation = this.calculateBooksPointsValue(book);
             let newBook = {
                 _id: id,
                 uploadedBy: book.uploadedBy,
                 Title: book.Title,
                 Author: book.Author,
-                bookPhotoID1: id,
+                bookPhotoID1: book.bookPhotoID1,
                 bookPhotoID2: book.bookPhotoID2,
                 bookPhotoID3: book.bookPhotoID3,
                 Year: book.Year,

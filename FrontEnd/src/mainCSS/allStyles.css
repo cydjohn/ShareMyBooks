@@ -1,3 +1,33 @@
+
+
+.field-line, .button-line {
+  padding: 16px;
+}
+
+.error-message {
+  padding: 0 16px;
+  color: tomato;
+}
+
+.success-message {
+  padding: 0 16px;
+  color: blue;
+  font-weight: bold;
+}
+
+.container1 {
+  margin: 0 auto;
+  margin-top: 20px;
+  text-align: center;
+  width: 700px;
+}
+
+.card-heading {
+  padding: 16px;
+}
+
+
+
 body {
   font-size: 16px;
 }
@@ -279,7 +309,7 @@ align-self: center;
 
 .CategoryDD{
   width: 20%;
-  margin-top: 80px;
+  margin-top: 26px;
   padding-left: 40px;
   padding-right: 10px;
   margin-right: 10px;
@@ -300,9 +330,31 @@ align-self: center;
 }
 
 .searchDiv{
-  height: 80px;
+  height: 74px;
   background: #f1f1f1;
   align-self: center;
+
+}
+
+.searcDiv{
+ height: 26px;
+  background: #f1f1f1;
+  align-self: center;
+}
+
+.homeButton{
+    float : right;
+      background: #f1f1f1;
+
+}
+
+.home{
+margin-left:10px;
+}
+
+
+.AllBooks{
+      margin-top: 51px;
 }
 
 /*****************globals*************/
@@ -699,9 +751,28 @@ html,body{
   cursor: pointer;
 }
 
-.FileUpload{
-  width:20px;
-  height:20px;
+.FileUpload1{
+ border: 10px;
+    box-sizing: border-box;
+    display: inline-block;
+    font-family: Roboto, sans-serif;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0px;
+    padding: 0px;
+    outline: none;
+    font-size: inherit;
+    font-weight: inherit;
+    position: relative;
+    z-index: 1;
+    height: 36px;
+    line-height: 36px;
+    width: 50%;
+    border-radius: 2px;
+    transition: all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms;
+    background-color: rgb(0, 188, 212);
+    text-align: center;
 }
 .viewMessages{
 	text-align: center;
@@ -755,36 +826,6 @@ tr:hover {
     color: white;
    
 }
-
-
-
-.field-line, .button-line {
-  padding: 16px;
-}
-
-.error-message {
-  padding: 0 16px;
-  color: tomato;
-}
-
-.success-message {
-  padding: 0 16px;
-  color: blue;
-  font-weight: bold;
-}
-
-.container1 {
-  margin: 0 auto;
-  margin-top: 20px;
-  text-align: center;
-  width: 700px;
-}
-
-.card-heading {
-  padding: 16px;
-}
-
-
 
 .bs-calltoaction{
     position: relative;
