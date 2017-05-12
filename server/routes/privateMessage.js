@@ -20,7 +20,7 @@ bluebird.promisifyAll(redis.Multi.prototype);
 
 //get messages from this user
 router.get("/from/:userid", (req, res) => {//works
-    let userid = req.params.userid;
+    let userid = xss(req.params.userid);
 pmData.getAllPrivateMessageByFromUserId(userid).then((messageResult) => {
         res.status(200).json(messageResult);
     }).catch((e) => {
@@ -32,7 +32,7 @@ pmData.getAllPrivateMessageByFromUserId(userid).then((messageResult) => {
 
 //get messages to this user
 router.get("/to/:id", (req, res) => {//works
-    let id = req.params.id;
+    let id = xss(req.params.id);
     pmData.getAllPrivateMessageByToUserId(id).then((messageResult) => {
         res.status(200).json(messageResult);
     }).catch((e) => {
@@ -42,7 +42,7 @@ router.get("/to/:id", (req, res) => {//works
 
 //get new messages from this user
 router.get("/from/new/:id", (req, res) => {//works
-    let id = req.params.id;
+    let id = xss(req.params.id);
     pmData.getNewPrivateMessageByFromUserId(id).then((messageResult) => {
         res.status(200).json(messageResult);
     }).catch((e) => {
@@ -52,7 +52,7 @@ router.get("/from/new/:id", (req, res) => {//works
 
 //get new messages to this user
 router.get("/to/new/:id", (req, res) => {//works
-    let id = req.params.id;
+    let id = xss(req.params.id);
     pmData.getNewPrivateMessageByToUserId(id).then((messageResult) => {
         res.status(200).json(messageResult);
     }).catch((e) => {
@@ -62,7 +62,7 @@ router.get("/to/new/:id", (req, res) => {//works
 
 //get messages by its message id
 router.get("/:id", (req, res) => {//works
-    let id = req.params.id;
+    let id = xss(req.params.id);
     pmData.getPrivateMessageById(id).then((messageResult) => {
         res.status(200).json(messageResult);
     }).catch((e) => {
@@ -73,29 +73,32 @@ router.get("/:id", (req, res) => {//works
 //add message to db
 router.post("/", async(req, res) => {//works
     let messageInfo = req.body;
+    let fromUserId = xss(req.body.fromUserId);
+    let toUserId = xss(req.body.toUserId);
+    let messageText = xss(req.body.messageText);
     if (!messageInfo) {
         res.status(400).json({ error: "You must provide data to create a message" });
         //400 means bad request
         return;
     }
 
-    if (!messageInfo.fromUserId) {
+    if (!fromUserId) {
         res.status(400).json({ error: "You must provide who the message is from" });
         return;
     }
 
-    if (!messageInfo.toUserId) {
+    if (!toUserId) {
         res.status(400).json({ error: "You must provide who the message is to" });
         return;
     }
-    if (!messageInfo.messageText) {
+    if (!messageText) {
         res.status(400).json({ error: "You must provide a message body" });
         return;
     }
     let newMessage = {
-        fromUserId: messageInfo.fromUserId,
-        toUserId: messageInfo.toUserId,
-        messageText: messageInfo.messageText
+        fromUserId: fromUserId,
+        toUserId: toUserId,
+        messageText: messageText
     }
 
         try {
@@ -103,7 +106,7 @@ router.post("/", async(req, res) => {//works
             redis: redisConnection,
             eventName: "addPrivateMessageToDB",
             data: {
-                message: xss(newMessage)
+                message: newMessage
             }
         });
 
@@ -115,12 +118,12 @@ router.post("/", async(req, res) => {//works
 
 
 router.put("/:id", (req, res) => {//works
-
-    let getMessage = pmData.getPrivateMessageById(req.params.id);
+    let id = xss(req.params.id);
+    let getMessage = pmData.getPrivateMessageById(id);
     
     getMessage.then((messageToUpdate) => {
 
-    return pmData.updateMessageReadStatus(req.params.id, messageToUpdate)
+    return pmData.updateMessageReadStatus(id, messageToUpdate)
             .then((updatedMessage) => {
                 res.status(200).json(updatedMessage);
             }).catch((e) => {
@@ -133,7 +136,7 @@ router.put("/:id", (req, res) => {//works
 });
 
 router.delete("/:id", (req, res) => {//works
-    let id = req.params.id;
+    let id = xss(req.params.id);
 
     pmData.deletePrivateMessageById(id)
             .then((deleteStatus) => {

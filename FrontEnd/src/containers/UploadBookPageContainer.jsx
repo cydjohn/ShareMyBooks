@@ -106,7 +106,7 @@ this.state.book.description && this.state.book.location){
         let errorMessage = resp.body.message;
         console.log("this:");
         console.log(this);
-        this.setState({errors: errorMessage, success: ''});
+        this.setState({errors: errorMessage + "Book may already exist. Please try again with another book.", success: ''});
 
       }
       else{
