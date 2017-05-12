@@ -17,6 +17,8 @@ const jwt = require('jsonwebtoken');
 const jwtSecret = "a secret phrase!!"
 const multer = require('multer');
 const upload = multer({ dest: "./uploads" });
+const xss = require("xss");
+
 
 const userData = data.user;
 
@@ -60,7 +62,7 @@ router.get("/user/:userid", (req, res) => {
 
 
 router.put("/:id",(req, res) => {
-    userData.updateUser(req.params.id,req.body).then((user) =>{
+    userData.updateUser(req.params.id,xss(req.body)).then((user) =>{
         if(!user) {
             res.status(200).json({
                 success: false,

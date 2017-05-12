@@ -84,7 +84,7 @@ router.post("/", (req, res) => {
         return;
     }
 
-    userRequestsData.addUserRequest(req.body).then((userRequest) => {
+    userRequestsData.addUserRequest(xss(requestInfo)).then((userRequest) => {
         if (!userRequest) {
             res.status(200).json({
                 success: false,
