@@ -7,7 +7,7 @@ const uuid = require('node-uuid');
 var moment = require('moment');
 const data = require("../data");
 const userData = data.user;
-var xss = require('node-xss').clean;
+
 
 
 let exportedMethods = {
@@ -211,43 +211,43 @@ let exportedMethods = {
             let updatedBookData = {};
 
             if (updateBook.Title) {
-                updatedBookData.title = xss(updateBook.title);
+                updatedBookData.title = updateBook.title;
             }
 
             if (updateBook.Author) {
-                updatedBookData.Author = xss(updateBook.Author);
+                updatedBookData.Author = updateBook.Author;
             }
 
             if (updateBook.bookPhotoID1) {
-                updatedBookData.bookPhotoID1 = xss(updateBook.bookPhotoID1);
+                updatedBookData.bookPhotoID1 = updateBook.bookPhotoID1;
             }
 
             if (updateBook.bookPhotoID2) {
-                updatedBookData.bookPhotoID2 = xss(updateBook.bookPhotoID2);
+                updatedBookData.bookPhotoID2 = updateBook.bookPhotoID2;
             }
 
             if (updateBook.bookPhotoID3) {
-                updatedBookData.bookPhotoID3 = xss(updateBook.bookPhotoID3);
+                updatedBookData.bookPhotoID3 = updateBook.bookPhotoID;
             }
 
             if (updateBook.Year) {
-                updatedBookData.Year = xss(updateBook.Year);
+                updatedBookData.Year = updateBook.Year;
             }
 
             if (updateBook.Category) {
-                updatedBookData.Category = xss(updateBook.Category);
+                updatedBookData.Category = updateBook.Category;
             }
 
             if (updateBook.Condition) {
-                updatedBookData.Condition = xss(updateBook.Condition);
+                updatedBookData.Condition = updateBook.Condition;
             }
 
             if (updateBook.Location) {
-                updatedBookData.Location = xss(updateBook.Location);
+                updatedBookData.Location = updateBook.Location;
             }
 
             if (updateBook.Description) {
-                updatedBookData.Description = xss(updateBook.Description);
+                updatedBookData.Description = updateBook.Description;
             }
 
             if (updateBook.bookPointsValue && typeof (updateBook.bookPointsValue) == "number") {
