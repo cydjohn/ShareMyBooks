@@ -11,6 +11,7 @@ const path = require("path");
 const data = require("../data");
 const pmData = data.privateMessage;
 const userData = data.user;
+const xss = require("xss");
 
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -102,7 +103,7 @@ router.post("/", async(req, res) => {//works
             redis: redisConnection,
             eventName: "addPrivateMessageToDB",
             data: {
-                message: newMessage
+                message: xss(newMessage)
             }
         });
 
