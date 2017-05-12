@@ -33,7 +33,8 @@ router.get("/", (req, res) => {
 });
 //get all books where page=0 is the first set
 router.get("/page/:page", (req, res) => {
-    bookData.getAllBooks(req.params.page).then((bookList) => {
+    let page = xss(req.params.page);
+    bookData.getAllBooks(page).then((bookList) => {
         res.status(200).json(bookList);
     }, () => {
         // Something went wrong with the server!
@@ -43,7 +44,8 @@ router.get("/page/:page", (req, res) => {
 
 //get recently uploaded books where page=0 is the first set with a total of 12 books in all for 2 pages
 router.get("/recent/:page", (req, res) => {
-    bookData.getRecentlyUploadedBooks(req.params.page).then((bookList) => {
+    let page = xss(req.params.page);
+    bookData.getRecentlyUploadedBooks(page).then((bookList) => {
         res.status(200).json(bookList);
     }, () => {
         // Something went wrong with the server!
@@ -63,7 +65,7 @@ router.get("/categories", (req, res) => {
 
 //get 1 book
 router.get("/:bookid", (req, res) => {
-    let bookid = req.params.bookid;
+    let bookid = xss(req.params.bookid);
     bookData.getBookById(bookid).then((bookResult) => {
         res.status(200).json(bookResult);
     }, () => {
@@ -98,58 +100,78 @@ router.post("/",upload.single('photo'), (req, res) => {
 
     let bookImagePath = req.file.path;
     var bookInfo = req.body;
+    let uploadedBy = xss(req.body.uploadedBy);
+    let Title = xss(req.body.Title);
+    let Author = xss(req.body.Author);
+    let Year = xss(req.body.Year);
+    let Category = xss(req.body.Category);
+    let Condition = xss(req.body.Condition);
+    let Location = xss(req.body.Location);
+    let Description = xss(req.body.Description);
+
+    let newBookObj = {
+        uploadedBy : uploadedBy,
+    Title : Title,
+     Author : Author,
+     Year : Year,
+     Category : Category,
+     Condition : Condition,
+     Location : Location,
+     Description: Description
+    }
+
     if (!bookInfo) {
         res.status(400).json({ error: "You must provide data to upload an book" });
         return;
     }
 
-    if (!bookInfo.uploadedBy) {
+    if (!uploadedBy) {
         res.status(400).json({ error: "You must provide a user who uploaded the book" });
         return;
     }
 
-    if (!bookInfo.Title) {
+    if (!Title) {
         res.status(400).json({ error: "You must provide a title" });
         return;
     }
 
-    if (!bookInfo.Author) {
+    if (!Author) {
         res.status(400).json({ error: "You must provide an author" });
         return;
     }
 
-    if (!bookInfo.Year) {
+    if (!Year) {
         res.status(400).json({ error: "You must provide a year" });
         return;
     }
 
 
 
-    if (isNaN(bookInfo.Year) === true ) {// returns true if the variable does NOT contain a valid number
+    if (isNaN(Year) === true ) {// returns true if the variable does NOT contain a valid number
         res.status(400).json({ error: "You must provide a year and it must be a 4 digit number" });
         return;
     }
 
-    if (!bookInfo.Category) {
+    if (!Category) {
         res.status(400).json({ error: "You must provide a category" });
         return;
     }
-    if (!bookInfo.Condition) {
+    if (!Condition) {
         res.status(400).json({ error: "You must provide a condition" });
         return;
     }
-    if (!bookInfo.Location) {
+    if (!Location) {
         res.status(400).json({ error: "You must provide a location" });
         return;
     }
-    if (!bookInfo.Description) {
+    if (!Description) {
         res.status(400).json({ error: "You must provide a description" });
         return;
     }
 
-return userData.getUserById(bookInfo.uploadedBy).then((userResult)=>{
-    bookInfo.uploadedBy = userResult.userID;
-    bookData.addBook(xss(bookInfo)).then(async (book) => {
+return userData.getUserById(uploadedBy).then((userResult)=>{
+    newBookObj.uploadedBy = userResult.userID;
+    bookData.addBook(newBookObj).then(async (book) => {
         if (!book) {
             return res.status(200).json({
                 success: false,
@@ -185,7 +207,8 @@ return userData.getUserById(bookInfo.uploadedBy).then((userResult)=>{
 });
 
 router.delete("/:id", (req, res) => {
-    bookData.deleteBookById(req.params.id).then((bookId) => {
+    let id = xss(req.params.id);
+    bookData.deleteBookById(id).then((bookId) => {
         if (!bookId) {
             return res.status(200).json({
                 success: false,
@@ -202,7 +225,9 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-    bookData.updateBookInfo(req.params.id, xss(req.body)).then((book) => {
+    let updatedBook = xss(req.body);
+    let updatedBookID = xss(req.params.id);
+    bookData.updateBookInfo(updatedBookID, updatedBook).then((book) => {
         if (!book) {
             res.status(200).json({
                 success: false,
@@ -220,24 +245,28 @@ router.put("/:id", (req, res) => {
 });
 
 router.get("/search/:keyword", (req, res) => {
-    if (req.params.keyword === undefined) {
+    let keyword = xss(req.params.keyword);
+    if (keyword === undefined) {
         res.status(200).json({ message: "must provide a keyword" });
     }
     else {
-        bookList = bookData.searchForBook(req.params.keyword).then((bookList) => {
+        bookList = bookData.searchForBook(keyword).then((bookList) => {
             res.status(200).json(bookList);
         });
     }
 });
 
 router.get("/category/:category", (req, res) => {
-    bookData.viewBooksByCategory(req.params.category).then((bookList) => {
+    let category = xss(req.params.category);
+    bookData.viewBooksByCategory(category).then((bookList) => {
         res.status(200).json(bookList);
     });
 });
 
 router.post("/searchByCategory", (req, res) => {
-   bookData.searchForBookByCategory(req.body.keyword, req.body.category).then((bookList) => {
+    let keyword = xss(req.body.keyword);
+    let category = xss(req.body.category);
+   bookData.searchForBookByCategory(keyword, category).then((bookList) => {
         res.status(200).json(bookList);
     });
 })
