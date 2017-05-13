@@ -23,7 +23,7 @@ let exportedMethods = {
                 email: decodeURIComponent(user.email),
                 phoneNumber: user.phoneNumber,
                 userPhotoID: user.userID,
-                userTotalPoints: user.userTotalPoints
+                userTotalPoints: 0
             };
             return usersCollection.findOne({ email: user.email }).then((u) => {
                 if (u) throw "Email already exists.";
