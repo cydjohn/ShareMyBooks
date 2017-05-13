@@ -109,8 +109,9 @@ export default class Singlebook extends React.Component {
                         console.log("Im in compoenntmountdata")
                         console.log(data);
                         if (data.success == true) {
-                            if(data.message.requestFrom!=data.message.requestTo){
+                           
                             data.message.map((eachRequest) => {
+                                if(eachRequest.requestResult.requestFrom!==eachRequest.requestResult.requestTo){
                                 if (eachRequest.requestResult.bookId == self.props.book._id) {
                                     self.setState({
                                         requestSuccess: true,
@@ -119,8 +120,9 @@ export default class Singlebook extends React.Component {
                                     })
                                 
                                 }
+                                 }
                             })
-                            }   
+                            
                         }
                     })
             })
