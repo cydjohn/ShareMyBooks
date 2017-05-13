@@ -7,12 +7,15 @@ import SingleBookPage from './components/SingleBookPage.jsx';
 import MessageBoard from './containers/MessageBoard.jsx';
 import PrivateMessage from './containers/PrivateMessagePage.jsx';
 import PrivateMessageToAnyUserPage from './containers/PrivateMessageToAnyUserPage.jsx';
-import EditUserPage from './containers/EditUserPage.jsx';
+ import EditUserPage from './containers/EditUserPage.jsx';
 // import EditUserPage from './components/EditUserPage.jsx';
 import UploadBookPageContainer from './containers/UploadBookPageContainer.jsx';
 import ViewReceivedRequests from './containers/ViewReceivedRequests.jsx';
+
 import ViewSentRequests from './containers/ViewSentRequests.jsx';
+
 import ViewPrivateMessages from './containers/ViewPrivateMessages.jsx';
+
 
 //  import viewReceivedRequests from './containers/viewReceivedRequests.jsx';
 // import UploadBookPage from './components/UploadBookPage.jsx';
@@ -44,8 +47,8 @@ const routes = {
 
     {
       path: '/edituser',
-      component: EditUserPage
-    },
+       component: EditUserPage
+     },
 
     {
       path: '/signup',
@@ -108,14 +111,18 @@ const routes = {
       }
     },
     {
+
       path: '/viewsentrequests',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {
           callback(null, ViewSentRequests);
+          } else {
+          callback(null, LoginPage);
         }
       }
     },
-    {
+{
+
       path: '/view_private_messages',
       getComponent: (location, callback) => {
         if (Auth.isUserAuthenticated()) {

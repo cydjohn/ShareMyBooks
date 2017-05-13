@@ -11,14 +11,7 @@ const ViewMessages = ({
 }) => (
         <div>
 
-{/*<tr>
-  <td>{messages.fromUserId}</td>
-  <td>{messages.toUserId}</td>
-  <td> {messages.messageText} </td>
-  <td> {messages.messageRead.toString()} </td> 
-  <td>  {messages.time} </td>
-  </tr>
-*/}
+
                            <tr key={index} data-item={messages} onClick={readMessage}>
                                 <th>From:</th>
                             <td>{messages.fromUserId}</td>

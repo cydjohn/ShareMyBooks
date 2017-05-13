@@ -32,8 +32,8 @@ const colors = [
 const Search = ({
   onSubmit,
     onUpdateInput,
-    OnRecent,
 }) => (
+
         <div className="searchDiv">
             <center>
                 <form action="/" onSubmit={onSubmit}>
@@ -58,7 +58,6 @@ const Search = ({
 Search.propTypes = {
     onSubmit: PropTypes.func.isRequired,
     onUpdateInput: PropTypes.func.isRequired,
-    OnRecent: PropTypes.func.isRequired,
 
 };
 

@@ -92,3 +92,7 @@ span.tags
     margin-left: -10px;
     z-index: 10;
     }
+p {
+  font-family: Helvetica, "Trebuchet MS", Verdana, sans-serif;
+  font-size: 17px;
+}

@@ -18,7 +18,7 @@ const EditUser= ({
 }) => (
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Edit Info</h2>
+      <h1 className="card-heading">Edit Info</h1>
       {errors && <p className="error-message">{errors}</p>}
       
   <div className="well profile">
@@ -31,15 +31,17 @@ const EditUser= ({
           errorText={errors.firstName}
           onChange={onChange}
           value={user.firstName}
+           required={true}
         />
       </div>
        <div className="field-line">
         <TextField
           floatingLabelText="Last Name"
-          name="LastName"
-          errorText={errors.LastName}
+          name="lastName"
+          errorText={errors.lastName}
           onChange={onChange}
-          value={user.LastName}
+          value={user.lastName}
+           required={true}
         />
       </div>
       <div className="field-line">
@@ -50,6 +52,7 @@ const EditUser= ({
           onChange={onChange}
           errorText={errors.password}
           value={user.password}
+           required={true}
         />
       </div>
       <div className="field-line">
@@ -59,6 +62,7 @@ const EditUser= ({
           errorText={errors.Location}
           onChange={onChange}
           value={user.address}
+           required={true}
         />
       </div>
        <div className="field-line">
@@ -69,16 +73,19 @@ const EditUser= ({
           errorText={errors.email}
           onChange={onChange}
           value={user.email}
+           required={true}
         />
       </div> 
        <div className="field-line">
-        <NumberInput
+        <TextField
           floatingLabelText="Phone Number"
          // type="number"
-          name="PhoneNumber"
-          errorText={errors.PhoneNumber}
+          name="phoneNumber"
+          errorText={errors.phoneNumber}
           onChange={onChange}
-          value={user.PhoneNumber}
+          value={user.phoneNumber}
+           required={true}
+           type="number"
         />
       </div>
       
@@ -88,7 +95,7 @@ const EditUser= ({
       </div>
       </div>
       <div className="col-xs-12 col-sm-4">
-      <img src={"../bookPageImages/464d4339-826c-4744-94ce-ec07efa134c3.png"} alt="" className="img-circle img-responsive" />
+      
       </div>
       </div> 
       </div>

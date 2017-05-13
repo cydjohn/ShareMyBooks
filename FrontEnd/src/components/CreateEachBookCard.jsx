@@ -1,7 +1,7 @@
 import React from 'react';
 // import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText } from 'material-ui/Card';
 // import FlatButton from 'material-ui/FlatButton';
- //import '../styles/CreateEachBookCard.css'
+ import '../styles/CreateEachBookCard.css'
 
 import {
     Card, CardImg, CardText, CardBlock, CardLink,
@@ -27,7 +27,7 @@ export default class CreateEachBookCard extends React.Component {
                     <CardBlock>
                         <CardText>{this.props.Description}</CardText>
                         <CardLink href={`/books/${this.props.bookID}`}>More Info</CardLink>
-                        <CardLink href="#">Like</CardLink>
+                        
                     </CardBlock>
                 </Card>
             </div>

@@ -15,10 +15,14 @@ const bcrypt = require("bcrypt-nodejs");
 const passport = require("passport");
 const jwt = require('jsonwebtoken');
 const jwtSecret = "a secret phrase!!"
+const multer = require('multer');
+const upload = multer({ dest: "./uploads" });
+const xss = require("xss");
+
 
 const userData = data.user;
 
-var srcUserImage = "../testImageMagick/1.jpeg";
+var srcUserImage = "../testImageMagick/user5.jpeg";
 //var desPath = "../testImageMagick/";
 
 bluebird.promisifyAll(redis.RedisClient.prototype);
@@ -36,7 +40,7 @@ router.get("/", (req, res) => {
 
 //get 1 user by _id
 router.get("/:id", (req, res) => {
-    let id = req.params.id;
+    let id = xss(req.params.id);
     userData.getUserById(id).then((userResult) => {
         res.status(200).json(userResult);
     }, () => {
@@ -47,7 +51,7 @@ router.get("/:id", (req, res) => {
 
 //get 1 user by userid
 router.get("/user/:userid", (req, res) => {
-    let userid = req.params.userid;
+    let userid = xss(req.params.userid);
     userData.getUserByUserId(userid).then((userResult) => {
         res.status(200).json(userResult);
     }, () => {
@@ -58,7 +62,22 @@ router.get("/user/:userid", (req, res) => {
 
 
 router.put("/:id",(req, res) => {
-    userData.updateUser(req.params.id,req.body).then((user) =>{
+    let id = xss(req.params.id);
+    
+    let address = xss(req.body.address);
+    let email = xss(req.body.email);
+    let firstName = xss(req.body.firstName);
+    let lastName = xss(req.body.lastName);
+    let phoneNumber = xss(req.body.phoneNumber);
+    
+    let updatedUser = {
+        address: address,
+        email: email,
+        firstName: firstName,
+        lastName: lastName,
+        phoneNumber: phoneNumber
+    }
+    userData.updateUser(id,updatedUser).then((user) =>{
         if(!user) {
             res.status(200).json({
                 success: false,
@@ -105,14 +124,15 @@ router.post('/login', (req, res, next) => {
     console.log(req.body)
 
     return passport.authenticate('login', (err, success, data) => {
-        console.log(data.token, "++++++++++", data.user)
+        
         if (!success) {
             return res.status(400).json({
                 success: false,
-                message: 'Could not process the form.'
+                message: 'Could not process the form'
             });
         }
         else {
+            console.log(data.token, "++++++++++", data.user)
             return res.status(200).json({
                 success: true,
                 message: 'login succeed!',
@@ -123,52 +143,71 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
-router.post("/signup", function (request, res) {
-    //let userImagePath = request.file.path;
+router.post("/signup",upload.single('photo'),function (request, res) {
+    let userImagePath = request.file.path;
     var userInfo = request.body;
     console.log(userInfo)
+    console.log(request.file)
+    let firstName = xss(request.body.firstName);
+    let lastName = xss(request.body.lastName);
+    let userID = xss(request.body.userID);
+    let password = xss(request.body.password);
+
+    let address = xss(request.body.address);
+    let email = xss(request.body.email);
+    let phoneNumber = xss(request.body.phoneNumber);
+
+    let newUserObj = {
+       firstName: firstName,
+        lastName: lastName,
+        userID: userID,
+        password: password,
+        address: address,
+        email: email,
+        phoneNumber: phoneNumber
+    }
     if (!userInfo) {
         res.status(400).json({ error: "You must provide data to create an account" });
         return;
     }
 
-    if (!userInfo.firstName) {
+    if (!firstName) {
         res.status(400).json({ error: "You must provide a first name" });
         return;
     }
 
-    if (!userInfo.lastName) {
+    if (!lastName) {
         res.status(400).json({ error: "You must provide a last name" });
         return;
     }
 
-    if (!userInfo.userID) {
+    if (!userID) {
         res.status(400).json({ error: "You must provide a userid" });
         return;
     }
 
-    if (!userInfo.password) {
+    if (!password) {
         res.status(400).json({ error: "You must provide a password" });
         return;
     }
     
 
-    if (!userInfo.address) {
+    if (!address) {
         res.status(400).json({ error: "You must provide a address" });
         return;
     }
 
-    if (!userInfo.email) {
+    if (!email) {
         res.status(400).json({ error: "You must provide an email" });
         return;
     }
-    if (!userInfo.phoneNumber) {
+    if (!phoneNumber) {
         res.status(400).json({ error: "You must provide a phone number" });
         return;
     }
     
-    console.log(requestData)
-    userData.addUser(request.body)
+    //console.log(request)
+    userData.addUser(newUserObj)
         .then(async(newUser) => {
              if (!newUser) {
             return res.status(200).json({
@@ -182,7 +221,7 @@ router.post("/signup", function (request, res) {
             try {
                 response = await nrpSender.sendMessage({
                     redis: redisConnection,
-                    eventName: "convertUserImageToThumbnailAndPageImg",
+                    eventName: "convertUserImage",
                     data: {
                         image: userImagePath,
                         userName: newUser.userID
@@ -214,10 +253,10 @@ router.get("/image/resizeWorker", async (req, res) => {
     try {
         let response = await nrpSender.sendMessage({
             redis: redisConnection,
-            eventName: "convertUserImageToThumbnailAndPageImg",
+            eventName: "convertUserImage",
                     data: {
                         image: srcUserImage,
-                        userName: "testCheck2"
+                        userName: "janderson"
                     }
         });
 

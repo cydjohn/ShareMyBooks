@@ -121,7 +121,7 @@ handleSubmit(event){
     return(
          <Card className="container1">
     <form action="/" onSubmit={this.handleSubmit}>
-      <h2 className="card-heading">Send A Private Message to a User</h2>
+      <h1 className="card-heading">Send A Private Message to a User</h1>
       {this.state.submissionError && <p className="error-message">{this.state.submissionError}</p>}
 {this.props.errors && <p className="error-message">{this.props.errors}</p>}
 {this.props.sucess && <p className="success-message">{this.props.sucess}</p>}
