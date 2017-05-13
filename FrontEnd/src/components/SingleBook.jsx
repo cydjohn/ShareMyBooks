@@ -168,11 +168,11 @@ export default class Singlebook extends React.Component {
                                 <div className="preview col-md-4">
 
                                     <div className="preview-pic tab-content">
-                                        <div className="tab-pane active" id="pic-1"><img src={`../bookPageImages/${this.props.book.bookPhotoID1}.png`} /></div>
-                                        <div className="tab-pane" id="pic-2"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                        <div className="tab-pane active" id="pic-1"><img alt="book image" src={`../bookPageImages/${this.props.book.bookPhotoID1}.png`} /></div>
+                                        {/*<div className="tab-pane" id="pic-2"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
                                         <div className="tab-pane" id="pic-3"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
                                         <div className="tab-pane" id="pic-4"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
-                                        <div className="tab-pane" id="pic-5"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>
+                                        <div className="tab-pane" id="pic-5"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></div>*/}
                                     </div>
                                     {/*<ul className="preview-thumbnail nav nav-tabs">
                                     <li className="active"><a data-target="#pic-1" data-toggle="tab"><img src={`../bookPageImages/${this.props.bookPhotoID1}.png`} /></a></li>
@@ -196,9 +196,10 @@ export default class Singlebook extends React.Component {
                                     <p className="product-description">{this.props.book.Description}</p>
                                     <div className="action">
                                         {this.state.errors && <p className="error-message">{"cannot Request your own book"}</p>}
-                                        { this.state.notRequested && <RaisedButton className="primary" label="Request This Book" onClick={this.handleRequest.bind(this)} primary />}
-                                        { this.state.requestSuccess && <RaisedButton className="primary" label="Book Already Requested" disabled={true} primary />}
-                                        <RaisedButton label="Contact the Owner" href={`/private_message/${this.props.book.uploadedBy}`} secondary />
+                                        { this.state.notRequested && <RaisedButton className="primary" label="Request This Book" onClick={this.handleRequest.bind(this)} backgroundColor="#006dcc" labelColor="white" />}
+                                        { this.state.requestSuccess && <RaisedButton className="primary" label="Book Already Requested" disabled={true} disabledBackgroundColor="white"
+                                                            disabledLabelColor="black" />}
+                                        <RaisedButton label="Contact the Owner" href={`/private_message/${this.props.book.uploadedBy}`} backgroundColor="#006dcc" labelColor="white" />
                                         {/*<button className="add-to-cart btn btn-default" type="button">Request this book</button>*/}
                                         {/*<button className="like btn btn-default" type="button"><span className="fa fa-heart"></span></button>*/}
                                     </div>

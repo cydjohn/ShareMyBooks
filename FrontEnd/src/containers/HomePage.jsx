@@ -215,6 +215,7 @@ export default class HomePage extends React.Component {
                     <div className="searcDiv">
                         <div className="CategoryDD">
                             <SelectField
+                            floatingLabelStyle={{ color: 'slateblue' }}
                                 floatingLabelText="Category:"
                                 name="category"
                                 value={this.state.category}
@@ -233,7 +234,7 @@ export default class HomePage extends React.Component {
                         onUpdateInput={this.processInput.bind(this)}
                     />
                     <div className="homeButton">
-                        <button className="recent" onClick={this.handleRecentBook.bind(this)}>Recent Page</button>
+                        <button className="recent" onClick={this.handleRecentBook.bind(this)}>Recently Uploaded</button>
                         <button className="home" onClick={this.handleHomeBook.bind(this)}>Home Page</button>
                     </div>
                     <CreateListOfBooks ListOfBooks={this.state.Books} />
@@ -247,7 +248,7 @@ export default class HomePage extends React.Component {
         else if (this.state.Books.length === 0)
             return <div >
                 <div className="homeButton">
-                    <button className="recent" onClick={this.handleRecentBook.bind(this)}>Recent Page</button>
+                    <button className="recent" onClick={this.handleRecentBook.bind(this)}>Recently Uploaded</button>
                     <button className="home" onClick={this.handleHomeBook.bind(this)}>Home Page</button>
                 </div>
                 <h2>No Books In this Category</h2>
@@ -257,10 +258,14 @@ export default class HomePage extends React.Component {
             return (
                 <div className="container">
                     <div className="searcDiv">
+                        <label>
                         <div className="CategoryDD">
+                            <label> 
                             <SelectField
+                            floatingLabelStyle={{ color: 'slateblue' }}
                                 floatingLabelText="Category:"
                                 name="category"
+                               
                                 value={this.state.category}
                                 onChange={this.processCategoryChange.bind(this)}
                             >
@@ -269,14 +274,16 @@ export default class HomePage extends React.Component {
                                     <MenuItem key={index} value={c} primaryText={c} />
                                 )}
                             </SelectField>
+                            </label>
                         </div>
+                        </label>
                     </div>
                     <Search
                         onSubmit={this.processSearch.bind(this)}
                         onUpdateInput={this.processInput.bind(this)}
                     />
                     <div className="homeButton">
-                        <button className="recent" onClick={this.handleRecentBook.bind(this)}>Recent Page</button>
+                        <button className="recent" onClick={this.handleRecentBook.bind(this)}>Recently Uploaded</button>
                         <button className="home" onClick={this.handleHomeBook.bind(this)}>Home Page</button>
                     </div>
                     <CreateListOfBooks ListOfBooks={this.state.Books} />

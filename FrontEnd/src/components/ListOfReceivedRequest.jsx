@@ -101,9 +101,9 @@ export default class ListOfReceivedRequest extends React.Component {
                                     <div className="bs-calltoaction bs-calltoaction-info">
                                         <div className="row">
                                             <div className="col-md-6 cta-contents">
-                                                <h2 className="cta-title">Book ID: {eachRequest.requestResult.bookId}</h2>
+                                                <h2 className="cta-title">Requested Book: {eachRequest.bookName}</h2>
                                                 <div className="cta-desc">
-                                                     <p> Requested Book: {eachRequest.bookName} </p>
+                                                    
                                                     <p>Requested by: {eachRequest.requestResult.requestFrom}</p>
                                                     <p> Request Number: {eachRequest.requestResult._id} </p>
                                                 </div>
@@ -143,7 +143,7 @@ export default class ListOfReceivedRequest extends React.Component {
                                         <div className="bs-calltoaction bs-calltoaction-info">
                                             <div className="row">
                                                 <div className="col-md-6 cta-contents">
-                                                    <h2 className="cta-title">Book ID: {eachRequest.requestResult.bookId}</h2>
+                                                    <h2 className="cta-title">Requested Book: {eachRequest.bookName}</h2>
                                                     <div className="cta-desc">
                                                         <p>Requested by: {eachRequest.requestResult.requestFrom}</p>
                                                         <p> Request Number: {eachRequest.requestResult._id} </p>
@@ -156,7 +156,8 @@ export default class ListOfReceivedRequest extends React.Component {
                                                         <RaisedButton className="primary"
                                                             label="Accepted"
                                                             disabled={true}
-                                                            primary />
+                                                            disabledBackgroundColor="white"
+                                                            disabledLabelColor="black" />
                                                     </div>
                                                 </div>
                                             </div>
@@ -172,7 +173,7 @@ export default class ListOfReceivedRequest extends React.Component {
                                         <div className="bs-calltoaction bs-calltoaction-info">
                                             <div className="row">
                                                 <div className="col-md-6 cta-contents">
-                                                    <h2 className="cta-title">Book ID: {eachRequest.requestResult.bookId}</h2>
+                                                    <h2 className="cta-title">Requested Book: {eachRequest.bookName}</h2>
                                                     <div className="cta-desc">
                                                         <p>Requested by: {eachRequest.requestResult.requestFrom}</p>
                                                         <p> Request Number: {eachRequest.requestResult._id} </p>
@@ -185,7 +186,8 @@ export default class ListOfReceivedRequest extends React.Component {
                                                         <RaisedButton className="primary"
                                                             label="Rejected"
                                                             disabled={true}
-                                                            primary />
+                                                            disabledBackgroundColor="white"
+                                                            disabledLabelColor="black" />
                                                     </div>
                                                 </div>
                                             </div>

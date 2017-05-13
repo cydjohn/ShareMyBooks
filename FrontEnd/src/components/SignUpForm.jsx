@@ -9,6 +9,11 @@ import FileReaderInput from 'react-file-reader-input';
 //import '../styles/authentication.css';
 
 
+const styles = {
+  floatingLabelStyle: {
+    color: "slateblue",
+  },
+};
 
 const SignUpForm = ({
   onSubmit,
@@ -25,6 +30,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="First Name"
           name="fname"          
           onChange={onChange}
@@ -38,6 +44,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Last Name"
           name="lname"          
           onChange={onChange}
@@ -50,6 +57,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Address"
           name="address"        
           onChange={onChange}
@@ -60,6 +68,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Phone Number"
           name="number"
           type="number"         
@@ -72,6 +81,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Email"
           name="email"        
           onChange={onChange}
@@ -84,6 +94,7 @@ const SignUpForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Password"
           type="password"
           name="password"
@@ -95,6 +106,7 @@ const SignUpForm = ({
 
         <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="UserID"
           name="userID"        
           onChange={onChange}
@@ -104,20 +116,22 @@ const SignUpForm = ({
       </div>
 
          <div className="FileUpload1">
+           <label>
           <FileInput name="myImage"
                   required={true}
                    accept=".png,.gif,.jpeg,.jpg"
                    placeholder="Click Here to Upload An Image"
                    className="inputClass"
                    onChange={onChangeFile} />
+                   </label>
         </div>
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Create New Account" primary />
+        <RaisedButton type="submit" label="Create New Account" backgroundColor="#006dcc" labelColor="white" />
       </div>
 
-      <CardText>Already have an account? <Link to={'/login'}>Log in</Link></CardText>
+      <CardText>Already have an account? <Link to={'/login'} className="account_link">Log in</Link></CardText>
     </form>
   </Card>
 );

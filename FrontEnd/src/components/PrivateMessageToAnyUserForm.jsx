@@ -10,6 +10,11 @@ import MenuItem from 'material-ui/MenuItem';
 //import '../styles/authentication.css';
 const baseUrl = "http://localhost:3002";
 
+const styles = {
+  floatingLabelStyle: {
+    color: "slateblue",
+  },
+};
 
 class PrivateMessageToAnyUserForm extends React.Component {
 
@@ -127,6 +132,7 @@ handleSubmit(event){
 {this.props.sucess && <p className="success-message">{this.props.sucess}</p>}
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="From:"
           name="fromUser"
           value={this.props.fromUser}
@@ -135,8 +141,9 @@ handleSubmit(event){
       </div>
 
       <div className="field-line">
-        
+        <label>
 <SelectField
+    floatingLabelStyle={{ color: 'slateblue' }}
           floatingLabelText="Select a User To Send Message To:"
           name="toUser"
           value={this.props.toUser}
@@ -146,11 +153,12 @@ handleSubmit(event){
             <MenuItem key={index} value={userid} primaryText={userid} />
           )}
         </SelectField>
-
+</label>
       </div>
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Message to Send"
           name="message"
           onChange={this.handleMessageChange}
@@ -161,7 +169,7 @@ handleSubmit(event){
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="SEND MESSAGE" primary />
+        <RaisedButton type="submit" label="SEND MESSAGE" backgroundColor="#006dcc" labelColor="white" />
       </div>
 
     </form>

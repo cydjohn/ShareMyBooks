@@ -28,7 +28,7 @@ export default class CreateEachBookCard extends React.Component {
                     <img  height="10px" style={{alignSelf: 'center', width: '150px', height: '200px' }} src={`../bookThumbnailImages/${this.props.bookPhotoID1}.png`} alt="Card image cap" />
                     <CardBlock>
                         <CardText>{this.props.Description}</CardText>
-                        <CardLink href={`/books/${this.props.bookID}`}>More Info</CardLink>
+                        <CardLink className="btn btn-primary" href={`/books/${this.props.bookID}`}>More Info</CardLink>
                         
                     </CardBlock>
                 </Card>

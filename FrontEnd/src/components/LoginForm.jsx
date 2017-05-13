@@ -6,6 +6,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 //import '../styles/authentication.css';
 
+const styles = {
+  floatingLabelStyle: {
+    color: "slateblue",
+  },
+};
 
 const LoginForm = ({
   onSubmit,
@@ -23,6 +28,7 @@ const LoginForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Email"
           name="email"
           errorText={errors.email}
@@ -34,6 +40,7 @@ const LoginForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Password"
           type="password"
           name="password"
@@ -45,10 +52,10 @@ const LoginForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Log in" primary />
+        <RaisedButton type="submit" label="Log in" backgroundColor="#006dcc" labelColor="white" />
       </div>
 
-      <CardText>Don't have an account? <Link to={'/signup'}>Create one</Link>.</CardText>
+      <CardText>Don't have an account? <Link to={'/signup'} className="account_link">Create one</Link>.</CardText>
     </form>
   </Card>
 );

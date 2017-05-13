@@ -50,7 +50,7 @@ class ViewSentRequest extends React.Component {
      */
     render() {
         if (this.state.requests.length === 0)
-            return <div>Loading...</div>;
+            return <h1>No Requests Sent By You</h1>;
         return (
                 <ListOfSentRequest requests={this.state.requests}
                 />

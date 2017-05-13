@@ -1,3 +1,4 @@
+/*
 const gulp = require("gulp");
 const gulpWatch = require("gulp");
 const concatenate = require("gulp-concat");
@@ -27,3 +28,4 @@ gulp.task("watch", () => {
 });
 
 gulp.task("default", ["watch"]);
+*/

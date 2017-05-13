@@ -8,6 +8,11 @@ import TextField from 'material-ui/TextField';
 import '../styles/authentication.css';
 import NumberInput from 'material-ui-number-input';
 
+const styles = {
+  floatingLabelStyle: {
+    color: "slateblue",
+  },
+};
 
 const EditUser= ({
   onSubmit,
@@ -26,6 +31,7 @@ const EditUser= ({
        <div className="col-xs-12 col-sm-8">
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="First Name"
           name="firstName"
           errorText={errors.firstName}
@@ -36,6 +42,7 @@ const EditUser= ({
       </div>
        <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Last Name"
           name="lastName"
           errorText={errors.lastName}
@@ -46,6 +53,7 @@ const EditUser= ({
       </div>
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Password"
           type="password"
           name="password"
@@ -57,6 +65,7 @@ const EditUser= ({
       </div>
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="address"
           name="address"
           errorText={errors.Location}
@@ -67,6 +76,7 @@ const EditUser= ({
       </div>
        <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Email"
           type="email"
           name="email"
@@ -78,6 +88,7 @@ const EditUser= ({
       </div> 
        <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Phone Number"
          // type="number"
           name="phoneNumber"
@@ -91,7 +102,7 @@ const EditUser= ({
       
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Update" primary />
+        <RaisedButton type="submit" label="Update" backgroundColor="#006dcc" labelColor="white" />
       </div>
       </div>
       <div className="col-xs-12 col-sm-4">

@@ -28,6 +28,11 @@ const colors = [
     'Black',
     'White',
 ];
+const styles = {
+  floatingLabelStyle: {
+    color: "slateblue",
+  },
+};
 
 const Search = ({
   onSubmit,
@@ -39,6 +44,7 @@ const Search = ({
                 <form action="/" onSubmit={onSubmit}>
                     <div className="SearchBar">
                         <AutoComplete
+                        floatingLabelStyle={styles.floatingLabelStyle}
                             hintText="Enter your book name here."
                             dataSource={colors}
                             onUpdateInput={onUpdateInput}
@@ -48,7 +54,7 @@ const Search = ({
                     </div>
 
                     <div className="SearchButton">
-                        <RaisedButton label="Search" type="submit" primary={true} fullWidth={true} />
+                        <button className="btn btn-primary" type="submit">Search</button>
                     </div>
                 </form>
             </center>

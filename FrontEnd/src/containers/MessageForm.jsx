@@ -67,9 +67,9 @@ handleSubmit(event){
 			<option value="general">General</option>
 			<option value="other">Other</option>
 		</select>
-        <label for="userName">User Name:</label>
+        <label htmlFor="userName">User Name:</label>
         <input value={this.props.user} id="userName" type="text" name="userName" readOnly/>
-        <label for="messageText">Message:</label>
+        <label htmlFor="m">Message:</label>
         <input value={this.state.messageText} id="m" type="text" name="messageText" autocomplete="off" required onChange={this.handleUpdateInput}/>
         <br/>
         <br/>

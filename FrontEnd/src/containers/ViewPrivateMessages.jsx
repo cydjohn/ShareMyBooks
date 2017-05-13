@@ -175,7 +175,7 @@ componentDidUpdate() {
             return (
             <div class="viewMessages">
                 <h1>New Messages:</h1>
-                <h4 className="success-message">Click on a new message to set status to read</h4>
+                <p className="success-message">Click on a new message to set status to read</p>
                 <ListOfNewPrivateMessages messages={this.state.toNewMessages}/>
                 <h2>All Messages:</h2>
                 <p className="error-message">No Messages For User</p>
@@ -204,7 +204,7 @@ componentDidUpdate() {
             return (
             <div class="viewMessages">
                 <h1>New Messages:</h1>
-                <h4 className="success-message">Click on a new message to set status to read</h4>
+                <p className="success-message">Click on a new message to set status to read</p>
                 <ListOfNewPrivateMessages messages={this.state.toNewMessages}/>
                 <h2>All Messages:</h2>
                 <ListOfAllPrivateMessages messages={this.state.toMessages}/>
@@ -217,7 +217,7 @@ componentDidUpdate() {
             <div class="viewMessages">
 
                 <h1>New Messages:</h1>
-                <h4 className="success-message">Click on a new message to set status to read</h4>
+                <p className="success-message">Click on a new message to set status to read</p>
                 <ListOfNewPrivateMessages messages={this.state.toNewMessages} />
                 <h2>All Messages:</h2>
                 <ListOfAllPrivateMessages messages={this.state.toMessages}/>

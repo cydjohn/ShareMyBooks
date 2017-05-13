@@ -18,7 +18,11 @@ import FileReaderInput from 'react-file-reader-input';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
 
-
+const styles = {
+  floatingLabelStyle: {
+    color: "slateblue",
+  },
+};
 
 const UploadBookPage =({
     onSubmit,
@@ -46,6 +50,7 @@ const UploadBookPage =({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Title"
           name="title"
          // errorText={errors.}
@@ -56,6 +61,7 @@ const UploadBookPage =({
 
  <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Year"
           name="year"
          // errorText={errors.}
@@ -66,6 +72,7 @@ const UploadBookPage =({
 
        <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Category"
           name="category"
          // errorText={errors.}
@@ -76,8 +83,9 @@ const UploadBookPage =({
 
 
           <div className="field-line">
-        
+        <label>
 <SelectField
+floatingLabelStyle={{ color: 'slateblue' }}
           floatingLabelText="Select a Condition:"
           name="condition"
           value={book.condition}
@@ -88,12 +96,13 @@ const UploadBookPage =({
             <MenuItem key={2} value={"poor"} primaryText={"poor"} />
           
         </SelectField>
-
+</label>
       </div>
 
 
           <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Location"
           name="location"
          // errorText={errors.}
@@ -105,6 +114,7 @@ const UploadBookPage =({
 
        <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Author"
           name="author"
          // errorText={errors.}
@@ -115,6 +125,7 @@ const UploadBookPage =({
 
           <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Description"
           name="description"
          // errorText={errors.}
@@ -124,16 +135,21 @@ const UploadBookPage =({
       </div>
    
  <div className="FileUpload1">
+   <label>
+     
           <FileInput name="myImage"
                    accept=".png,.gif,.jpeg, .jpg"
                    placeholder="Click here to upload the Image..."
+            
                    className="inputClass"
                    onChange={onChangeFile} />
+                   </label>
+                   
         </div>
 
       <div className="button-line">
 
-        <RaisedButton type="submit" label="UPLOAD BOOK" primary />
+        <RaisedButton type="submit" label="UPLOAD BOOK" backgroundColor="#006dcc" labelColor="white" />
 
       </div>
 {/*<label htmlFor="my-file-input">Upload a File:</label>

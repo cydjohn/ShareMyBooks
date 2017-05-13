@@ -6,14 +6,7 @@ export default class Footer extends React.Component {
     return (
       <div className="footer">
             <div className="col-md-12 text-center">
-              <div className="widget">
-                <p><strong>Follow us</strong></p>
-                <div className="social-network">
-                  <a href="https://www.facebook.com/" ><i className="icon-3x icon-facebook"></i></a>
-                  <a href="https://twitter.com/" target="blank"><i className="icon-3x icon-twitter"></i></a>
-                  <a href="https://www.linkedin.com" target="blank"> <i className="icon-3x icon-linkedin"></i></a>
-                </div>
-              </div>
+              
         </div>
         <div className="subfooter">
           <p>Made with Love (♥) in New York City by</p>
