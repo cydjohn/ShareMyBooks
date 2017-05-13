@@ -150,9 +150,9 @@ componentDidUpdate() {
         if (this.state.toMessages.length === 0 && this.state.toNewMessages.length === 0 && this.state.sentMessages.length===0){            
             return (
             <div class="viewMessages">
-                <h3>New Messages:</h3>
+                <h1>New Messages:</h1>
                 <p class="noPrivateMessages">No New Messages For User</p>
-                <h3>All Messages:</h3>
+                <h2>All Messages:</h2>
                 <p class="noPrivateMessages">No Messages For User</p>
                 <h3>Sent Messages:</h3>
                 <p class="noPrivateMessages">No Messages Sent By User</p>
@@ -162,9 +162,9 @@ componentDidUpdate() {
         if (this.state.toMessages.length === 0 && this.state.toNewMessages.length === 0){            
             return (
             <div class="viewMessages">
-                <h3>New Messages:</h3>
+                <h1>New Messages:</h1>
                 <p class="noPrivateMessages">No New Messages For User</p>
-                <h3>All Messages:</h3>
+                <h2>All Messages:</h2>
                 <p class="noPrivateMessages">No Messages For User</p>
                 <h3>Sent Messages:</h3>
                 <ListOfSentPrivateMessages messages={this.state.sentMessages}/>
@@ -174,10 +174,10 @@ componentDidUpdate() {
         if (this.state.toMessages.length === 0){            
             return (
             <div class="viewMessages">
-                <h3>New Messages:</h3>
+                <h1>New Messages:</h1>
                 <h4 className="success-message">Click on a new message to set status to read</h4>
                 <ListOfNewPrivateMessages messages={this.state.toNewMessages}/>
-                <h3>All Messages:</h3>
+                <h2>All Messages:</h2>
                 <p className="error-message">No Messages For User</p>
                 <h3>Sent Messages:</h3>
                 <ListOfSentPrivateMessages messages={this.state.sentMessages}/>
@@ -190,9 +190,9 @@ componentDidUpdate() {
              
              return (
             <div class="viewMessages">
-                <h3>New Messages:</h3>
+                <h1>New Messages:</h1>
                 <p className="error-message">No New Messages for User</p>
-                <h3>All Messages:</h3>
+                <h2>All Messages:</h2>
                 <ListOfAllPrivateMessages messages={this.state.toMessages}/>
                 <h3>Sent Messages:</h3>
                 <ListOfSentPrivateMessages messages={this.state.sentMessages}/>
@@ -203,10 +203,10 @@ componentDidUpdate() {
            
             return (
             <div class="viewMessages">
-                <h3>New Messages:</h3>
+                <h1>New Messages:</h1>
                 <h4 className="success-message">Click on a new message to set status to read</h4>
                 <ListOfNewPrivateMessages messages={this.state.toNewMessages}/>
-                <h3>All Messages:</h3>
+                <h2>All Messages:</h2>
                 <ListOfAllPrivateMessages messages={this.state.toMessages}/>
                 <h3>Sent Messages:</h3>
                 <p className="error-message">No Messages Sent By User</p>
@@ -215,10 +215,11 @@ componentDidUpdate() {
         }
         return (
             <div class="viewMessages">
-                <h3>New Messages:</h3>
+
+                <h1>New Messages:</h1>
                 <h4 className="success-message">Click on a new message to set status to read</h4>
                 <ListOfNewPrivateMessages messages={this.state.toNewMessages} />
-                <h3>All Messages:</h3>
+                <h2>All Messages:</h2>
                 <ListOfAllPrivateMessages messages={this.state.toMessages}/>
                 <h3>Sent Messages:</h3>
                 <ListOfSentPrivateMessages messages={this.state.sentMessages}/>

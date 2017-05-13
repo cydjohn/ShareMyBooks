@@ -18,7 +18,7 @@ const EditUser= ({
 }) => (
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Edit Info</h2>
+      <h1 className="card-heading">Edit Info</h1>
       {errors && <p className="error-message">{errors}</p>}
       
   <div className="well profile">

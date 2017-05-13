@@ -19,7 +19,7 @@ const SignUpForm = ({
 }) => (
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Sign Up</h2>
+      <h1 className="card-heading">Sign Up</h1>
 
      <p className="error-message">{errors}</p>
 

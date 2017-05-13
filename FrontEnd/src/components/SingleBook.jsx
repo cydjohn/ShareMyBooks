@@ -17,6 +17,7 @@ export default class Singlebook extends React.Component {
             notRequested: true,
             showModal: false,
             login: true,
+            errors:''
         }
 
         this.handleOpenModal = this.handleOpenModal.bind(this);
@@ -63,14 +64,24 @@ export default class Singlebook extends React.Component {
                         .then((response) => {
                             return (response.json());
                         }).then((data) => {
-                            if (data.success == true) {
+                            console.log("Im in handle user req");
+                            console.log(data);
+                            if(data.message.requestFrom===data.message.requestTo){
+                                console.log("cannot request");
+                                self.setState({ errors: true });
+                            }
+                            else 
+                            {
+                                if (data.success == true) {
                                 self.setState({
                                     requestSuccess: true,
                                     notRequested: false,
                                     showModal: true
                                 })
                             }
+                            }
                         })
+                
                 })
                 .catch(function (error) {
                     // return error;
@@ -79,7 +90,8 @@ export default class Singlebook extends React.Component {
         }
     }
 
-    componentDidMount() {
+   async componentDidMount() {
+       console.log("imm instarting of mount");
         let userid = localStorage.getItem("userinfo");
         let self = this;
         fetch(`${baseUrl}/users/${userid}`)
@@ -87,24 +99,30 @@ export default class Singlebook extends React.Component {
                 return response.json();
             })
             .then((userInfo) => {
-                fetch('http://localhost:3002/userRequests/viewRequestByToUserId/' + userInfo.userID, {
-                    method: 'get',
-                    headers: new Headers({
-                        'Content-Type': 'application/json'
-                    })
+                console.log(userInfo);
+                fetch('http://localhost:3002/userRequests/viewRequestByFromUserId/' + userInfo.userID, {
+                    method: 'get'
                 })
                     .then((response) => {
                         return (response.json());
                     }).then((data) => {
+                        console.log("Im in compoenntmountdata")
+                        console.log(data);
                         if (data.success == true) {
+                           
                             data.message.map((eachRequest) => {
+                                if(eachRequest.requestResult.requestFrom!==eachRequest.requestResult.requestTo){
                                 if (eachRequest.requestResult.bookId == self.props.book._id) {
                                     self.setState({
                                         requestSuccess: true,
                                         notRequested: false,
+                                        errors:false
                                     })
+                                
                                 }
+                                 }
                             })
+                            
                         }
                     })
             })
@@ -116,7 +134,9 @@ export default class Singlebook extends React.Component {
 
     render() {
         console.log(this.props);
-        if (this.state.requestSuccess == true && this.state.showModal == true) {
+        console.log(this.state.showModal);
+        console.log(this.state.requestSuccess);
+        if (this.state.requestSuccess === true && this.state.showModal === true) {
             return (
                 <ReactModal
                     isOpen={this.state.showModal}
@@ -163,8 +183,10 @@ export default class Singlebook extends React.Component {
                                 </ul>*/}
 
                                 </div>
+                                
                                 <div className="details col-md-6">
-                                    <h3 className="product-title">{this.props.book.Title}</h3>
+                                    
+                                    <h1 className="product-title">{this.props.book.Title}</h1>
                                     <span className="review-no"><strong>Author: </strong>{this.props.book.Author}</span>
                                     <br />
                                     <span className="review-no"><strong>Uploaded By This User: </strong>{this.props.book.uploadedBy}</span>
@@ -173,8 +195,9 @@ export default class Singlebook extends React.Component {
                                     <br />
                                     <p className="product-description">{this.props.book.Description}</p>
                                     <div className="action">
-                                        {this.state.notRequested && <RaisedButton className="primary" label="Request This Book" onClick={this.handleRequest.bind(this)} primary />}
-                                        {this.state.requestSuccess && <RaisedButton className="primary" label="Book Already Requested" disabled={true} primary />}
+                                        {this.state.errors && <p className="error-message">{"cannot Request your own book"}</p>}
+                                        { this.state.notRequested && <RaisedButton className="primary" label="Request This Book" onClick={this.handleRequest.bind(this)} primary />}
+                                        { this.state.requestSuccess && <RaisedButton className="primary" label="Book Already Requested" disabled={true} primary />}
                                         <RaisedButton label="Contact the Owner" href={`/private_message/${this.props.book.uploadedBy}`} secondary />
                                         {/*<button className="add-to-cart btn btn-default" type="button">Request this book</button>*/}
                                         {/*<button className="like btn btn-default" type="button"><span className="fa fa-heart"></span></button>*/}

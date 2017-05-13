@@ -35,7 +35,7 @@ const UploadBookPage =({
 
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Upload Book</h2>
+      <h1 className="card-heading">Upload Book</h1>
 
 {errors && <p className="error-message">{errors}</p>}
 {success && <p className="success-message">{success}</p>}

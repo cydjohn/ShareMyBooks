@@ -18,7 +18,7 @@ const PrivateMessageForm = ({
 }) => (
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Send A Private Message to a User Who Uploaded This Book</h2>
+      <h1 className="card-heading">Send A Private Message to a User Who Uploaded This Book</h1>
 {errors && <p className="error-message">{errors}</p>}
       <div className="field-line">
         <TextField

@@ -85,7 +85,9 @@ export default class ListOfReceivedRequest extends React.Component {
 
         return (
             <div className="AllBooks">
-                <h2> Received Requests: </h2>
+
+                <h1> Received Requests: </h1>
+
 
                 {this.props.requests.map((eachRequest) => {
 

@@ -69,7 +69,8 @@ export default class HomePage extends React.Component {
                     return error;
                 });
         }
-        else if (this.state.keyword === '' && this.state.category != -1) {
+
+        else if (this.state.keyword === '' && this.state.category !== -1) {
             console.log("Im in category");
             fetch(`${baseUrl}/books/category/` + this.state.category)
                 .then(function (response) {
@@ -83,7 +84,8 @@ export default class HomePage extends React.Component {
                     return error;
                 });
         }
-        else if (this.state.keyword == '' && this.state.category == -1) {
+
+        else if (this.state.keyword === '' && this.state.category === -1) {
             console.log("Im in no search");
             window.location.reload();
 
@@ -206,7 +208,8 @@ export default class HomePage extends React.Component {
         this.setState({ category: value });
     }
     render() {
-        if (this.state.keyword == '' && this.state.category == -1) {
+
+        if (this.state.keyword === '' && this.state.category === -1) {
             return (
                 <div className="container">
                     <div className="searcDiv">
