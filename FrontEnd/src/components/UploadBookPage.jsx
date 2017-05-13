@@ -35,11 +35,7 @@ const UploadBookPage =({
 
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
-<<<<<<< HEAD
       <h1 className="card-heading">Upload Book</h1>
-=======
-      <h2 className="card-heading">Upload Book</h2>
->>>>>>> develop
 
 {errors && <p className="error-message">{errors}</p>}
 {success && <p className="success-message">{success}</p>}
