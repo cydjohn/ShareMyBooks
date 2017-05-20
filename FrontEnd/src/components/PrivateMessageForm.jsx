@@ -6,7 +6,11 @@ import RaisedButton from 'material-ui/RaisedButton';
 import TextField from 'material-ui/TextField';
 //import '../styles/Base.css';
 
-
+const styles = {
+  floatingLabelStyle: {
+    color: "slateblue",
+  },
+};
 
 const PrivateMessageForm = ({
   onSubmit,
@@ -18,10 +22,11 @@ const PrivateMessageForm = ({
 }) => (
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Send A Private Message to a User Who Uploaded This Book</h2>
+      <h1 className="card-heading">Send A Private Message to a User Who Uploaded This Book</h1>
 {errors && <p className="error-message">{errors}</p>}
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="From:"
           name="fromUser"
           value={user}
@@ -31,6 +36,7 @@ const PrivateMessageForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="To:"
           name="toUser"
           value={bookUploader}
@@ -40,6 +46,7 @@ const PrivateMessageForm = ({
 
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Message to Send"
           name="message"
           onChange={onChange}
@@ -50,7 +57,7 @@ const PrivateMessageForm = ({
       </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="SEND MESSAGE" primary />
+        <RaisedButton type="submit" label="SEND MESSAGE" backgroundColor="#006dcc" labelColor="white" />
       </div>
 
     </form>

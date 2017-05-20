@@ -1,3 +1,4 @@
+/*
 const gulp = require("gulp");
 const gulpWatch = require("gulp");
 const concatenate = require("gulp-concat");
@@ -6,16 +7,17 @@ const autoPrefix = require("gulp-autoprefixer");
 const rename = require("gulp-rename");
 const cssFilesCollection = './src/styles/*.css';
 const cssFilesLocation = "./src/styles/";
+const mainCSSFileForApplication = "./src/mainCSS/";
 
 // create task
 gulp.task("css", () => {
     gulp.src(cssFilesCollection)
         .pipe(concatenate("allStyles.css"))
-        .pipe(gulp.dest(cssFilesLocation))
+        .pipe(gulp.dest(mainCSSFileForApplication))
         .pipe(autoPrefix())
         .pipe(cleanCSS())
         .pipe(rename("allStyles.min.css"))
-        .pipe(gulp.dest(cssFilesLocation));
+        .pipe(gulp.dest(mainCSSFileForApplication));
 });
 
 gulp.task("build", ["css"]);
@@ -26,3 +28,4 @@ gulp.task("watch", () => {
 });
 
 gulp.task("default", ["watch"]);
+*/

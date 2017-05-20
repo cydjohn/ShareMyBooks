@@ -52,7 +52,7 @@ class ViewReceivedRequests extends React.Component {
      */
     render() {
         if (this.state.requests.length === 0)
-            return <div>Loading...</div>;
+            return <div>No Requests Sent To You</div>;
         return (
                 <ListOfReceivedRequest requests={this.state.requests}
                 />

@@ -15,26 +15,42 @@ import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'mat
 import FileInput from 'react-file-input';
 import FileReaderInput from 'react-file-reader-input';
 
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
+
+const styles = {
+  floatingLabelStyle: {
+    color: "slateblue",
+  },
+};
 
 const UploadBookPage =({
     onSubmit,
   onChange,
   errors,
+  success,
   book,
   onChangeFile,
+  onConditionChange
+
   //onChangeFileRead
   
 })=>(
 
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Upload Book</h2>
+      <h1 className="card-heading">Upload Book</h1>
 
-      {errors && <p className="error-message">{errors}</p>}
+{errors && <p className="error-message">{errors}</p>}
+{success && <p className="success-message">{success}</p>}
+
+      
 
     
- <div className="field-line">
+
+      <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Title"
           name="title"
          // errorText={errors.}
@@ -43,18 +59,9 @@ const UploadBookPage =({
         />
       </div>
 
-      <div className="field-line">
-        <TextField
-          floatingLabelText="Author"
-          name="author"
-         // errorText={errors.}
-          onChange={onChange}
-          value={book.author}
-        />
-      </div>
-
  <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Year"
           name="year"
          // errorText={errors.}
@@ -65,6 +72,7 @@ const UploadBookPage =({
 
        <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Category"
           name="category"
          // errorText={errors.}
@@ -73,18 +81,28 @@ const UploadBookPage =({
         />
         </div>
 
-  <div className="field-line">
-        <TextField
-          floatingLabelText="Condition"
+
+          <div className="field-line">
+        <label>
+<SelectField
+floatingLabelStyle={{ color: 'slateblue' }}
+          floatingLabelText="Select a Condition:"
           name="condition"
-         // errorText={errors.}
-          onChange={onChange}
           value={book.condition}
-        />
-        </div>
+          onChange={onConditionChange}
+        >
+            <MenuItem key={0} value={"good"} primaryText={"good"} />
+            <MenuItem key={1} value={"great"} primaryText={"great"} />
+            <MenuItem key={2} value={"poor"} primaryText={"poor"} />
+          
+        </SelectField>
+</label>
+      </div>
+
 
           <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Location"
           name="location"
          // errorText={errors.}
@@ -94,8 +112,20 @@ const UploadBookPage =({
 
       </div>
 
+       <div className="field-line">
+        <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
+          floatingLabelText="Author"
+          name="author"
+         // errorText={errors.}
+          onChange={onChange}
+          value={book.author}
+        />
+      </div>
+
           <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Description"
           name="description"
          // errorText={errors.}
@@ -104,16 +134,23 @@ const UploadBookPage =({
         />
       </div>
    
- <div className="FileUpload">
+ <div className="FileUpload1">
+   <label>
+     
           <FileInput name="myImage"
-                   accept=".png,.gif,.jpeg,.jpg"
-                   placeholder="Click Here to Upload An Image"
+                   accept=".png,.gif,.jpeg, .jpg"
+                   placeholder="Click here to upload the Image..."
+            
                    className="inputClass"
                    onChange={onChangeFile} />
+                   </label>
+                   
         </div>
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Save" primary />
+
+        <RaisedButton type="submit" label="UPLOAD BOOK" backgroundColor="#006dcc" labelColor="white" />
+
       </div>
 {/*<label htmlFor="my-file-input">Upload a File:</label>
         <FileReaderInput as="binary" id="my-file-input"
@@ -130,6 +167,7 @@ UploadBookPage.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   errors: PropTypes.object.isRequired,
+  success: PropTypes.object.isRequired,
   book: PropTypes.object.isRequired,
   onChangeFile:PropTypes.func.isRequired,
  // onChangeFileRead:PropTypes.func.isRequired

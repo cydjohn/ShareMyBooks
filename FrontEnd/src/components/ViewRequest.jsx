@@ -12,7 +12,7 @@ const ViewRequest = ({
                 <div className="bs-calltoaction bs-calltoaction-info">
                     <div className="row">
                         <div className="col-md-6 cta-contents">
-                            <h2 className="cta-title">Book ID: {requests.requestResult.bookId}</h2>
+                            <h2 className="cta-title">Requested book: {requests.bookName}</h2>
                             <div className="cta-desc">
                                 <p>Requested by: {requests.requestResult.requestFrom}</p>
                                 <p> Request Number: {requests.requestResult._id} </p>

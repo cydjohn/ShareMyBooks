@@ -8,6 +8,11 @@ import TextField from 'material-ui/TextField';
 import '../styles/authentication.css';
 import NumberInput from 'material-ui-number-input';
 
+const styles = {
+  floatingLabelStyle: {
+    color: "slateblue",
+  },
+};
 
 const EditUser= ({
   onSubmit,
@@ -18,7 +23,7 @@ const EditUser= ({
 }) => (
   <Card className="container1">
     <form action="/" onSubmit={onSubmit}>
-      <h2 className="card-heading">Edit Info</h2>
+      <h1 className="card-heading">Edit Info</h1>
       {errors && <p className="error-message">{errors}</p>}
       
   <div className="well profile">
@@ -26,69 +31,82 @@ const EditUser= ({
        <div className="col-xs-12 col-sm-8">
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="First Name"
           name="firstName"
           errorText={errors.firstName}
           onChange={onChange}
           value={user.firstName}
+           required={true}
         />
       </div>
        <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Last Name"
-          name="LastName"
-          errorText={errors.LastName}
+          name="lastName"
+          errorText={errors.lastName}
           onChange={onChange}
-          value={user.LastName}
+          value={user.lastName}
+           required={true}
         />
       </div>
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Password"
           type="password"
           name="password"
           onChange={onChange}
           errorText={errors.password}
           value={user.password}
+           required={true}
         />
       </div>
       <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="address"
           name="address"
           errorText={errors.Location}
           onChange={onChange}
           value={user.address}
+           required={true}
         />
       </div>
        <div className="field-line">
         <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Email"
           type="email"
           name="email"
           errorText={errors.email}
           onChange={onChange}
           value={user.email}
+           required={true}
         />
       </div> 
        <div className="field-line">
-        <NumberInput
+        <TextField
+        floatingLabelStyle={styles.floatingLabelStyle}
           floatingLabelText="Phone Number"
          // type="number"
-          name="PhoneNumber"
-          errorText={errors.PhoneNumber}
+          name="phoneNumber"
+          errorText={errors.phoneNumber}
           onChange={onChange}
-          value={user.PhoneNumber}
+          value={user.phoneNumber}
+           required={true}
+           type="number"
         />
       </div>
       
 
       <div className="button-line">
-        <RaisedButton type="submit" label="Update" primary />
+        <RaisedButton type="submit" label="Update" backgroundColor="#006dcc" labelColor="white" />
       </div>
       </div>
       <div className="col-xs-12 col-sm-4">
-      <img src={"../bookPageImages/464d4339-826c-4744-94ce-ec07efa134c3.png"} alt="" className="img-circle img-responsive" />
+      
       </div>
       </div> 
       </div>

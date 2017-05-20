@@ -7,7 +7,7 @@ const uuid = require('node-uuid');
 var moment = require('moment');
 const data = require("../data");
 const userData = data.user;
-var xss = require('node-xss').clean;
+
 
 
 let exportedMethods = {
@@ -85,20 +85,23 @@ let exportedMethods = {
         console.log(book)
         return books().then((booksCollection) => {
             let id = uuid.v4();
+            if(book.bookPhotoID1 == null){
+                book.bookPhotoID1 = uuid.v4();
+            }
             let bookPointsValueCalculation = this.calculateBooksPointsValue(book);
             let newBook = {
                 _id: id,
-                uploadedBy: xss(book.uploadedBy),
-                Title: xss(book.Title),
-                Author: xss(book.Author),
-                bookPhotoID1: xss(book.bookPhotoID1),
-                bookPhotoID2: xss(book.bookPhotoID2),
-                bookPhotoID3: xss(book.bookPhotoID3),
-                Year: xss(book.Year),
-                Category: xss(book.Category),
-                Condition: xss(book.Condition),
-                Location: xss(book.Location),
-                Description: xss(book.Description),
+                uploadedBy: book.uploadedBy,
+                Title: book.Title,
+                Author: book.Author,
+                bookPhotoID1: book.bookPhotoID1,
+                bookPhotoID2: book.bookPhotoID2,
+                bookPhotoID3: book.bookPhotoID3,
+                Year: book.Year,
+                Category: book.Category,
+                Condition: book.Condition,
+                Location: book.Location,
+                Description: book.Description,
                 bookPointsValue: bookPointsValueCalculation,
                 timestampOfUpload: moment().format(),
                 numberOfRequests: 0,
@@ -211,43 +214,43 @@ let exportedMethods = {
             let updatedBookData = {};
 
             if (updateBook.Title) {
-                updatedBookData.title = xss(updateBook.title);
+                updatedBookData.title = updateBook.title;
             }
 
             if (updateBook.Author) {
-                updatedBookData.Author = xss(updateBook.Author);
+                updatedBookData.Author = updateBook.Author;
             }
 
             if (updateBook.bookPhotoID1) {
-                updatedBookData.bookPhotoID1 = xss(updateBook.bookPhotoID1);
+                updatedBookData.bookPhotoID1 = updateBook.bookPhotoID1;
             }
 
             if (updateBook.bookPhotoID2) {
-                updatedBookData.bookPhotoID2 = xss(updateBook.bookPhotoID2);
+                updatedBookData.bookPhotoID2 = updateBook.bookPhotoID2;
             }
 
             if (updateBook.bookPhotoID3) {
-                updatedBookData.bookPhotoID3 = xss(updateBook.bookPhotoID3);
+                updatedBookData.bookPhotoID3 = updateBook.bookPhotoID;
             }
 
             if (updateBook.Year) {
-                updatedBookData.Year = xss(updateBook.Year);
+                updatedBookData.Year = updateBook.Year;
             }
 
             if (updateBook.Category) {
-                updatedBookData.Category = xss(updateBook.Category);
+                updatedBookData.Category = updateBook.Category;
             }
 
             if (updateBook.Condition) {
-                updatedBookData.Condition = xss(updateBook.Condition);
+                updatedBookData.Condition = updateBook.Condition;
             }
 
             if (updateBook.Location) {
-                updatedBookData.Location = xss(updateBook.Location);
+                updatedBookData.Location = updateBook.Location;
             }
 
             if (updateBook.Description) {
-                updatedBookData.Description = xss(updateBook.Description);
+                updatedBookData.Description = updateBook.Description;
             }
 
             if (updateBook.bookPointsValue && typeof (updateBook.bookPointsValue) == "number") {

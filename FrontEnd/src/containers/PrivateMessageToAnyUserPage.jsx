@@ -57,7 +57,7 @@ constructor(props, context) {
     const toUserId = encodeURIComponent(this.state.toUser);
     const messageText = this.state.message;
     //const formData = `fromUserId=${fromUserId}&toUserId=${toUserId}&messageText=${messageText}`;
-
+if(this.state.fromUser && this.state.toUser && this.state.message){
     fetch('http://localhost:3002/private_messages/', {
       method: 'post',
       headers: new Headers({
@@ -81,7 +81,10 @@ constructor(props, context) {
         }
        
       })
-
+}
+else{
+  self.setState({errors:"All fields are required!" });
+}
   }
 
 

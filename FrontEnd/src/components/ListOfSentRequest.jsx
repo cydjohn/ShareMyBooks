@@ -15,7 +15,7 @@ export default class ListOfSentRequest extends React.Component {
     render() {
         return (
             <div className="AllBooks">
-                <h2> Sent Requests: </h2>
+                <h1> Sent Requests: </h1>
                 {this.props.requests.map((eachRequest) => {
                     this.state.data = eachRequest;
                     return (
